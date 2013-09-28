@@ -1,0 +1,94 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+<h1>{{ value }}</h1>
+
+<p>{{ summary }}</p>
+
+<form>
+    <table class="table">
+    {% for key, param in params %}
+    <tr>
+        {% if param.required %}
+        <td><strong>{{ key }}</strong></td>
+        {% else %}
+        <td>{{ key }}</td>
+        {% endif %}
+        <td>
+            {% if param.enum %}
+            <select name="{{ key }}" class="param">
+                <option></option>
+                {% for value in param.enum %}
+                <option>{{ value }}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <input name="{{ key }}" type="text" class="form-control param">
+            {% endif %}
+        </td>
+        <td>{{ param.type }}</td>
+        <td>{{ param.description }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    <button class="try-it">Try it!</button>
+</form>
+
+<h4>Request</h4>
+<pre class="requestHeaders"></pre>
+<pre class="request"></pre>
+<h4>Response</h4>
+<pre class="responseHeaders"></pre>
+<pre class="response"></pre>
+
+<h2>Related</h2>
+<ul>
+    {% for item in related %}
+    <li><a href="{{ item.link }}">{{ item.method }} {{ uri }}</a></li>
+    {% endfor %}
+</ul>
+
+<script type="text/javascript">
+$(function() {
+    localStorage.clear();
+
+    $('.try-it').click(function (e) {
+        e.preventDefault();
+        var data = {
+            method: '{{ method }}',
+            uri: '{{ uri }}',
+            params: {}
+        };
+
+        $('.param').each(function (key, input) {
+            if ($(input).val() !== '') {
+                data.params[$(input).attr('name')] = $(input).val();
+            }
+        });
+
+        replacer = function(match, param) {
+            if (data.params.hasOwnProperty(param)) {
+                return data.params[param];
+            }
+        };
+
+        data.uri = data.uri.replace(/{([a-zA-Z]+)}/g, replacer);
+
+        $.ajax({
+            url: '/proxy.php',
+            method: 'POST',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(data)
+        })
+        .done(function (response) {
+            $('.requestHeaders').text(response.requestHeaders);
+            if (typeof response.request !== 'undefined') {
+                $('.request').text(response.request);
+            }
+            $('.responseHeaders').text(response.responseHeaders);
+            $('.response').text(response.response);
+        });
+    });
+});
+</script>
+{% endblock %}
