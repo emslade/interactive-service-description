@@ -1,20 +1,45 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-<input type="text" class="typeahead">
+<h1 class="welcome">Welcome to the BaseKit API Reference</h1>
+<div class="container">
+    <input type="text" class="typeahead tt-query">
+</div>
+<p class="search-tips">Start typing the route you're looking for.</p>
+<p class="search-tips">If you're looking for a specific method include it in your search e.g GET brands</p>
+
+<script type="text/template" id="template">
+    <div class="search-result">
+        <ul class="endpoint-container">
+            <li class="endpoint-<%= method %>"><span class="method"><%= method %></span> <span class="uri"><%= formattedUri %></span></li>
+        </ul>
+        <p class="summary"><%= summary %></p>
+    </div>
+</script>
 
 <script type="text/javascript">
 $(function() {
     localStorage.clear();
 
-    $('.typeahead').typeahead({                                
+    template = _.template($('#template').html());
+
+    $('.typeahead').typeahead({
         name: 'commands',
         prefetch: '/data/commands.json',
-        limit: 20
+        template: template,
+        limit: 16
     });
 
     $('.typeahead').on('typeahead:selected', function (event, datum) {
         window.location.href = datum.path;
+    });
+
+    $('.typeahead').on('typeahead:opened', function (event) {
+        $('.search-tips').hide();
+    });
+
+    $('.typeahead').on('typeahead:closed', function (event) {
+        $('.search-tips').show();
     });
 });
 </script>

@@ -49,15 +49,32 @@ class Generator
                 });
             }
 
+            $uriParams = array();
+
+            foreach ($operation->getParams() as $key => $param) {
+                if ($param->getLocation() !== 'uri') {
+                    continue;
+                }
+
+                $uriParams[] = $key;
+            }
+
+            $formattedUri = preg_replace('~(\{[^\}]+\})~', '<span class="uri-param">$1</span>', $operation->getUri());
+
+            $params = array_map(function ($param) { return $param->toArray(); }, $operation->getParams());
+            $requiredParams = array_filter($params, function ($param) { return isset($param['required']) && $param['required'] === true; });
+            $optionalParams = array_filter($params, function ($param) { return !isset($param['required']) || (isset($param['required']) && $param['required'] === false); });
+
             $typeahead[] = array(
                 'value' => $operation->getHttpMethod() . ' ' . $operation->getUri(),
                 'tokens' => array_values($tokens),
                 'path' => $commandPath,
                 'related' => $relatedMethods,
                 'uri' => $operation->getUri(),
-                'params' => array_map(function ($param) { return $param->toArray(); }, $operation->getParams()),
+                'params' => array_merge($requiredParams, $optionalParams),
                 'method' => $operation->getHttpMethod(),
                 'summary' => $operation->getSummary(),
+                'formattedUri' => $formattedUri,
             );
 
             file_put_contents($outputPath . $commandPath, $this->twig->render('command.twig', $typeahead[count($typeahead) - 1]));
