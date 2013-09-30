@@ -77,7 +77,13 @@ class Generator
 
         $context = array();
 
-        file_put_contents($outputPath . '/data/commands.json', json_encode($typeahead));
+        $dataPath = $outputPath . '/data';
+
+        if (!file_exists($dataPath)) {
+            mkdir($dataPath);
+        }
+
+        file_put_contents($dataPath . '/commands.json', json_encode($typeahead));
 
         $index = $this->twig->render('commands.twig', $context);
 
