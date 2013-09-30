@@ -1,8 +1,118 @@
 body {
     background-color: #e0dfdf;
     text-align: center;
-    font-family: 'Lato', sans-serif;
+    font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+    font-size: 100%;
 }
+
+/** TYPOGRAPHY **/
+
+.welcome {
+    font-size: 2.25em;
+    font-weight: 300;
+}
+
+.search-tips {
+    font-size: 1.25em;
+    font-weight: 300;
+}
+
+.typeahead,
+.tt-query,
+.tt-hint {
+    font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+.endpoint-container {
+    font-size: 1.5em;
+}
+
+.summary {
+    font-size: 1.125em;
+    font-style: italic;
+    font-weight: 300;
+}
+
+.command-title {
+    font-size: 2.25em;
+    font-weight: 400;
+}
+
+.other-methods {
+    font-size: 1em;
+    font-weight: 300;
+}
+
+.method {
+    font-size: 0.875em;
+}
+
+.command-summary {
+    font-style: italic;
+    font-size: 1.5em;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+.command-container h3 {
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.params td {
+    font-size: 1.125em;
+}
+
+.params td .muted {
+    font-weight: 300;
+}
+
+.param {
+    font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+    font-size: 1em;
+}
+
+.try-it {
+    font-size: 1.125em;
+    font-weight: 300;
+}
+
+
+/** COLOR **/
+
+body {
+    color: #393939;
+}
+
+.param {
+    color: #393939;
+}
+
+.typeahead,
+.tt-query,
+.tt-hint {
+    color: #898989;
+}
+
+.uri {
+    color: #393939;
+}
+
+
+/** LAYOUT **/
+
+.params td {
+    vertical-align: text-top;
+}
+
+.param-input {
+    text-align: right;
+}
+
+
+
 
 .foo {
     background-color: #32dcb5;
@@ -48,8 +158,6 @@ body {
 
 .summary {
     color: #898989;
-    font-style: italic;
-    font-size: 12px;
 }
 
 .endpoint-container {
@@ -70,10 +178,6 @@ body {
 
 .endpoint-DELETE {
     color: #d52932;
-}
-
-.uri {
-    color: black;
 }
 
 .uri-param {
@@ -107,7 +211,6 @@ body {
 .other-methods {
     float: left;
     margin-top: 5px;
-    font-size: 12px;
     color: #898989;
 }
 
@@ -127,7 +230,6 @@ body {
 
 .related-methods a {
     text-decoration: none;
-    font-size: 12px;
     padding: 2px 5px;
 }
 
@@ -152,7 +254,6 @@ body {
 }
 
 .command-summary {
-    font-style: italic;
     color: #898989;
     text-align: left;
     margin-top: 0px;
@@ -180,7 +281,6 @@ body {
     background-color: #e9e9e9;
     border: 0px;
     padding: 5px;
-    font-size: 14px;
 }
 
 .muted {
@@ -191,7 +291,6 @@ body {
     text-align: left;
     display: table;
     width: 100%;
-    font-size: 14px;
 }
 
 .params td {
