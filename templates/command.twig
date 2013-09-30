@@ -77,7 +77,9 @@ $(function() {
 
         replacer = function(match, param) {
             if (data.params.hasOwnProperty(param)) {
-                return data.params[param];
+                val = data.params[param];
+                delete data.params[param];
+                return val;
             }
         };
 
