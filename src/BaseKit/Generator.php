@@ -26,7 +26,7 @@ class Generator
         $related = array();
 
         foreach ($description->getOperations() as $name => $operation) {
-            $related[$operation->getUri()][] = array('method' => $operation->getHttpMethod(), 'name' => $name, 'link' => '/api/' . self::normalise($name) . '.html');
+            $related[$operation->getUri()][$operation->getHttpMethod()] = array('method' => $operation->getHttpMethod(), 'name' => $name, 'link' => '/api/' . self::normalise($name) . '.html');
         }
 
         foreach ($description->getOperations() as $name => $operation) {

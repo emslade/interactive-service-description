@@ -6,8 +6,15 @@
     {% if related|length > 0 %}
     <p class="other-methods">Other method(s):</p>
     <ul class="related-methods">
-        {% for item in related %}
-        <li><a class="related-method-{{ item.method }}" href="{{ item.link }}">{{ item.method }}</a></li>
+        {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
+            <li>
+            {% set item = related[httpMethod] %}
+            {% if item %}
+                <a class="related-method-{{ httpMethod }}" href="{{ item.link }}">{{ item.method }}</a>
+            {% else %}
+                <span class="unimplemented-method">{{ httpMethod }}</a>
+            {% endif %}
+            </li>
         {% endfor %}
     </ul>
     {% endif %}

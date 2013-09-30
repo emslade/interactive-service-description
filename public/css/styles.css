@@ -233,6 +233,11 @@ body {
     padding: 2px 5px;
 }
 
+.related-methods .unimplemented-method {
+    padding: 2px 5px;
+    background-color: #898989;
+}
+
 .related-method-GET {
     background-color: #0094cd;
     color: white;
