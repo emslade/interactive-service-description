@@ -50,21 +50,13 @@ class Generator
                 });
             }
 
-            $uriParams = array();
-
-            foreach ($operation->getParams() as $key => $param) {
-                if ($param->getLocation() !== 'uri') {
-                    continue;
-                }
-
-                $uriParams[] = $key;
-            }
-
             $formattedUri = preg_replace('~(\{[^\}]+\})~', '<span class="uri-param">$1</span>', $operation->getUri());
 
             $params = array_map(function ($param) { return $param->toArray(); }, $operation->getParams());
-            $requiredParams = array_filter($params, function ($param) { return isset($param['required']) && $param['required'] === true; });
-            $optionalParams = array_filter($params, function ($param) { return !isset($param['required']) || (isset($param['required']) && $param['required'] === false); });
+            $uriParams = array_filter($params, function ($param) { return isset($param['location']) && $param['location'] === 'uri'; });
+            $nonUriParams = array_filter($params, function ($param) { return isset($param['location']) && $param['location'] !== 'uri'; });
+            $requiredParams = array_filter($nonUriParams, function ($param) { return isset($param['required']) && $param['required'] === true; });
+            $optionalParams = array_filter($nonUriParams, function ($param) { return !isset($param['required']) || (isset($param['required']) && $param['required'] === false); });
 
             $typeahead[] = array(
                 'value' => $operation->getHttpMethod() . ' ' . $operation->getUri(),
@@ -72,7 +64,7 @@ class Generator
                 'path' => $commandPath,
                 'related' => $relatedMethods,
                 'uri' => $operation->getUri(),
-                'params' => array_merge($requiredParams, $optionalParams),
+                'params' => array_merge($uriParams, $requiredParams, $optionalParams),
                 'method' => $operation->getHttpMethod(),
                 'summary' => $operation->getSummary(),
                 'formattedUri' => $formattedUri,
