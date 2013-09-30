@@ -36,6 +36,7 @@ class Generator
                 return !empty($part) && false === strpos($part, '{');
             });
 
+            $tokens[] = $operation->getUri();
             $tokens[] = $operation->getHttpMethod();
 
             $commandPath = '/api/' . self::normalise($name) . '.html';
