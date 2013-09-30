@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="command-title-container">
-    <h1 class="command-title">{{ formattedUri|raw }}</h1>
+    <h1 class="command-title"><span class="muted">{{ method }}</span> {{ formattedUri|raw }}</h1>
     {% if related|length > 0 %}
     <p class="other-methods">Other method(s):</p>
     <ul class="related-methods">
