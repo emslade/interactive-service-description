@@ -3,7 +3,7 @@
 {% block content %}
 <h1 class="welcome">Welcome to the API Reference</h1>
 <div class="container">
-    <input type="text" class="typeahead tt-query">
+    <input type="text" class="typeahead tt-query" autofocus>
 </div>
 <p class="search-tips">Start typing the route you're looking for.</p>
 <p class="search-tips">If you're looking for a specific method include it in your search e.g GET brands</p>
@@ -32,14 +32,6 @@ $(function() {
 
     $('.typeahead').on('typeahead:selected', function (event, datum) {
         window.location.href = datum.path;
-    });
-
-    $('.typeahead').on('typeahead:opened', function (event) {
-        $('.search-tips').hide();
-    });
-
-    $('.typeahead').on('typeahead:closed', function (event) {
-        $('.search-tips').show();
     });
 });
 </script>
