@@ -7,13 +7,16 @@ Installation
 
 Add configuration
 -----------------
-    // config/roles.php
+    // config/config.php
     return array(
-        'role' => array(
-            'base_url' => 'http://api.example.com',
-            'consumer_key' => 'consumer_key',
-            'consumer_secret' => 'consumer_secret',
-            'token' => 'token',
-            'token_secret' => 'token_secret',
+        'roles' => array(
+            'role' => array(
+                'base_url' => 'http://api.example.com',
+                'consumer_key' => 'consumer_key',
+                'consumer_secret' => 'consumer_secret',
+                'token' => 'token',
+                'token_secret' => 'token_secret',
+            ),
         ),
+        'serviceDescriptionPath' => '/path/to/service/description.json',
     );

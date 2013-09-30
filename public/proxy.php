@@ -1,30 +1,40 @@
 <?php
-$path = __DIR__ . '/../../basekit';
+use Guzzle\Common\Collection;
+use Guzzle\Plugin\Oauth\OauthPlugin;
+use Guzzle\Service\Client;
+use Guzzle\Service\Description\ServiceDescription;
 
-set_include_path(get_include_path() . PATH_SEPARATOR . $path);
-
-spl_autoload_register(
-    function ($class) use ($path) {
-        if (false !== strpos($class, '_')) {
-            $file = $path . '/library/' . str_replace('_', '/', $class) . '.php';
-            require $file;
-            return;
-        }
-
-        $file = $path . '/library/' . str_replace('\\', '/', $class) . '.php';
-        require $file;
-    }
-);
+require __DIR__ . '/../vendor/autoload.php';
 
 $role = 'internal-developer';
+$config = array();
 $roles = array();
 
-if (file_exists(__DIR__ . '/../config/roles.php')) {
-    $roles = require __DIR__ . '/../config/roles.php';
+$configPath = __DIR__ . '/../config/config.php';
+
+if (!file_exists($configPath)) {
+    throw new Exception(sprintf('Config file does %s does not exist', $configPath));
 }
 
-$client = \BaseKit\Api\Client\BaseKitClient::factory(
-    $roles[$role]
+$config = require $configPath;
+
+$required = array(
+    'base_url',
+    'consumer_key',
+    'consumer_secret',
+    'token',
+    'token_secret',
+);
+
+$default = array();
+
+$guzzleConfig = Collection::fromConfig($config['roles'][$role], $default, $required);
+$client = new Guzzle\Service\Client($guzzleConfig->get('base_url'), $guzzleConfig);
+$client->addSubscriber(new OauthPlugin($guzzleConfig->toArray()));
+$client->setDescription(
+    ServiceDescription::factory(
+        $config['serviceDescriptionPath']
+    )
 );
 
 $proxiedRequest = json_decode(file_get_contents('php://input'), true);

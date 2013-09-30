@@ -2,4 +2,4 @@
 /public/data/commands.json
 /public/index.html
 /public/api/*.html
-/config/roles.php
+/config/config.php
