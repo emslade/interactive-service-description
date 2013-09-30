@@ -83,6 +83,10 @@ class Generator
             mkdir($dataPath);
         }
 
+        usort($typeahead, function($a, $b) {
+            return (strlen($a['uri']) < strlen($b['uri'])) ? -1 : 1;
+        });
+
         file_put_contents($dataPath . '/commands.json', json_encode($typeahead));
 
         $index = $this->twig->render('commands.twig', $context);
