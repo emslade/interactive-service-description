@@ -6,7 +6,6 @@ use Guzzle\Service\Description\ServiceDescription;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$role = 'internal-developer';
 $config = array();
 $roles = array();
 
@@ -27,6 +26,8 @@ $required = array(
 );
 
 $default = array();
+
+$role = $config['defaultRole'];
 
 $guzzleConfig = Collection::fromConfig($config['roles'][$role], $default, $required);
 $client = new Guzzle\Service\Client($guzzleConfig->get('base_url'), $guzzleConfig);

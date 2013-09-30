@@ -19,4 +19,5 @@ Add configuration
             ),
         ),
         'serviceDescriptionPath' => '/path/to/service/description.json',
+        'defaultRole' => 'role',
     );
