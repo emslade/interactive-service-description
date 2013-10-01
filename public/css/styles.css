@@ -194,6 +194,7 @@ body {
     margin: 0px auto;
     text-align: left;
     margin-bottom: 40px;
+    padding: 0;
 }
 
 .command-container {
@@ -340,4 +341,11 @@ pre {
     margin: 0px auto;
     background-color: #fff;
     padding: 20px 40px 20px 40px;
+}
+
+.home {
+    float: left;
+    padding: 22px;
+    font-size: 24px;
+    margin-right: 20px;
 }
