@@ -1,5 +1,6 @@
 /vendor
 /public/data/commands.json
 /public/index.html
+/public/directory/*.html
 /public/api/*.html
 /config/config.php

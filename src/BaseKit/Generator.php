@@ -18,6 +18,9 @@ class Generator
             mkdir($outputPath . '/api');
         }
 
+        $filter = new \Twig_SimpleFilter('uriToPath', array(__CLASS__, 'normalise'));
+        $this->twig->addFilter($filter);
+
         $typehead = array();
         $output = array();
 
@@ -25,8 +28,11 @@ class Generator
 
         $related = array();
 
+        $directory = array();
+
         foreach ($description->getOperations() as $name => $operation) {
             $related[$operation->getUri()][$operation->getHttpMethod()] = array('method' => $operation->getHttpMethod(), 'name' => $name, 'link' => '/api/' . self::normalise($name) . '.html');
+            $directory[self::getBaseResource($operation->getUri())][$operation->getUri()][] = $operation;
         }
 
         foreach ($description->getOperations() as $name => $operation) {
@@ -93,6 +99,46 @@ class Generator
 
         file_put_contents($outputPath . '/index.html', $index);
 
+        ksort($directory);
+
+        $context = array();
+
+        foreach ($directory as $dir => $uris) {
+            if (count($uris) === 1) {
+                foreach ($uris as $uri => $methods) {
+                    if (count($methods) === 1) {
+                        $context['operations'][] = $methods;
+                        continue 2;
+                    }
+                }
+            }
+
+            $context['baseResources'][] = $dir;
+        }
+
+        if (!file_exists($outputPath . '/directory')) {
+            mkdir($outputPath . '/directory');
+        }
+
+        file_put_contents($outputPath . '/directory/index.html', $this->twig->render('directory.twig', $context));
+
+        foreach ($directory as $dir => $operations) {
+            uksort($operations, function($a, $b) {
+                return (strlen($a) < strlen($b)) ? -1 : 1;
+            });
+
+            file_put_contents(
+                $outputPath . '/directory/' . $dir . '.html',
+                $this->twig->render(
+                    'subdirectory.twig',
+                    array(
+                        'dir' => $dir,
+                        'operations' => $operations,
+                    )
+                )
+            );
+        }
+
         return $output;
     }
 
@@ -103,5 +149,17 @@ class Generator
         $uri = implode('-', $uri);
         $uri = strtolower($uri);
         return $uri;
+    }
+
+    public static function getBaseResource($uri)
+    {
+        $uri = ltrim($uri, '/');
+        $base = $uri;
+
+        if (false !== ($pos = strpos($uri, '/'))) {
+            $base = substr($uri, 0, $pos);
+        }
+
+        return $base;
     }
 }

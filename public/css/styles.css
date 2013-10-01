@@ -319,3 +319,25 @@ pre {
     text-align: left;
     overflow: auto;
 }
+
+.base-resources {
+    text-align: left;
+    width: 960px;
+    margin: 0px auto;
+    background-color: #fff;
+    padding: 20px 40px 20px 40px;
+    list-style-type: none;
+}
+
+.base-resources a {
+    text-decoration: none;
+    color: #393939;
+}
+
+.resources {
+    text-align: left;
+    width: 960px;
+    margin: 0px auto;
+    background-color: #fff;
+    padding: 20px 40px 20px 40px;
+}

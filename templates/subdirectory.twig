@@ -1,0 +1,16 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+<h1>{{ dir }}</h1>
+<ul class="resources">
+    {% for uri, methods in operations %}
+        {% for method in methods %}
+            <li>
+                <h3>{{ method.uri }}</h3>
+                <p>{{ method.summary }}</p>
+                <a class="endpoint-{{ method.httpMethod }}" href="/api/{{ method.name|uriToPath}}.html">{{ method.httpMethod }}</a>
+            </li>
+        {% endfor %}
+    {% endfor %}
+</ul>
+{% endblock %}
