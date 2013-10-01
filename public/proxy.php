@@ -73,7 +73,12 @@ try {
     }
 } catch (Guzzle\Http\Exception\ClientErrorResponseException $e) {
     $output['responseHeaders'] = $e->getResponse()->getRawHeaders();
-    $output['response'] = print_r($e->getResponse()->json(), 1);
+
+    try {
+        $output['response'] = print_r($e->getResponse()->json(), 1);
+    } catch (Guzzle\Common\Exception\RuntimeException $runtimeException) {
+        $output['response'] = $e->getResponse()->getBody(true);
+    }
 } catch (Guzzle\Http\Exception\ServerErrorResponseException $e) {
     $output['responseHeaders'] = $e->getResponse()->getRawHeaders();
     $output['response'] = $e->getMessage();
