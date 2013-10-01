@@ -361,3 +361,16 @@ pre {
     text-decoration: none;
     color: #393939;
 }
+
+.resource-method {
+    display: inline-block;
+    text-decoration: none;
+    padding: 2px 5px;
+    margin-right: 5px;
+    color: #898989;
+    font-size: 18px;
+}
+
+.resources h3 {
+    display: inline-block;
+}

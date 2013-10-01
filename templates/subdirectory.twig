@@ -6,9 +6,9 @@
     {% for uri, methods in operations %}
         {% for method in methods %}
             <li>
+                <a class="resource-method" href="/api/{{ method.name|uriToPath}}.html">{{ method.httpMethod }}</a>
                 <h3>{{ method.uri }}</h3>
                 <p>{{ method.summary }}</p>
-                <a class="endpoint-{{ method.httpMethod }}" href="/api/{{ method.name|uriToPath}}.html">{{ method.httpMethod }}</a>
             </li>
         {% endfor %}
     {% endfor %}
