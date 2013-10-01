@@ -202,6 +202,7 @@ body {
     margin: 0px auto;
     clear: both;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .command-title {
@@ -318,4 +319,15 @@ body {
 pre {
     text-align: left;
     overflow: auto;
+}
+
+.results {
+    border-top: 1px solid #ccc;
+    display: none;
+}
+
+.response {
+    border-style: inset;
+    border-width: 2px;
+    padding: 15px;
 }
