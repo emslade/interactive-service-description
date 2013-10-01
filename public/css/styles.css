@@ -195,6 +195,7 @@ body {
     text-align: left;
     margin-bottom: 40px;
     padding: 0;
+    clear: both;
 }
 
 .command-container {
@@ -217,7 +218,7 @@ body {
 
 .related-methods {
     float: left;
-    margin-top: 1px;
+    margin-top: 6px;
     margin-left: 0px;
     padding-left: 0px;
     list-style-type: none;
@@ -343,9 +344,20 @@ pre {
     padding: 20px 40px 20px 40px;
 }
 
-.home {
-    float: left;
-    padding: 22px;
-    font-size: 24px;
+.navigation {
+    width: 960px;
+    margin: 0 auto;
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+.navigation li {
+    display: inline-block;
     margin-right: 20px;
+}
+
+.navigation a {
+    text-decoration: none;
+    color: #393939;
 }

@@ -2,7 +2,6 @@
 
 {% block content %}
 <div class="command-title-container">
-    <a class="home related-method-{{ method }}" href="/index.html">API</a>
     <h1 class="command-title"><span class="muted">{{ method }}</span> {{ formattedUri|raw }}</h1>
     {% if related|length > 0 %}
     <p class="other-methods">Other method(s):</p>
