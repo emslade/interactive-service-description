@@ -56,12 +56,12 @@
         </div>
     </form>
 
-    <h3 class="request-title">Request</h3>
-    <pre class="requestHeaders"></pre>
-    <pre class="request"></pre>
-    <h3>Response</h3>
-    <pre class="responseHeaders"></pre>
-    <pre class="response"></pre>
+    <h3 class="request-title" hidden>Request</h3>
+    <pre class="requestHeaders" hidden></pre>
+    <pre class="request" hidden></pre>
+    <h3 class="response-title" hidden>Response</h3>
+    <pre class="responseHeaders" hidden></pre>
+    <pre class="response" hidden></pre>
 </div>
 
 <script type="text/javascript">
@@ -75,6 +75,13 @@ $(function() {
             uri: '{{ uri }}',
             params: {}
         };
+
+        $('.request-title').removeAttr('hidden');
+        $('.requestHeaders').removeAttr('hidden');
+        $('.request').removeAttr('hidden');
+        $('.response-title').removeAttr('hidden');
+        $('.responseHeaders').removeAttr('hidden');
+        $('.response').removeAttr('hidden');
 
         $('.param').each(function (key, input) {
             if ($(input).val() !== '') {
