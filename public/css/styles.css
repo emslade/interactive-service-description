@@ -3,6 +3,7 @@ body {
     text-align: center;
     font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
     font-size: 100%;
+    margin: 0;
 }
 
 /** TYPOGRAPHY **/
@@ -233,31 +234,28 @@ body {
 .related-methods a {
     text-decoration: none;
     padding: 2px 5px;
+    color: #393939;
 }
 
 .related-methods .unimplemented-method {
     padding: 2px 5px;
-    background-color: #898989;
+    color: #cacacb;
 }
 
 .related-method-GET {
-    background-color: #0094cd;
-    color: white;
+    border-bottom: 2px solid #0094cd;
 }
 
 .related-method-PUT {
-    background-color: #ffcb37;
-    color: white;
+    border-bottom: 2px solid #ffcb37;
 }
 
 .related-method-DELETE {
-    background-color: #d52932;
-    color: white;
+    border-bottom: 2px solid #d52932;
 }
 
 .related-method-POST {
-    background-color: #43c28b;
-    color: white;
+    border-bottom: 2px solid #43c28b;
 }
 
 .command-summary {
@@ -327,13 +325,19 @@ pre {
     width: 960px;
     margin: 0px auto;
     background-color: #fff;
-    padding: 20px 40px 20px 40px;
+    padding: 0;
     list-style-type: none;
+}
+
+.base-resources li {
+    border-bottom: 1px solid #e0dfdf;
+    padding: 20px;
 }
 
 .base-resources a {
     text-decoration: none;
     color: #393939;
+    font-size: 20px;
 }
 
 .resources {
@@ -341,7 +345,17 @@ pre {
     width: 960px;
     margin: 0px auto;
     background-color: #fff;
-    padding: 20px 40px 20px 40px;
+    padding: 0;
+}
+
+.resources > div {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.navigation-container {
+    background-color: white;
+    padding: 10px;
 }
 
 .navigation {
@@ -359,18 +373,26 @@ pre {
 
 .navigation a {
     text-decoration: none;
-    color: #393939;
+    color: #898989;
 }
 
 .resource-method {
     display: inline-block;
     text-decoration: none;
     padding: 2px 5px;
-    margin-right: 5px;
     color: #898989;
     font-size: 18px;
 }
 
 .resources h3 {
     display: inline-block;
+}
+
+.browse-directory-button {
+    font-size: 18px;
+    padding: 6px 30px;
+    background-color: #43c28b;
+    color: white;
+    border: 0;
+    text-decoration: none;
 }

@@ -1,16 +1,25 @@
 {% extends 'layout.twig' %}
 
 {% block content %}
-<h1>{{ dir }}</h1>
-<ul class="resources">
+<h1 class="welcome">{{ dir|split("-")|join(" ")|capitalize }}</h1>
+<div class="resources">
     {% for uri, methods in operations %}
         {% for method in methods %}
-            <li>
-                <a class="resource-method" href="/api/{{ method.name|uriToPath}}.html">{{ method.httpMethod }}</a>
-                <h3>{{ method.uri }}</h3>
-                <p>{{ method.summary }}</p>
-            </li>
+        <div class="search-result" data-path="/api/{{ method.name|uriToPath}}.html">
+            <ul class="endpoint-container">
+                <li class="endpoint-{{ method.httpMethod }}"><span class="method">{{ method.httpMethod }}</span> <span class="uri">{{ method.uri|formatUri|raw }}</span></li>
+            </ul>
+            <p class="summary">{{ method.summary }}</p>
+        </div>
         {% endfor %}
     {% endfor %}
-</ul>
+</div>
+
+<script type="text/javascript">
+$(function() {
+    $('.search-result').click(function (e) {
+        window.location.href = $(this).data('path');
+    });
+});
+</script>
 {% endblock %}

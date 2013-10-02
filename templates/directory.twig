@@ -1,22 +1,10 @@
 {% extends 'layout.twig' %}
 
 {% block content %}
-<h1 class="welcome">API index</h1>
+<h1 class="welcome">Directory</h1>
 <ul class="base-resources">
     {% for resource in baseResources %}
-        <li><a href="/directory/{{ resource }}.html"><h2>{{ resource }}</h2></a></li>
-    {% endfor %}
-</ul>
-
-<ul class="resources">
-    {% for methods in operations %}
-        {% for method in methods %}
-            <li>
-                <a class="resource-method" href="/api/{{ method.name|uriToPath}}.html">{{ method.httpMethod }}</a>
-                <h3>{{ method.uri }}</h3>
-                <p>{{ method.summary }}</p>
-            </li>
-        {% endfor %}
+        <li><a href="/directory/{{ resource }}.html">{{ resource|split("-")|join(" ")|capitalize }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

@@ -21,6 +21,9 @@ class Generator
         $filter = new \Twig_SimpleFilter('uriToPath', array(__CLASS__, 'normalise'));
         $this->twig->addFilter($filter);
 
+        $filter = new \Twig_SimpleFilter('formatUri', array(__CLASS__, 'formatUri'));
+        $this->twig->addFilter($filter);
+
         $typehead = array();
         $output = array();
 
@@ -51,9 +54,6 @@ class Generator
 
             if (isset($related[$operation->getUri()])) {
                 $relatedMethods = $related[$operation->getUri()];
-                $relatedMethods = array_filter($relatedMethods, function ($relatedMethod) use ($operation) {
-                    return $relatedMethod['method'] !== $operation->getHttpMethod();
-                });
             }
 
             $formattedUri = preg_replace('~(\{[^\}]+\})~', '<span class="uri-param">$1</span>', $operation->getUri());
@@ -102,19 +102,7 @@ class Generator
         ksort($directory);
 
         $context = array();
-
-        foreach ($directory as $dir => $uris) {
-            if (count($uris) === 1) {
-                foreach ($uris as $uri => $methods) {
-                    if (count($methods) === 1) {
-                        $context['operations'][] = $methods;
-                        continue 2;
-                    }
-                }
-            }
-
-            $context['baseResources'][] = $dir;
-        }
+        $context['baseResources'] = array_keys($directory);
 
         if (!file_exists($outputPath . '/directory')) {
             mkdir($outputPath . '/directory');
@@ -161,5 +149,10 @@ class Generator
         }
 
         return $base;
+    }
+
+    public static function formatUri($uri)
+    {
+        return preg_replace('~(\{[^\}]+\})~', '<span class="uri-param">$1</span>', $uri);
     }
 }

@@ -10,7 +10,7 @@
             <li>
             {% set item = related[httpMethod] %}
             {% if item %}
-                <a class="related-method-{{ httpMethod }}" href="{{ item.link }}">{{ item.method }}</a>
+                <a {% if httpMethod == method %}class="related-method-{{ httpMethod }}"{% endif %} href="{{ item.link }}">{{ item.method }}</a>
             {% else %}
                 <span class="unimplemented-method">{{ httpMethod }}</a>
             {% endif %}

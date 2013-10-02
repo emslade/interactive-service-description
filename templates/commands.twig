@@ -1,12 +1,12 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-<h1 class="welcome">Welcome to the API Reference</h1>
+<h1 class="welcome">Search endpoints</h1>
 <div class="container">
-    <input type="text" class="typeahead tt-query" autofocus>
+    <input type="text" class="typeahead tt-query" autofocus placeholder="e.g. GET users">
 </div>
-<p class="search-tips">Start typing the route you're looking for.</p>
-<p class="search-tips">If you're looking for a specific method include it in your search e.g GET brands</p>
+<p class="search-tips">or</p>
+<a href="/directory/" class="browse-directory-button">Browse the directory</a>
 
 <script type="text/template" id="template">
     <div class="search-result">
