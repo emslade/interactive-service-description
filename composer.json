@@ -2,6 +2,7 @@
   "require": {
     "symfony/console": "v2.3.4",
     "twig/twig": "v1.13.2",
-    "guzzle/guzzle": "v3.7.3"
+    "guzzle/guzzle": "v3.7.3",
+    "camspiers/json-pretty": "0.1.*"
   }
 }

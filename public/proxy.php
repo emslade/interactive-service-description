@@ -54,6 +54,8 @@ if (in_array($method, array('post', 'put'))) {
     $uri .= '?' . http_build_query($proxiedRequest['params']);
 }
 
+$jsonPretty = new Camspiers\JsonPretty\JsonPretty;
+
 try {
     $request = call_user_func_array(array($client, $method), array($uri, $headers, $body));
 
@@ -61,13 +63,17 @@ try {
 
     if ($request instanceof Guzzle\Http\Message\EntityEnclosingRequest) {
         $output['request'] = (string) $request->getBody();
+
+        if (null !== ($decoded = json_decode($request->getBody(), true))) {
+            $output['request'] = $jsonPretty->prettify($decoded);
+        }
     }
 
     $response = $request->send();
     $output['responseHeaders'] = $response->getRawHeaders();
 
     try {
-        $output['response'] = print_r($response->json(), 1);
+        $output['response'] = $jsonPretty->prettify($response->json());
     } catch (Guzzle\Common\Exception\RuntimeException $e) {
         $output['response'] = $response->getBody(true);
     }
@@ -75,7 +81,7 @@ try {
     $output['responseHeaders'] = $e->getResponse()->getRawHeaders();
 
     try {
-        $output['response'] = print_r($e->getResponse()->json(), 1);
+        $output['response'] = $jsonPretty->prettify($e->getResponse()->json());
     } catch (Guzzle\Common\Exception\RuntimeException $runtimeException) {
         $output['response'] = $e->getResponse()->getBody(true);
     }

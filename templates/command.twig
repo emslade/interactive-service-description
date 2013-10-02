@@ -57,11 +57,11 @@
     </form>
 
     <h3 class="request-title" hidden>Request</h3>
-    <pre class="requestHeaders" hidden></pre>
-    <pre class="request" hidden></pre>
+    <pre class="requestHeaders" hidden><code class="language-http"></code></pre>
+    <pre class="request" hidden><code class="language-javascript"></code></pre>
     <h3 class="response-title" hidden>Response</h3>
-    <pre class="responseHeaders" hidden></pre>
-    <pre class="response" hidden></pre>
+    <pre class="responseHeaders" hidden><code class="language-http"></code></pre>
+    <pre class="response" hidden><code class="language-javascript"></code></pre>
 </div>
 
 <script type="text/javascript">
@@ -106,12 +106,13 @@ $(function() {
             data: JSON.stringify(data)
         })
         .done(function (response) {
-            $('.requestHeaders').text(response.requestHeaders);
+            $('.requestHeaders code').text(response.requestHeaders);
             if (typeof response.request !== 'undefined') {
-                $('.request').text(response.request);
+                $('.request code').text(response.request);
             }
-            $('.responseHeaders').text(response.responseHeaders);
-            $('.response').text(response.response);
+            $('.responseHeaders code').text(response.responseHeaders);
+            $('.response code').text(response.response);
+            Prism.highlightAll();
         });
     });
 });
