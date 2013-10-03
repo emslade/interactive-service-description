@@ -1,12 +1,17 @@
 {% extends "layout.twig" %}
 
+{% block title %}Search endpoints{% endblock %}
+
 {% block content %}
-<h1 class="welcome">Search endpoints</h1>
-<div class="container">
-    <input type="text" class="typeahead tt-query" autofocus placeholder="e.g. GET users">
+<div class="container feature-container">
+    <h1 class="feature-title">Search endpoints</h1>
+    <input type="text" class="typeahead tt-query" placeholder="e.g. GET users">
+    <div class="search-tips" hidden>
+        <p class="search-tip">Start typing the route you’re looking for.</p>
+    </div>
+    <p class="feature-or">or</p>
+    <a href="/directory/" class="primary-button feature-button">Browse the directory</a>
 </div>
-<p class="search-tips">or</p>
-<a href="/directory/" class="browse-directory-button">Browse the directory</a>
 
 <script type="text/template" id="template">
     <div class="search-result">
@@ -20,6 +25,16 @@
 <script type="text/javascript">
 $(function() {
     localStorage.clear();
+
+    $('.typeahead').one('focus', function () {
+        var feature = $('.feature-container');
+        $(feature).addClass('feature-active');
+
+        setTimeout(function() {
+            $(feature).find('.feature-or, .feature-button').attr('hidden', true);
+            $(feature).find('.search-tips').attr('hidden', false);
+        }, 500);
+    });
 
     template = _.template($('#template').html());
 

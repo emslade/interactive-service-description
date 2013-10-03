@@ -1,18 +1,24 @@
 {% extends 'layout.twig' %}
 
+{% block title %}{{ dir|split("-")|join(" ")|capitalize }}{% endblock %}
+
 {% block content %}
-<h1 class="welcome">{{ dir|split("-")|join(" ")|capitalize }}</h1>
-<div class="resources">
-    {% for uri, methods in operations %}
-        {% for method in methods %}
-        <div class="search-result" data-path="/api/{{ method.name|uriToPath}}.html">
-            <ul class="endpoint-container">
-                <li class="endpoint-{{ method.httpMethod }}"><span class="method">{{ method.httpMethod }}</span> <span class="uri">{{ method.uri|formatUri|raw }}</span></li>
-            </ul>
-            <p class="summary">{{ method.summary }}</p>
-        </div>
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-header-title">{{ dir|split("-")|join(" ")|capitalize }}</h1>
+    </div>
+    <div class="resources">
+        {% for uri, methods in operations %}
+            {% for method in methods %}
+            <div class="search-result" data-path="/api/{{ method.name|uriToPath}}.html">
+                <ul class="endpoint-container">
+                    <li class="endpoint-{{ method.httpMethod }}"><span class="method">{{ method.httpMethod }}</span> <span class="uri">{{ method.uri|formatUri|raw }}</span></li>
+                </ul>
+                <p class="summary">{{ method.summary }}</p>
+            </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    </div>
 </div>
 
 <script type="text/javascript">
