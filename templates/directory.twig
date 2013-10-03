@@ -1,10 +1,16 @@
 {% extends 'layout.twig' %}
 
+{% block title %}Directory{% endblock %}
+
 {% block content %}
-<h1 class="welcome">Directory</h1>
-<ul class="base-resources">
-    {% for resource in baseResources %}
-        <li><a href="/directory/{{ resource }}.html">{{ resource|split("-")|join(" ")|capitalize }}</a></li>
-    {% endfor %}
-</ul>
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-header-title">Directory</h1>
+    </div>
+    <ul class="base-resources">
+        {% for resource in baseResources %}
+            <li class="base-resource"><a href="/directory/{{ resource }}.html">{{ resource|split("-")|join(" ")|capitalize }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

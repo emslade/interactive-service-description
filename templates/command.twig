@@ -1,69 +1,72 @@
 {% extends "layout.twig" %}
 
+{% block title %}{{ method }} {{ formattedUri|raw }}{% endblock %}
+
 {% block content %}
-<div class="command-title-container">
-    <h1 class="command-title"><span class="muted">{{ method }}</span> {{ formattedUri|raw }}</h1>
-    {% if related|length > 0 %}
-    <p class="other-methods">Other method(s):</p>
-    <ul class="related-methods">
-        {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
-            <li>
-            {% set item = related[httpMethod] %}
-            {% if item %}
-                <a {% if httpMethod == method %}class="related-method-{{ httpMethod }}"{% endif %} href="{{ item.link }}">{{ item.method }}</a>
-            {% else %}
-                <span class="unimplemented-method">{{ httpMethod }}</a>
-            {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-</div>
-
-<div class="command-container">
-    <p class="command-summary">{{ summary }}</p>
-
-    {% if params|length > 0 %}
-    <h3>Parameters</h3>
-    {% endif %}
-    <form>
-        <table class="params">
-        {% for key, param in params %}
-        <tr>
-            <td class="param-key">
-                <div>{{ key }}</div>
-                <div class="muted">{{ param.required ? 'required' : 'optional' }}</div>
-            </td>
-            <td class="param-desc">
-                <div>{{ param.description }}</div>
-                <div class="muted">{{ param.type }}</div>
-            </td>
-            <td class="param-input">
-                {% if param.enum %}
-                <select name="{{ key }}" class="param">
-                    <option></option>
-                    {% for value in param.enum %}
-                    <option>{{ value }}</option>
-                    {% endfor %}
-                </select>
-                {% else %}
-                <input name="{{ key }}" type="text" class="param">
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-        </table>
-        <div class="button-container">
-            <button class="try-it">Try it!</button>
+<div class="container">
+    <div class="command-title-container">
+        <div class="page-header">
+            <h1 class="page-header-title endpoint-title"><span class="endpoint-method">{{ method }}</span> {{ formattedUri|raw }}</h1>
+            <ul class="related-methods">
+                {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
+                    <li class="related-method">
+                    {% set item = related[httpMethod] %}
+                    {% if item %}
+                        <a class="related-method-{{ httpMethod }} method{% if httpMethod == method %} active{% endif %}" href="{{ item.link }}">{{ item.method }}</a>
+                    {% else %}
+                        <span class="unimplemented-method method">{{ httpMethod }}</a>
+                    {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-    </form>
+    </div>
 
-    <h3 class="request-title" hidden>Request</h3>
-    <pre class="requestHeaders" hidden><code class="language-http"></code></pre>
-    <pre class="request" hidden><code class="language-javascript"></code></pre>
-    <h3 class="response-title" hidden>Response</h3>
-    <pre class="responseHeaders" hidden><code class="language-http"></code></pre>
-    <pre class="response" hidden><code class="language-javascript"></code></pre>
+    <div class="command-container">
+        <p class="command-summary">{{ summary }}</p>
+
+        {% if params|length > 0 %}
+        <h3>Parameters</h3>
+        {% endif %}
+        <form>
+            <table class="params">
+            {% for key, param in params %}
+            <tr>
+                <td class="param-key">
+                    <div>{{ key }}</div>
+                    <div class="muted">{{ param.required ? 'required' : 'optional' }}</div>
+                </td>
+                <td class="param-desc">
+                    <div>{{ param.description }}</div>
+                    <div class="muted">{{ param.type }}</div>
+                </td>
+                <td class="param-input">
+                    {% if param.enum %}
+                    <select name="{{ key }}" class="param">
+                        <option></option>
+                        {% for value in param.enum %}
+                        <option>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    {% else %}
+                    <input name="{{ key }}" type="text" class="param">
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </table>
+            <div class="button-container">
+                <button class="primary-button try-it">Try it!</button>
+            </div>
+        </form>
+
+        <h3 class="request-title" hidden>Request</h3>
+        <pre class="requestHeaders" hidden><code class="language-http"></code></pre>
+        <pre class="request" hidden><code class="language-javascript"></code></pre>
+        <h3 class="response-title" hidden>Response</h3>
+        <pre class="responseHeaders" hidden><code class="language-http"></code></pre>
+        <pre class="response" hidden><code class="language-javascript"></code></pre>
+    </div>
 </div>
 
 <script type="text/javascript">
