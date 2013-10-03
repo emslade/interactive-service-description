@@ -23,7 +23,9 @@
 <div class="command-container">
     <p class="command-summary">{{ summary }}</p>
 
+    {% if params|length > 0 %}
     <h3>Parameters</h3>
+    {% endif %}
     <form>
         <table class="params">
         {% for key, param in params %}
