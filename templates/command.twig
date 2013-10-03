@@ -80,7 +80,6 @@ $(function() {
 
         $('.request-title').removeAttr('hidden');
         $('.requestHeaders').removeAttr('hidden');
-        $('.request').removeAttr('hidden');
         $('.response-title').removeAttr('hidden');
         $('.responseHeaders').removeAttr('hidden');
         $('.response').removeAttr('hidden');
@@ -109,8 +108,9 @@ $(function() {
         })
         .done(function (response) {
             $('.requestHeaders code').text(response.requestHeaders);
-            if (typeof response.request !== 'undefined') {
+            if (typeof response.request !== 'undefined' && response.request.length > 0) {
                 $('.request code').text(response.request);
+                $('.request').removeAttr('hidden');
             }
             $('.responseHeaders code').text(response.responseHeaders);
             $('.response code').text(response.response);
