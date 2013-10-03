@@ -193,6 +193,10 @@ body {
     background: #fff !important;
 }
 
+.method {
+    color: #898989;
+}
+
 .page-header-title {
     color: #898989;
 }
@@ -430,10 +434,6 @@ body {
     background-color: #fff;
     margin-top: 20px;
     border: 2px solid #fff;
-}
-
-.method {
-    color: #898989;
 }
 
 .summary {
