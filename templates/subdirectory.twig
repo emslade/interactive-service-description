@@ -1,5 +1,7 @@
 {% extends 'layout.twig' %}
 
+{% block title %}{{ dir|split("-")|join(" ")|capitalize }}{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="page-header">
