@@ -337,7 +337,7 @@ body {
 }
 
 .endpoint-title {
-    margin: 0 0 0.4166em;
+    margin: 0 0 0.4166em -0.1em;
 }
 
 .related-methods {
