@@ -88,6 +88,12 @@ try {
 } catch (Guzzle\Http\Exception\ServerErrorResponseException $e) {
     $output['responseHeaders'] = $e->getResponse()->getRawHeaders();
     $output['response'] = $e->getMessage();
+
+    try {
+        $output['response'] = $jsonPretty->prettify($e->getResponse()->json());
+    } catch (Guzzle\Common\Exception\RuntimeException $runtimeException) {
+        $output['response'] = $e->getResponse()->getBody(true);
+    }
 }
 
 header('Content-Type: application/json');
