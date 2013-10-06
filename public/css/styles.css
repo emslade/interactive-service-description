@@ -329,7 +329,6 @@ body {
 .page-header {
     margin: 4.065em 0;
     padding: 0 1.25em;
-    overflow: auto;
 }
 
 .page-header-title {
