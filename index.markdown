@@ -22,4 +22,4 @@ Read more about [Guzzle service descriptions](http://guzzlephp.org/webservice-cl
 
 ### Demo
 
-View the [demo](http://demo.adeslade.co.uk). Demo HTML has been generated from the following [service description ](https://gist.github.com/adeslade/6854008).
+View the [demo](http://demo.adeslade.co.uk). Demo HTML has been generated from this [service description ](https://gist.github.com/adeslade/6854008).
