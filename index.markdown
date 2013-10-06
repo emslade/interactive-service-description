@@ -13,6 +13,7 @@ Read more about [Guzzle service descriptions](http://guzzlephp.org/webservice-cl
 
 * Download the repository
 * Setup a vhost to point to `/path/to/repository/public`
+* `php composer.phar install`
 * Generate HTML to public directory
 
 ```
