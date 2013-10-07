@@ -193,6 +193,10 @@ body {
     background: #fff !important;
 }
 
+.tt-dropdown-menu {
+    background: #fefdfd;
+}
+
 .method {
     color: #898989;
 }
@@ -326,6 +330,10 @@ body {
     outline: none;
 }
 
+.tt-dropdown-menu {
+    width: 100%;
+}
+
 .page-header {
     margin: 4.065em 0;
     padding: 0 1.25em;
@@ -430,9 +438,7 @@ body {
 
 .tt-dropdown-menu {
     text-align: left;
-    background-color: #fff;
     margin-top: 20px;
-    border: 2px solid #fff;
 }
 
 .summary {
