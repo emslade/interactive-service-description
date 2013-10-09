@@ -82,6 +82,11 @@ select {
     font-weight: 400;
 }
 
+.credentials-info {
+    font-weight: 300;
+    font-size: 1.125em;
+}
+
 .endpoint-method {
     font-weight: 300;
 }
@@ -128,6 +133,19 @@ select {
 }
 
 .try-it {
+    font-size: 1.125em;
+}
+
+.environment-name {
+    font-weight: 400;
+}
+
+.environment-base-url {
+    font-weight: 300;
+    font-size: 1.125em;
+}
+
+.credential-label {
     font-size: 1.125em;
 }
 
@@ -209,6 +227,10 @@ body {
     color: #393939;
 }
 
+.credentials-info {
+    color: #898989;
+}
+
 .endpoint-method {
     color: #898989;
 }
@@ -252,6 +274,26 @@ body {
 
 .uri {
     color: #393939;
+}
+
+.environment-name {
+    color: #898989;
+}
+
+.environment-base-url {
+    color: #898989;
+}
+
+.credential-label {
+    background: #fefdfd;
+}
+
+.credential-option {
+    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiPjx0aXRsZT51bmNoZWNrZWQ8L3RpdGxlPjxjaXJjbGUgc3Ryb2tlPSIjQ0FDQUNBIiBzdHJva2Utd2lkdGg9IjMiIHNrZXRjaDp0eXBlPSJNU1NoYXBlR3JvdXAiIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==') no-repeat center center;
+}
+
+.environment-credential input:checked + .credential-option {
+    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiPjx0aXRsZT5jaGVjazwvdGl0bGU+PHBhdGggZD0iTTkuMTU4IDEzLjQ1MWw3LjQ4OS03LjQ4OWMuMTg1LS4xODUuNDk1LS4xODYuNjg1LjAwNGwxLjI4OSAxLjI4OWMuMTg5LjE4OS4xOTIuNDk3LjAwNC42ODVsLTcuNzU5IDcuNzU5LS4wNjQuMDc4LTEuMzg0IDEuMzg0Yy0uMTkzLjE5My0uNDkyLjE5LS42NzguMDA0bC01LjI4MS01LjI4MWMtLjE5LS4xOS0uMTg0LS40OS4wMDQtLjY3OGwxLjM4NC0xLjM4NGMuMTkzLS4xOTMuNDkyLS4xOS42NzgtLjAwNGwzLjYzMiAzLjYzMnptMS44NDIgOC41NDljNi4wNzUgMCAxMS00LjkyNSAxMS0xMXMtNC45MjUtMTEtMTEtMTEtMTEgNC45MjUtMTEgMTEgNC45MjUgMTEgMTEgMTF6bTAgMCIgZmlsbD0iIzQzQzI4QiIgc2tldGNoOnR5cGU9Ik1TU2hhcGVHcm91cCIvPjwvc3ZnPg==') no-repeat center center;
 }
 
 
@@ -388,6 +430,79 @@ body {
     text-align: right;
 }
 
+.environment-list {
+    list-style: none;
+    padding: 0 20px;
+    margin: 0;
+}
+
+.environment {
+    margin-bottom: 3.5em;
+}
+
+.environment-credential-list {
+    list-style: none;
+    margin: 0.85em 0 0 0;
+    padding: 0;
+}
+
+.environment-name {
+    display: inline-block;
+}
+
+.environment-base-url {
+    display: inline-block;
+    float: right;
+    line-height: 2em;
+}
+
+.environment-credential {
+    position: relative;
+    z-index: 0;
+    display: block;
+}
+
+.credential-label {
+    display: block;
+    border-radius: 0.1875em;
+    width: 100%;
+    padding: 0.6em 1.25em;
+    margin: 0 0 0.8em -1.25em;
+    z-index: 1;
+}
+
+.environment-credential input {
+    position: absolute;
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    right: 0;
+    top: 50%;
+    opacity: 0;
+    z-index: 3;
+    -webkit-transform: translateY(-50%);
+       -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+         -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+}
+
+.credential-option {
+    position: absolute;
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+       -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+         -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+    border-radius: 1.25em;
+}
+
+
 /** BEHAVIOUR **/
 
 .feature-container {
@@ -416,6 +531,12 @@ body {
 }
 
 .search-result {
+    cursor: pointer;
+}
+
+.environment-credential input,
+.credential-label,
+.credential-option {
     cursor: pointer;
 }
 
