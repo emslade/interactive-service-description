@@ -38,7 +38,7 @@ body {
 
 a {
     color: $green;
-    font-weight: 700;
+    font-weight: 500;
     @include transition(color 0.2s ease);
     &:active {
         color: darken($green, 8.5%);
