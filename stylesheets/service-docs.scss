@@ -1,0 +1,180 @@
+@import "normalize.2.1.3.min.scss";
+
+$black: #393939;
+$darkGrey: #5c5c5c;
+$midGrey: #898989;
+$lightGrey: #cacaca;
+$lightestGrey: #f0eeee;
+$white: #fefdfd;
+$yellow: #ffce0a;
+$green: #00ca8e;
+$blue: #0093d0;
+$red: #ea000e;
+
+// Constants.
+$baseFontSize: 22px; // The font-size at the final type breakpoint.
+$imageDir: '../images/';
+$containerOuterPadding: 20px;
+
+@import "utilities.scss";
+
+body {
+    font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    color: $black;
+    background: $white;
+    font-size: 100%;
+    @media only screen and (min-width: em(525px, 16px)) {
+        font-size: 18px;
+    }
+    @media only screen and (min-width: em(655px, 16px)) {
+        font-size: 20px;
+    }
+    @media only screen and (min-width: em(765px, 16px)) {
+        font-size: 22px;
+    }
+}
+
+a {
+    color: $green;
+    font-weight: 700;
+    @include transition(color 0.2s ease);
+    &:active {
+        color: darken($green, 8.5%);
+    }
+}
+
+p {
+    margin: 0 0 1.6363em;
+}
+
+abbr[title] {
+    border: none;
+}
+
+code {
+    color: $midGrey;
+    font-size: 0.8em;
+    line-height: 1;
+    font-family: Monaco, Consolas, "Lucida Console", monospace;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: em(840px);
+    padding: 0 $containerOuterPadding;
+    @include boxSizing(border-box);
+}
+
+.header {
+    text-align: center;
+    background: $lightestGrey;
+    a {
+        display: block;
+        text-decoration: none;
+    }
+}
+
+.header-container {
+    padding: em(120px) $containerOuterPadding em(54px);
+}
+
+.header-title,
+.header-subtitle {
+    line-height: normal;
+    color: $green;
+}
+
+.header-title {
+    font-size: em(48px);
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    margin: 0 0 em(15px);
+}
+
+.header-subtitle {
+    font-size: em(24px);
+    font-weight: 300;
+    font-style: italic;
+    margin: 0;
+}
+
+.version {
+    background: $green;
+    border-radius: em(40px);
+    width: em(60px);
+    height: em(60px);
+    margin: em(60px) auto;
+    text-align: center;
+    position: relative;
+}
+
+.version-number {
+    font-size: em(16px);
+    line-height: normal;
+    display: inline-block;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include transform(translate(-50%, -50%));
+    color: $white;
+}
+
+.section {
+    margin-bottom: em(80px);
+    @media only screen and (min-width: em(460px)) {
+        margin-bottom: em(120px);
+    }
+}
+
+.section-title {
+    font-size: em(36px);
+    font-weight: 300;
+    font-style: italic;
+    margin: 0 0 em(36px, 36px);
+    color: $green;
+}
+
+.setup-steps {
+    list-style: none;
+    padding: 0;
+}
+
+.download::after {
+    @include retinaBgImage('octocat.png', 'octocat@2x.png', 236px);
+}
+
+.download {
+    @include imageSection(left);
+}
+
+.demo::after {
+    @include retinaBgImage('screengrab.png', 'screengrab@2x.png', 236px);
+}
+
+.demo {
+    @include imageSection(right);
+}
+
+.setup-steps p {
+    margin-bottom: 0.85em;
+}
+
+.setup-steps code {
+    margin-bottom: 1.6em;
+    display: block;
+    background: $lightestGrey;
+    padding: 0.85em;
+}
+
+.footer {
+    text-align: center;
+}
+
+.awesome-guyz {
+    font-size: 0.9090em;
+}
+

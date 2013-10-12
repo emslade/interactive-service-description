@@ -1,49 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Service Docs : Generates interactive documentation from Guzzle service description" />
+    <head>
+        <meta charset="utf-8">
+        <title>Service Docs</title>
+        <meta name="description" content="Interactive, living documentation for your API; generated from a Guzzle service description.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="canonical" href="http://service-docs.adeslade.co.uk">
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic" rel="stylesheet">
+        <link rel="stylesheet" href="stylesheets/service-docs.css">
+    </head>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <body>
 
-    <title>Service Docs</title>
-  </head>
 
-  <body>
+        <div class="header" role="banner">
+            <a href="/">
+                <div class="header-container container">
+                    {% if page.url == '/index.html' %}
+                        <h1 class="header-title">Service Docs</h1>
+                    {% else %}
+                        <span class="header-title">Service Docs</span>
+                    {% endif %}
+                    <p class="header-subtitle">Interactive, living documentation for your API.</p>
+                </div>
+            </a>
+        </div>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/adeslade/interactive-service-description">View on GitHub</a>
+        <div class="container">
 
-          <h1 id="project_title">Service Docs</h1>
-          <h2 id="project_tagline">Interactive documentation from a Guzzle service description</h2>
+            <div class="content" role="main">
+                {{ content }}
+            </div>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/adeslade/interactive-service-description/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/adeslade/interactive-service-description/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+            <div class="footer" role="contentinfo">
+                <p class="awesome-guyz">Proudly created by <a href="https://www.twitter.com/adeslade">@adeslade</a> and <a href="https://www.twitter.com/mikey_clarke">@mikey_clarke</a>.</p>
+            </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-      {{ content }}
-      </section>
-    </div>
+        </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Service Docs maintained by <a href="https://github.com/adeslade">adeslade</a> and Mikey Clarke</p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
-  </body>
+    </body>
 </html>

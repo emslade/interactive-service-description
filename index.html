@@ -1,0 +1,45 @@
+---
+layout: default
+---
+
+<div class="version">
+    <p class="version-number"><abbr title="Version">v</abbr>0.1</p>
+</div>
+
+<div class="intro section">
+    <p>Service Docs allows you to create fully interactive documentation from a Guzzle service description.</p>
+    <p><a href="http://guzzlephp.org">Guzzle</a> is a superb <abbr title="Hypertext Transfer Protocol">HTTP</abbr> client; you can learn more about Guzzle service descriptions in the <a href="http://guzzlephp.org/webservice-client/guzzle-service-descriptions.html">documentation</a>.</p>
+</div>
+
+<div class="download section">
+    <h2 class="download-title section-title">Get the code</h2>
+    <p>Service docs is on GitHub; there you can clone the repository, download a ZIP, and report any issues you discover.</p>
+    <p class="section-cta">View the <a href="https://github.com/adeslade/interactive-service-description">Service Docs repo</a>.</p>
+</div>
+
+<div class="setup section">
+    <h2 class="section-title">Get set up</h2>
+    <p>Setting up Service Docs is super simple, there are just three steps.</p>
+    <ol class="setup-steps">
+        <li>
+            <p>Add a vhost pointing to:</p>
+            <code>/path/to/repository/public</code>
+        </li>
+        <li>
+            <p>Install the dependencies from your console:</p>
+            <code>php composer.phar install</code>
+        </li>
+        <li>
+            <p>Generate the HTML:</p>
+            <code>./bin/console generate:html /path/to/service.json public</code>
+        </li>
+    </ol>
+    <p>That’s it! To make API calls from within Service Docs you’ll also need to create and populate a config file. You can learn more about that in the <a href="https://github.com/adeslade/interactive-service-description#add-configuration">READ ME</a>.</p>
+</div>
+
+<div class="demo section">
+    <h2 class="section-title">Check out the demo</h2>
+    <p>You can try out Service Docs in all its glory. The HTML in the demo has been generated from the service description in <a href="https://gist.github.com/adeslade/6854008">this gist</a>.</p>
+    <p class="section-cta">View the <a href="http://demo.adeslade.co.uk">demo</a>.</p>
+</div>
+

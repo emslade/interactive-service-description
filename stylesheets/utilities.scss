@@ -1,0 +1,75 @@
+@function em($px, $base: $baseFontSize) {
+    @return ($px / $base) * 1em;
+}
+
+@mixin transform($value, $prefix: true) {
+    @if $prefix {
+        @each $prefix in webkit, moz, ms, o {
+            -#{$prefix}-transform: $value;
+        }
+    }
+    transform: $value;
+}
+
+@mixin transition($value, $prefix: true) {
+    @if $prefix {
+        @each $prefix in webkit, moz, o {
+            -#{$prefix}-transition: $value;
+        }
+    }
+    transform: $value;
+}
+
+@mixin boxSizing($value, $prefix: true) {
+    @if $prefix {
+        @each $prefix in webkit, moz {
+            -#{$prefix}-box-sizing: $value;
+        }
+    }
+    box-sizing: $value;
+}
+
+@mixin retinaBgImage($x1src, $x2src, $x2size) {
+    background: url($imageDir + $x1src);
+    @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+        background: url($imageDir + $x2src);
+        background-size: $x2size;
+    }
+}
+
+@mixin imageSection($position) {
+    position: relative;
+    &::after {
+        content: "";
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: block;
+        width: 284px;
+        height: 284px;
+        position: absolute;
+        top: 2.5em;
+        left: 50%;
+        @include transform(translate(-50%, 0));
+    }
+    @media only screen and (min-width: 670px) {
+        padding-#{$position}: 284px;
+        &::after {
+            background-position: center $position;
+            top: 50%;
+            @if $position == 'left' {
+                left: 0;
+            } @elseif $position == 'right' {
+                left: auto;
+                right: 0;
+            }
+            @include transform(translate(0, -50%));
+        }
+    }
+    .section-title {
+        padding-bottom: 260px;
+        @media only screen and (min-width: 670px) {
+            padding-bottom: 0;
+        }
+    }
+}
+
