@@ -18,6 +18,16 @@ $containerOuterPadding: 20px;
 
 @import "utilities.scss";
 
+::-moz-selection {
+    background: $green;
+    color: $white;
+}
+
+::selection {
+    background: $green;
+    color: $white;
+}
+
 body {
     font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
     font-weight: 300;
@@ -58,6 +68,16 @@ code {
     font-size: 0.8em;
     line-height: 1;
     font-family: Monaco, Consolas, "Lucida Console", monospace;
+}
+
+code::-moz-selection {
+    background: $black;
+    color: $lightestGrey;
+}
+
+code::selection {
+    background: $black;
+    color: $lightestGrey;
 }
 
 .container {
