@@ -17,7 +17,7 @@
             -#{$prefix}-transition: $value;
         }
     }
-    transform: $value;
+    transition: $value;
 }
 
 @mixin boxSizing($value, $prefix: true) {
