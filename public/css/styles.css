@@ -27,6 +27,14 @@ select {
     box-shadow: none;
     padding: 0.45em 2.85em;
     border-radius: 2px;
+    -webkit-transition: background 0.2s ease;
+    -moz-transition: background 0.2s ease;
+    -o-transition: background 0.2s ease;
+    transition: background 0.2s ease;
+}
+
+.primary-button:active {
+    background: #009f70;
 }
 
 /** TYPOGRAPHY **/
