@@ -35,6 +35,7 @@ class GenerateHtmlCommand extends Command
         $twig = new \Twig_Environment($loader);
 
         $outputPath = $input->getArgument('outputPath');
+        $outputPath = realpath($outputPath);
 
         $generator = new \BaseKit\Generator($twig);
         $files = $generator->generate($path, $outputPath);

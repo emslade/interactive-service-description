@@ -77,6 +77,11 @@ class Generator
 
         $context = array();
 
+        $dataDirectory = $outputPath . '/data';
+        if (!is_dir($dataDirectory)) {
+            mkdir($dataDirectory);
+        }
+
         file_put_contents($outputPath . '/data/commands.json', json_encode($typeahead));
 
         $index = $this->twig->render('commands.twig', $context);
