@@ -1,0 +1,7 @@
+@mixin transition($value...) {
+    @each $prefix in webkit, moz, o {
+        -#{$prefix}-transition: $value;
+    }
+    transition: $value;
+}
+
