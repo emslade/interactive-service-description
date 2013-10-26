@@ -21,3 +21,13 @@ Add configuration
         'serviceDescriptionPath' => '/path/to/service/description.json',
         'defaultRole' => 'role',
     );
+
+Contributing
+------------
+
+Service Docs uses [Sass](http://sass-lang.com), specifically the SCSS (Sassy CSS) syntax. If you wish to write CSS you’ll 
+first need to [install Sass](http://sass-lang.com/install).
+
+With Sass installed, run `sass --cache-location cache/ --style compressed --watch public/stylesheets/application.scss:public/css/application.css` 
+to have Sass watch the application file and update the CSS whenever it changes.
+
