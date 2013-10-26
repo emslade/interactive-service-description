@@ -6,9 +6,11 @@
 @import "vendor/normalize/normalize.scss";
 @import "vendor/prism/prism.scss";
 
+@import "base/fonts.scss";
 @import "base/typography.scss";
-@import "base/color.scss";
+@import "base/layout.scss";
 @import "base/forms.scss";
+@import "base/color.scss";
 
 @import "modules/sidebar.scss";
 

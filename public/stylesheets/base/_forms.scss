@@ -1,4 +1,15 @@
+$input-transition-duration: 0.25s;
+$input-transition-timing-function: ease-out;
+
 input {
-    border-width: $input-border-width;
-    border-color: $input-border-color;
+    border-width: 2px;
+    border-style: solid;
+    @include transition(
+        color $input-transition-duration $input-transition-timing-function,
+        border-color $input-transition-duration $input-transition-timing-function
+    );
+    &:focus {
+        outline: none;
+    }
 }
+

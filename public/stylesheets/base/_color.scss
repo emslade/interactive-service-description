@@ -1,4 +1,29 @@
 html {
     color: $base-text-color;
+    background: $white;
+}
+
+a {
+    color: $green;
+}
+
+input {
+    color: $base-text-color;
+    border-color: $light-grey;
+    &:focus {
+        color: $black;
+        border-color: $mid-grey;
+    }
+}
+
+input[type=submit],
+input[type=reset],
+input[type=button],
+input[type=file],
+button {
+    color: $base-text-color;
+    &:focus {
+        color: $base-text-color;
+    }
 }
 
