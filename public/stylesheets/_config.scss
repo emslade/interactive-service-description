@@ -11,6 +11,7 @@ $heading-font-weight: 400;
 
 // Layout
 
+$base-max-content-width: 1000px; // Constrain the page width to this size where appropriate.
 
 
 // Color
@@ -27,5 +28,5 @@ $blue: #0093D0;
 $red: #EA000E;
 
 $base-text-color: $dark-grey;
-$base-background-color: $white;
+$base-background-color: $lightest-grey;
 

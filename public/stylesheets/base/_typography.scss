@@ -1,5 +1,8 @@
 html {
     text-rendering: optimizeLegibility;
+    @media only screen and (min-width: em(525px, 16px)) {
+        font-size: $base-font-size;
+    }
 }
 
 h1,
@@ -9,5 +12,15 @@ h4,
 h5,
 h6 {
     font-weight: $heading-font-weight;
+}
+
+input {
+    font-weight: 300;
+}
+
+@each $placeholder-vendor in (webkit, moz, ms) {
+    ::-#{$placeholder-vendor}-input-placeholder {
+        font-weight: 300;
+    }
 }
 

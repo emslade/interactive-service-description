@@ -4,12 +4,22 @@ $input-transition-timing-function: ease-out;
 input {
     border-width: 2px;
     border-style: solid;
+    box-shadow: none;
+    border-radius: 0;
+    padding: em(6px) em(8px);
+    @include box-sizing(border-box);
     @include transition(
         color $input-transition-duration $input-transition-timing-function,
         border-color $input-transition-duration $input-transition-timing-function
     );
     &:focus {
         outline: none;
+    }
+}
+
+@each $placeholder-vendor in (webkit, moz, ms) {
+    ::-#{$placeholder-vendor}-input-placeholder {
+        color: $light-grey;
     }
 }
 

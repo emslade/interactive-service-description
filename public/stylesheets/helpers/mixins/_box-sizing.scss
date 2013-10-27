@@ -1,0 +1,14 @@
+@mixin box-sizing($value, $prefix-webkit: false) {
+    $vendors: (moz);
+    $value: unquote($value);
+
+    @if $prefix-webkit {
+        $vendors: append($vendors, webkit);
+    }
+
+    @each $vendor in $vendors {
+        -#{$vendor}-box-sizing: $value;
+    }
+    box-sizing: $value;
+}
+

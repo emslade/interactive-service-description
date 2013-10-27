@@ -1,0 +1,36 @@
+%button-template {
+    font-size: 1em;
+    font-weight: 300;
+    text-decoration: none;
+    border: none;
+    box-shadow: none;
+    padding: em(7.2px) em(45px);
+    border-radius: 2px;
+    @include transition(background 0.25s ease-out);
+    &:active,
+    &:focus {
+        outline: none;
+    }
+}
+
+.button {
+    @extend %button-template;
+    color: $white;
+    background: $light-grey;
+    &:active,
+    &:focus {
+        background: darken($light-grey, 8%);
+    }
+}
+
+.primary-button {
+    @extend %button-template;
+    color: $white;
+    background: $green;
+    &:active,
+    &:focus {
+        background: darken($green, 8%);
+    }
+}
+
+

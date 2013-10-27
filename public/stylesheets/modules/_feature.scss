@@ -1,0 +1,62 @@
+$feature-transition-duration: 0.45s;
+$feature-transition-timing-function: ease;
+
+%feature-fade-transition {
+    @include transition(
+        opacity
+        $feature-transition-duration
+        $feature-transition-timing-function
+    );
+    .feature-active & {
+        opacity: 0;
+    }
+}
+
+.feature {
+    text-align: center;
+    color: $mid-grey;
+    padding-bottom: em(64px);
+    @include transform(translateY(em(120px)));
+
+    // Welcome to vendor prefix crazy town.
+    @include transition(
+        all
+        $feature-transition-duration
+        $feature-transition-timing-function
+    );
+    @each $transform-vendor in (webkit, moz, ms, o) {
+        -#{$transform-vendor}-transition-property: #{$transform-vendor}-transform;
+    }
+    @include transition-property(transform);
+
+    &.feature-active {
+        @include transform(translateY(0));
+    }
+}
+
+.feature-title {
+    font-size: em(36px);
+    font-weight: 300;
+    text-align: center;
+    margin-top: 0;
+    @extend %feature-fade-transition;
+}
+
+.feature-or {
+    font-size: em(24px);
+    font-weight: 300;
+    font-style: italic;
+    @extend %feature-fade-transition;
+}
+
+.feature-button {
+    font-size: em(24px);
+    display: inline-block;
+    @extend %feature-fade-transition;
+}
+
+.feature-search-tip {
+    font-size: em(20px);
+    font-weight: 300;
+}
+

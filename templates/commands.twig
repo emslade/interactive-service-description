@@ -3,12 +3,10 @@
 {% block title %}Search endpoints{% endblock %}
 
 {% block content %}
-<div class="container feature-container">
+<div class="container feature">
     <h1 class="feature-title">Search endpoints</h1>
     <input type="text" class="typeahead tt-query" placeholder="e.g. GET users">
-    <div class="search-tips" hidden>
-        <p class="search-tip">Start typing the route you’re looking for.</p>
-    </div>
+    <p class="feature-search-tip" hidden>Start typing the route you’re looking for.</p>
     <p class="feature-or">or</p>
     <a href="/directory/" class="primary-button feature-button">Browse the directory</a>
 </div>
@@ -27,12 +25,12 @@ $(function() {
     localStorage.clear();
 
     $('.typeahead').one('focus', function () {
-        var feature = $('.feature-container');
+        var feature = $('.feature');
         $(feature).addClass('feature-active');
 
         setTimeout(function() {
             $(feature).find('.feature-or, .feature-button').attr('hidden', true);
-            $(feature).find('.search-tips').attr('hidden', false);
+            $(feature).find('.feature-search-tip').attr('hidden', false);
         }, 500);
     });
 

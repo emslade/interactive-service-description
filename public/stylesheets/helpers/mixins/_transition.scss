@@ -1,7 +1,16 @@
+$transition-vendors: (webkit, moz, o);
+
 @mixin transition($value...) {
-    @each $prefix in webkit, moz, o {
-        -#{$prefix}-transition: $value;
+    @each $vendor in $transition-vendors {
+        -#{$vendor}-transition: $value;
     }
     transition: $value;
+}
+
+@mixin transition-property($value...) {
+    @each $vendor in $transition-vendors {
+        -#{$vendor}-transition-property: $value;
+    }
+    transition-property: $value;
 }
 

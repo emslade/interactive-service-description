@@ -1,0 +1,30 @@
+$navigation-item-font-size: 14px;
+
+.navigation {
+    padding: 0;
+    background: $white;
+}
+
+.navigation-list {
+    max-width: em($base-max-content-width);
+    margin: 0 auto;
+    padding: 0;
+    @include box-sizing(border-box);
+}
+
+.navigation-item {
+    display: inline-block;
+    font-size: em($navigation-item-font-size);
+}
+
+.navigation-item a {
+    display: block;
+    padding: em(11px, $navigation-item-font-size) em(20px, $navigation-item-font-size) em(12px, $navigation-item-font-size);
+    color: lighten($mid-grey, 10%);
+    text-decoration: none;
+    @include transition(color 0.25s ease-out);
+    &:active {
+        color: $mid-grey;
+    }
+}
+
