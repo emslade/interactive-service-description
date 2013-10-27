@@ -1,8 +1,8 @@
 @mixin font-face(
     $name,
     $file-name,
-    $style: 'normal',
-    $weight: 'normal'
+    $style: normal,
+    $weight: normal
 ) {
     $file: $font-path + $file-name;
 
@@ -13,8 +13,8 @@
             url('#{$file}.woff') format('woff'),
             url('#{$file}.ttf') format('truetype'),
             url('#{$file}.svg##{$name}') format('svg');
-        font-style: $style;
-        font-weight: $weight;
+        font-style: unquote($style);
+        font-weight: unquote($weight);
     }
 }
 

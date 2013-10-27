@@ -1,7 +1,7 @@
 @include font-face('Lato', 'lato-reg-webfont');
-@include font-face('Lato', 'lato-lig-webfont', 'normal', 300);
-@include font-face('Lato', 'lato-ligita-webfont', 'italic', 300);
-@include font-face('Lato', 'lato-bol-webfont', 'normal', 700);
+@include font-face('Lato', 'lato-lig-webfont', normal, 300);
+@include font-face('Lato', 'lato-ligita-webfont', italic, 300);
+@include font-face('Lato', 'lato-bol-webfont', normal, 700);
 
 html {
     font-family: $base-font-stack;
