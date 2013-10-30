@@ -1,0 +1,44 @@
+@mixin endpoint-method-colors() {
+    $methods: ('GET', 'PUT', 'POST', 'DELETE');
+    $colors: ($blue, $yellow, $green, $red);
+
+    @for $i from 1 through length($methods) {
+        &.endpoint-#{nth($methods, $i)}::before {
+            background: nth($colors, $i);
+        }
+    }
+}
+
+.endpoint-list-title {
+    word-break: break-word;
+    &::before {
+        content: "";
+        display: inline-block;
+        width: em(8px, 24px);
+        height: em(8px, 24px);
+        margin-right: em(8px, 24px);
+        margin-bottom: em(3px, 24px);
+        border-radius: em(32px);
+    }
+    @include endpoint-method-colors();
+}
+
+.endpoint-list-method {
+    font-size: em(22px, 24px);
+}
+
+.endpoint-list-method,
+.endpoint-list-uri .uri-param {
+    color: $mid-grey;
+}
+
+.endpoint-list-uri {
+    color: $black;
+}
+
+.endpoint-list-summary {
+    font-weight: 300;
+    line-height: 1.35;
+    color: $mid-grey;
+}
+

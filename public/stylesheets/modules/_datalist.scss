@@ -1,0 +1,41 @@
+.datalist {
+    background: $white;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.5em;
+}
+
+.datalist-item,
+.datalist-item-link {
+    :first-child {
+        margin-top: 0;
+    }
+    :only-child {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.datalist-item {
+    border-bottom: 1px solid darken($lightest-grey, 5%);
+    position: relative;
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.datalist-item-link {
+    display: block;
+    padding: em(20px);
+    text-decoration: none;
+    color: inherit;
+}
+
+.datalist-item-title {
+    font-size: em(24px);
+    margin: 0 0 0.5em;
+}
+

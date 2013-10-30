@@ -47,5 +47,18 @@ $typeahead-font-size: 24px;
 
 .tt-dropdown-menu {
     display: block !important;
+    width: 100%;
+    margin-top: em(20px);
+    text-align: left;
+    @extend .datalist;
+}
+
+.tt-suggestion {
+    @extend .datalist-item;
+    @extend .datalist-item-link;
+}
+
+.tt-suggestion-endpoint {
+    @extend .datalist-item-title;
 }
 
