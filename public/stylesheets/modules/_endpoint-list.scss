@@ -24,7 +24,7 @@
 }
 
 .endpoint-list-method {
-    font-size: em(22px, 24px);
+    font-size: em(21px, 24px);
 }
 
 .endpoint-list-method,
@@ -40,5 +40,6 @@
     font-weight: 300;
     line-height: 1.35;
     color: $mid-grey;
+    margin-top: 0;
 }
 
