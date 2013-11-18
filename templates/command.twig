@@ -3,71 +3,130 @@
 {% block title %}{{ method }} {{ uri }}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="command-title-container">
-        <div class="page-header">
-            <h1 class="page-header-title endpoint-title"><span class="endpoint-method">{{ method }}</span> {{ formattedUri|raw }}</h1>
-            <ul class="related-methods">
-                {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
-                    <li class="related-method">
-                    {% set item = related[httpMethod] %}
-                    {% if item %}
-                        <a class="related-method-{{ httpMethod }} method{% if httpMethod == method %} active{% endif %}" href="{{ item.link }}">{{ item.method }}</a>
-                    {% else %}
-                        <span class="unimplemented-method method">{{ httpMethod }}</a>
-                    {% endif %}
-                    </li>
+<div class="full-width-container">
+    <div class="page-header">
+        <h1 class="endpoint-title page-header-title"><span class="endpoint-title-method">{{ method }}</span> {{ formattedUri|raw }}</h1>
+    </div>
+
+    <div class="sidebar">
+        <ul class="endpoint-method-list">
+            {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
+                <li class="endpoint-method">
+                {% set item = related[httpMethod] %}
+                {% if item %}
+                    <a class="endpoint-method-{{ httpMethod }} endpoint-method-ctrl{% if httpMethod == method %} active{% endif %}" href="{{ item.link }}">{{ item.method }}</a>
+                {% else %}
+                    <button class="unimplemented-method endpoint-method-ctrl" type="button" aria-label="Unimplemented" disabled>{{ httpMethod }}</button>
+                {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <p class="endpoint-summary">{{ summary }}</p>
+
+        <dl class="endpoint-command-name sidebar-property">
+            <dt class="sidebar-property-key">Command</dt>
+            <dd class="sidebar-property-value">{{ command }}</dd>
+        </dl>
+
+        {% if directory %}
+            <dl class="endpoint-directory sidebar-property">
+                <dt class="sidebar-property-key">Directory</dt>
+                <dd class="sidebar-property-value"><a href="/directory/{{ directory }}.html" class="endpoint-directory-link">{{ directory|split("-")|join(" ")|capitalize }}</a></dd>
+            </dl>
+        {% endif %}
+
+        {% if roles|length %}
+            <dl class="endpoint-roles sidebar-property">
+                <dt class="sidebar-property-key">Roles</dt>
+                {% for name, allowed in roles %}
+                    <dd class="endpoint-role-{{ allowed ? 'allowed' : 'not-allowed' }} sidebar-property-value">
+                        {{ name }}
+                        <span> {{ allowed ? 'allowed' : 'not authorized' }}</span>
+                    </dd>
                 {% endfor %}
-            </ul>
+            </dl>
+        {% endif %}
+    </div>
+
+    <div class="endpoint-body page-body">
+        <ol class="tab-list" role="tablist">
+            <li role="presentation" class="current">
+                <a id="parameters-tab" aria-selected="true" tabindex="0" role="tab">Parameters</a>
+            </li>
+            <li role="presentation">
+                <a id="request-response-tab" aria-selected="false" tabindex="-1" role="tab">Request & Response</a>
+            </li>
+        </ol>
+
+        <div aria-labelledby="parameters-tab" aria-hidden="false" class="tab-content" role="tabpanel">
+            <form class="parameters-form">
+                {% for group in groupedParams %}
+                    {% if group.params|length %}
+                        <h3 class="parameters-group-name">{{ group.location }} params</h3>
+                        <ul class="parameters-group-list">
+                            {% for key, param in group.params %}
+                                <li class="parameter">
+                                    <label for="{{ key }}-param" class="parameter-name">{{ key }}</label>
+                                    {% if param.enum %}
+                                        <select name="{{ key }}" id="{{ key }}-param" class="parameter-input">
+                                            <option></option>
+                                            {% for value in param.enum %}
+                                                <option>{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% else %}
+                                        <div class="parameter-input clearable-input-container">
+                                            <input name="{{ key }}" id="{{ key }}-param" class="clearable-input" type="text">
+                                            <button aria-controls="{{ key }}-param" class="clearable-input-control" type="button">
+                                                <span>Clear</span>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                    <p class="parameter-description">{{ param.description }}</p>
+                                    <p class="parameter-required">{{ param.required ? 'Required' : 'Optional' }}</p>
+                                    <p class="parameter-type">{{ param.type }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+
+                <button class="parameters-submit response-button primary-button" type="submit">
+                    <span class="text">Try it!</span>
+                </button>
+            </form>
+        </div>
+
+        <div aria-labelledby="request-response-tab" aria-hidden="true" class="tab-content" role="tabpanel" hidden>
+            <p class="request-response-placeholder">You need to submit a request before you see the result.</p>
+
+            <div class="request-container">
+                <h3>Request headers</h3>
+                <pre class="request-headers">
+                    <code class="language-http"></code>
+                </pre>
+                <h3>Request body</h3>
+                <pre class="request-body">
+                    <code class="language-javascript"></code>
+                </pre>
+            </div>
+
+            <div class="response-container">
+                <h3>Response headers</h3>
+                <pre class="response-headers">
+                    <code class="language-http"></code>
+                </pre>
+                <h3>Response body</h3>
+                <pre class="response-body">
+                    <code class="language-javascript"></code>
+                </pre>
+            </div>
         </div>
     </div>
 
-    <div class="command-container">
-        <p class="command-summary">{{ summary }}</p>
 
-        {% if params|length > 0 %}
-        <h3>Parameters</h3>
-        {% endif %}
-        <form>
-            <table class="params">
-            {% for key, param in params %}
-            <tr>
-                <td class="param-key">
-                    <div>{{ key }}</div>
-                    <div class="muted">{{ param.required ? 'required' : 'optional' }}</div>
-                </td>
-                <td class="param-desc">
-                    <div>{{ param.description }}</div>
-                    <div class="muted">{{ param.type }}</div>
-                </td>
-                <td class="param-input">
-                    {% if param.enum %}
-                    <select name="{{ key }}" class="param">
-                        <option></option>
-                        {% for value in param.enum %}
-                        <option>{{ value }}</option>
-                        {% endfor %}
-                    </select>
-                    {% else %}
-                    <input name="{{ key }}" type="text" class="param">
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-            </table>
-            <div class="button-container">
-                <button class="primary-button try-it">Try it!</button>
-            </div>
-        </form>
 
-        <h3 class="request-title" hidden>Request</h3>
-        <pre class="requestHeaders" hidden><code class="language-http"></code></pre>
-        <pre class="request" hidden><code class="language-javascript"></code></pre>
-        <h3 class="response-title" hidden>Response</h3>
-        <pre class="responseHeaders" hidden><code class="language-http"></code></pre>
-        <pre class="response" hidden><code class="language-javascript"></code></pre>
-    </div>
-</div>
 
 <script type="text/javascript">
 $(function() {
