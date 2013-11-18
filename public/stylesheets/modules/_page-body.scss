@@ -1,0 +1,6 @@
+.page-body {
+    background: $white;
+    padding: em(20px);
+    @include box-sizing(border-box);
+}
+

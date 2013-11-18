@@ -1,3 +1,10 @@
+.unstyled-button {
+    background: none;
+    border: none;
+    box-sizing: inherit;
+    padding: 0;
+}
+
 %button-template {
     font-size: 1em;
     font-weight: 300;
