@@ -1,0 +1,14 @@
+.endpoint-title {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    color: $black;
+    .uri-param {
+        color: $mid-grey;
+    }
+}
+
+.endpoint-title-method {
+    color: $mid-grey;
+    font-weight: 300;
+}
+

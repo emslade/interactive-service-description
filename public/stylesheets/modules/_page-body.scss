@@ -1,6 +1,10 @@
 .page-body {
     background: $white;
     padding: em(20px);
+    margin: 0 em(20px);
     @include box-sizing(border-box);
+    @media only screen and (min-width: em(1000px, 16px)) {
+        margin: 0;
+    }
 }
 

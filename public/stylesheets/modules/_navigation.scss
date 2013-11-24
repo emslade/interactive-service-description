@@ -6,10 +6,12 @@ $navigation-item-font-size: 14px;
 }
 
 .navigation-list {
-    max-width: em($base-max-content-width);
     margin: 0 auto;
     padding: 0;
     @include box-sizing(border-box);
+    @media only screen and (min-width: em(1000px, 16px)) {
+        margin: 0 em(60px);
+    }
 }
 
 .navigation-item {

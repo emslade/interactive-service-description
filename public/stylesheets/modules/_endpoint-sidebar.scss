@@ -1,5 +1,3 @@
-@import "endpoint-sidebar/endpoint-method-list";
-
 .endpoint-summary {
     font-size: em(20px);
     font-weight: 300;
@@ -26,4 +24,6 @@
         ) no-repeat center right;
     }
 }
+
+@import "endpoint-sidebar/endpoint-method-list";
 

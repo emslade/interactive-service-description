@@ -68,6 +68,11 @@
                             {% for key, param in group.params %}
                                 <li class="parameter">
                                     <label for="{{ key }}-param" class="parameter-name">{{ key }}</label>
+
+                                    {% if param.description %}
+                                        <p id="{{ key }}-description" class="parameter-description">{{ param.description }}</p>
+                                    {% endif %}
+
                                     {% if param.enum %}
                                         <select name="{{ key }}" id="{{ key }}-param" class="parameter-input">
                                             <option></option>
@@ -83,9 +88,10 @@
                                             </button>
                                         </div>
                                     {% endif %}
-                                    <p class="parameter-description">{{ param.description }}</p>
-                                    <p class="parameter-required">{{ param.required ? 'Required' : 'Optional' }}</p>
-                                    <p class="parameter-type">{{ param.type }}</p>
+                                    <div class="parameter-meta">
+                                        <p class="parameter-required">{{ param.required ? 'Required' : 'Optional' }}</p>
+                                        <p class="parameter-type">{{ param.type }}</p>
+                                    </div>
                                 </li>
                             {% endfor %}
                         </ul>

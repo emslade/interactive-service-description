@@ -10,9 +10,11 @@ a {
 input {
     color: $base-text-color;
     border-color: $light-grey;
+    background: $white;
     &:focus {
         color: $black;
         border-color: $mid-grey;
+        background: lighten($white, 0.25%);
     }
 }
 
