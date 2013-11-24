@@ -22,12 +22,16 @@
             {% endfor %}
         </ul>
 
-        <p class="endpoint-summary">{{ summary }}</p>
+        {% if summary %}
+            <p class="endpoint-summary">{{ summary }}</p>
+        {% endif %}
 
-        <dl class="endpoint-command-name sidebar-property">
-            <dt class="sidebar-property-key">Command</dt>
-            <dd class="sidebar-property-value">{{ command }}</dd>
-        </dl>
+        {% if command %}
+            <dl class="endpoint-command-name sidebar-property">
+                <dt class="sidebar-property-key">Command</dt>
+                <dd class="sidebar-property-value">{{ command }}</dd>
+            </dl>
+        {% endif %}
 
         {% if directory %}
             <dl class="endpoint-directory sidebar-property">
@@ -59,7 +63,7 @@
             </li>
         </ol>
 
-        <div aria-labelledby="parameters-tab" aria-hidden="false" class="tab-content" role="tabpanel">
+        <div aria-labelledby="parameters-tab-ctrl" aria-hidden="false" class="parameters-tab tab-content" role="tabpanel">
             <form class="parameters-form">
                 {% for group in groupedParams %}
                     {% if group.params|length %}
@@ -74,7 +78,7 @@
                                     {% endif %}
 
                                     {% if param.enum %}
-                                        <select name="{{ key }}" id="{{ key }}-param" class="parameter-input">
+                                        <select name="{{ key }}" id="{{ key }}-param" class="parameter-input js-param"{% if param.description %} aria-describedby="{{ key }}-description"{% endif %}>
                                             <option></option>
                                             {% for value in param.enum %}
                                                 <option>{{ value }}</option>
@@ -82,8 +86,13 @@
                                         </select>
                                     {% else %}
                                         <div class="parameter-input clearable-input-container">
-                                            <input name="{{ key }}" id="{{ key }}-param" class="clearable-input" type="text">
-                                            <button aria-controls="{{ key }}-param" class="clearable-input-control" type="button">
+                                            <input 
+                                                name="{{ key }}" id="{{ key }}-param"
+                                                class="clearable-input js-param"
+                                                type="{{ param.type == 'integer' ? 'number' : 'text' }}"
+                                                {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
+                                            >
+                                            <button aria-controls="{{ key }}-param" class="clearable-input-control" type="button" hidden>
                                                 <span>Clear</span>
                                             </button>
                                         </div>
@@ -104,7 +113,7 @@
             </form>
         </div>
 
-        <div aria-labelledby="request-response-tab" aria-hidden="true" class="tab-content" role="tabpanel" hidden>
+        <div aria-labelledby="request-response-tab-ctrl" aria-hidden="true" class="request-response-tab tab-content" role="tabpanel" hidden>
             <p class="request-response-placeholder">You need to submit a request before you see the result.</p>
 
             <div class="request-container">
