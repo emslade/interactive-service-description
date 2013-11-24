@@ -1,6 +1,7 @@
 .tab-list {
     list-style: none;
     padding: 0 0 0.85em;
+    margin-top: 0;
     margin-bottom: 2.5em;
     border-bottom: 1px solid $light-grey;
     @media only screen and (min-width: em(430px, 16px)) {

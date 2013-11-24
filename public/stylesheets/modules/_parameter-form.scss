@@ -6,6 +6,10 @@ $two-column-right-padding-left: em(20px);
     padding-right: em(20px);
     margin: 0;
     width: 20%;
+    @include box-sizing(border-box);
+    @media only screen and (min-width: em(1360px, 16px)) {
+        width: 23%;
+    }
 }
 
 @mixin parameter-column-two() {
@@ -13,6 +17,7 @@ $two-column-right-padding-left: em(20px);
     padding-right: em(20px);
     margin: 0;
     width: 50%;
+    @include box-sizing(border-box);
 }
 
 .parameters-group-name {
@@ -42,6 +47,8 @@ $two-column-right-padding-left: em(20px);
 
 .parameter-name {
     font-size: 1.15em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     display: block;
     margin-bottom: 0.5em;
     @media only screen and (min-width: em(660px, 16px)) {
