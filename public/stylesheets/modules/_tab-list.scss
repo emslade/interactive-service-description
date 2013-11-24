@@ -1,0 +1,33 @@
+.tab-list {
+    list-style: none;
+    padding: 0 0 0.85em;
+    margin-bottom: 2.5em;
+    border-bottom: 1px solid $light-grey;
+    @media only screen and (min-width: em(430px, 16px)) {
+        font-size: em(24px);
+        margin-bottom: em(45px, 24px);
+    }
+}
+
+.tab-item {
+    display: inline-block;
+    margin-right: 1em;
+    @media only screen and (min-width: em(430px, 16px)) {
+        margin-right: em(75px, 45px);
+    }
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.tab-control {
+    color: $mid-grey;
+    cursor: pointer;
+    padding: 0.85em 0;
+    @include transition(all 0.2s ease);
+    .current & {
+        color: $dark-grey;
+        border-bottom: 1px solid $dark-grey;
+    }
+}
+
