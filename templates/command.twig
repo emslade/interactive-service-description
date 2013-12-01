@@ -203,6 +203,26 @@ $(function() {
             Prism.highlightAll();
         });
     });
+
+    $('.tab-control').on('click', function (evt) {
+        var tab = $('.tab-content[aria-labelledby=' + $(this).attr('id') + ']');
+
+        evt.preventDefault();
+
+        switchToTab(tab);
+    });
+
+    function switchToTab (newTab) {
+        var tabCtrl = $('#' + newTab.attr('aria-labelledby'));
+
+        $('.tab-control').attr({'aria-selected': false, 'tabindex': '-1'}).parent('.tab-item').removeClass('current');
+        tabCtrl.attr({'aria-selected': true, 'tabindex': '0'}).parent('.tab-item').addClass('current');
+
+        $('.tab-content').attr('aria-hidden', true).attr('hidden', true);
+        newTab.attr('aria-hidden', false).attr('hidden', false);
+
+        tabCtrl.focus();
+    }
 });
 </script>
 {% endblock %}
