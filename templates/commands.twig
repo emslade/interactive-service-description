@@ -16,7 +16,9 @@
         <h2 class="tt-suggestion-endpoint endpoint-<%= method %> endpoint-list-title">
             <span class="endpoint-list-method"><%= method %></span> <span class="endpoint-list-uri"><%= formattedUri %></span>
         </h2>
-        <p class="tt-suggestion-summary endpoint-list-summary"><%= summary %></p>
+        <% if (summary) { %>
+            <p class="tt-suggestion-summary endpoint-list-summary"><%= summary %></p>
+        <% } %>
     </div>
 </script>
 

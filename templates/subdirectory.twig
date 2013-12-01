@@ -15,7 +15,9 @@
                     <h2 class="endpoint-{{ method.httpMethod }} endpoint-list-title datalist-item-title">
                         <span class="endpoint-list-method">{{ method.httpMethod }}</span> <span class="endpoint-list-uri">{{ method.uri|formatUri|raw }}</span>
                     </h2>
-                    <p class="endpoint-list-summary">{{ method.summary }}</p>
+                    {% if method.summary %}
+                        <p class="endpoint-list-summary">{{ method.summary }}</p>
+                    {% endif %}
                 </a>
             </li>
             {% endfor %}
