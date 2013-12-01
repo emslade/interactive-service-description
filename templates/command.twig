@@ -9,7 +9,7 @@
     </div>
 
     <div class="sidebar">
-        <ul class="endpoint-method-list">
+        <ul class="endpoint-method-list" aria-label="Other methods">
             {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
                 <li class="endpoint-method">
                 {% set item = related[httpMethod] %}
@@ -78,7 +78,12 @@
                                     {% endif %}
 
                                     {% if param.enum %}
-                                        <select name="{{ key }}" id="{{ key }}-param" class="parameter-input js-param"{% if param.description %} aria-describedby="{{ key }}-description"{% endif %}>
+                                        <select
+                                            name="{{ key }}" id="{{ key }}-param"
+                                            class="parameter-input js-param"
+                                            {% if param.required %}required{% endif %}
+                                            {% if param.description %} aria-describedby="{{ key }}-description"{% endif %}
+                                        >
                                             <option></option>
                                             {% for value in param.enum %}
                                                 <option>{{ value }}</option>
@@ -90,9 +95,11 @@
                                                 name="{{ key }}" id="{{ key }}-param"
                                                 class="clearable-input js-param"
                                                 type="{{ param.type == 'integer' ? 'number' : 'text' }}"
+                                                {% if param.required %}required{% endif %}
                                                 {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
+                                                {% if param.type == 'integer' %}autocomplete="off"{% endif %}
                                             >
-                                            <button aria-controls="{{ key }}-param" class="clearable-input-control" type="button" hidden>
+                                            <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden>
                                                 <span>Clear</span>
                                             </button>
                                         </div>
