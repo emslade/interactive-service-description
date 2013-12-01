@@ -155,6 +155,20 @@ $(function() {
     localStorage.clear();
 
     $('.param').first().focus();
+    $('form').on('keyup', '.clearable-input', function () {
+        var value = $(this).val(),
+            control = $(this).next('.clearable-input-control');
+
+        if (value.length > 0) {
+            control.attr('hidden', false);
+            return;
+        }
+        control.attr('hidden', true);
+    });
+
+    $('form').on('click', '.clearable-input-control', function () {
+        $(this).attr('hidden', true).prev('.clearable-input').val('');
+    });
 
     $('.parameters-submit').click(function (e) {
         e.preventDefault();
