@@ -114,9 +114,11 @@
                     {% endif %}
                 {% endfor %}
 
-                <button class="parameters-submit response-button primary-button" type="submit">
-                    <span class="text">Try it!</span>
-                </button>
+                <div class="parameters-submit-container">
+                    <button class="parameters-submit response-button primary-button" type="submit">
+                        <span class="text">Try it!</span>
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -155,6 +157,15 @@ $(function() {
     localStorage.clear();
 
     $('.param').first().focus();
+    var pageBody = $('.page-body'),
+        pageBodyBottom = pageBody.offset().top + pageBody.outerHeight(true),
+        submitContainer = pageBody.find('.parameters-submit-container');
+
+    if (pageBodyBottom > window.innerHeight) {
+        pageBody.addClass('fixed-parent');
+        submitContainer.addClass('fixed');
+    }
+
     $('form').on('keyup', '.clearable-input', function () {
         var value = $(this).val(),
             control = $(this).next('.clearable-input-control');

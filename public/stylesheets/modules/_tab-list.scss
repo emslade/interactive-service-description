@@ -12,10 +12,8 @@
 
 .tab-item {
     display: inline-block;
-    margin-right: 1em;
-    @media only screen and (min-width: em(430px, 16px)) {
-        margin-right: em(75px, 45px);
-    }
+    margin-right: em(20px);
+    margin-left: em(-20px);
     &:last-child {
         margin-right: 0;
     }
@@ -24,11 +22,24 @@
 .tab-control {
     color: $mid-grey;
     cursor: pointer;
-    padding: 0.85em 0;
-    @include transition(all 0.2s ease);
+    padding: 0.85em em(20px);
+    position: relative;
+    @include transition(color 0.2s ease);
+    &:before {
+        content: "";
+        background: $light-grey;
+        height: 1px;
+        position: absolute;
+        bottom: -1px;
+        left: em(20px);
+        right: em(20px);
+        @include transition(background 0.2s ease);
+    }
     .current & {
         color: $dark-grey;
-        border-bottom: 1px solid $dark-grey;
+        &:before {
+            background: $dark-grey;
+        }
     }
 }
 
