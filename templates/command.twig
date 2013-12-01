@@ -121,28 +121,28 @@
         </div>
 
         <div aria-labelledby="request-response-tab-ctrl" aria-hidden="true" class="request-response-tab tab-content" role="tabpanel" hidden>
-            <p class="request-response-placeholder">You need to submit a request before you see the result.</p>
+            <p class="request-response-placeholder">You need to submit a request before you can see the result.</p>
 
             <div class="request-container">
-                <h3>Request headers</h3>
-                <pre class="request-headers">
-                    <code class="language-http"></code>
-                </pre>
-                <h3>Request body</h3>
-                <pre class="request-body">
-                    <code class="language-javascript"></code>
-                </pre>
+                <div class="request-headers-container" hidden>
+                    <h3 class="result-header">Request headers</h3>
+                    <pre class="request-headers"><code class="language-http"></code></pre>
+                </div>
+                <div class="request-body-container" hidden>
+                    <h3 class="result-header">Request body</h3>
+                    <pre class="request-body"><code class="language-javascript"></code></pre>
+                </div>
             </div>
 
             <div class="response-container">
-                <h3>Response headers</h3>
-                <pre class="response-headers">
-                    <code class="language-http"></code>
-                </pre>
-                <h3>Response body</h3>
-                <pre class="response-body">
-                    <code class="language-javascript"></code>
-                </pre>
+                <div class="response-headers-container" hidden>
+                    <h3 class="result-header">Response headers</h3>
+                    <pre class="response-headers"><code class="language-http"></code></pre>
+                </div>
+                <div class="response-body-container" hidden>
+                    <h3 class="result-header">Response body</h3>
+                    <pre class="response-body"><code class="language-javascript"></code></pre>
+                </div>
             </div>
         </div>
     </div>
@@ -156,7 +156,7 @@ $(function() {
 
     $('.param').first().focus();
 
-    $('.try-it').click(function (e) {
+    $('.parameters-submit').click(function (e) {
         e.preventDefault();
         var data = {
             method: '{{ method }}',
@@ -164,13 +164,11 @@ $(function() {
             params: {}
         };
 
-        $('.request-title').removeAttr('hidden');
-        $('.requestHeaders').removeAttr('hidden');
-        $('.response-title').removeAttr('hidden');
-        $('.responseHeaders').removeAttr('hidden');
-        $('.response').removeAttr('hidden');
+        switchToTab($('.request-response-tab'));
 
-        $('.param').each(function (key, input) {
+        $('.request-response-placeholder').attr('hidden', true);
+
+        $('.js-param').each(function (key, input) {
             if ($(input).val() !== '') {
                 data.params[$(input).attr('name')] = $(input).val();
             }
@@ -193,13 +191,12 @@ $(function() {
             data: JSON.stringify(data)
         })
         .done(function (response) {
-            $('.requestHeaders code').text(response.requestHeaders);
+            $('.request-headers-container').attr('hidden', false).find('code').text(response.requestHeaders);
             if (typeof response.request !== 'undefined' && response.request.length > 0) {
-                $('.request code').text(response.request);
-                $('.request').removeAttr('hidden');
+                $('.request-body-container').attr('hidden', false).find('code').text(response.request);
             }
-            $('.responseHeaders code').text(response.responseHeaders);
-            $('.response code').text(response.response);
+            $('.response-headers-container').attr('hidden', false).find('code').text(response.responseHeaders);
+            $('.response-body-container').attr('hidden', false).find('code').text(response.response);
             Prism.highlightAll();
         });
     });
