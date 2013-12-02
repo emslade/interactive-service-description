@@ -4,7 +4,6 @@
 @import "helpers/mixins.scss";
 
 @import "vendor/normalize/normalize.scss";
-@import "vendor/prism/prism.scss";
 
 @import "base/fonts.scss";
 @import "base/typography.scss";
@@ -13,6 +12,7 @@
 @import "base/color.scss";
 
 @import "modules/buttons.scss";
+@import "modules/syntax.scss";
 @import "modules/clearable-input.scss";
 @import "modules/navigation.scss";
 @import "modules/page-header.scss";
