@@ -70,7 +70,7 @@
                         <h3 class="parameters-group-name">{{ group.location }} params</h3>
                         <ul class="parameters-group-list">
                             {% for key, param in group.params %}
-                                <li class="parameter">
+                                <li class="parameter"{% if param.required %} data-required{% endif %}>
                                     <label for="{{ key }}-param" class="parameter-name">{{ key }}</label>
 
                                     {% if param.description %}
@@ -94,10 +94,10 @@
                                             <input 
                                                 name="{{ key }}" id="{{ key }}-param"
                                                 class="clearable-input js-param"
-                                                type="{{ param.type == 'integer' ? 'number' : 'text' }}"
+                                                type="{{ param.type == 'integer' or param.type == 'numeric' ? 'number' : 'text' }}"
                                                 {% if param.required %}required{% endif %}
                                                 {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
-                                                {% if param.type == 'integer' %}autocomplete="off"{% endif %}
+                                                {% if param.type == 'integer' or param.type == 'numeric' %}autocomplete="off"{% endif %}
                                             >
                                             <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden>
                                                 <span>Clear</span>
