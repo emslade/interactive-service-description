@@ -4,8 +4,9 @@
 
 {% block content %}
 <div class="container">
-    <div class="page-header">
+    <div class="page-header with-back-link">
         <h1 class="page-header-title">{{ dir|split("-")|join(" ")|capitalize }}</h1>
+        <a class="page-header-back-link" href="/directory/">Back to directory index</a>
     </div>
     <ul class="resources datalist">
         {% for uri, methods in operations %}
@@ -24,4 +25,15 @@
         {% endfor %}
     </ul>
 </div>
+
+<script>
+    $(function () {
+        var loc = window.location,
+            commandRegex = new RegExp('^' + loc.protocol + '\/\/' + loc.host + '\/api\/');
+
+        if (commandRegex.test(document.referrer)) {
+            $('.page-header-back-link').text('Back to endpoint').attr('href', document.referrer);
+        }
+    });
+</script>
 {% endblock %}
