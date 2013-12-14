@@ -1,6 +1,5 @@
 .endpoint-title {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    @include word-break;
     color: $black;
     .uri-param {
         color: $mid-grey;

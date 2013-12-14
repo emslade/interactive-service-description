@@ -6,6 +6,10 @@
     margin: 0 0 em(40px);
 }
 
+.endpoint-command-name .sidebar-property-value {
+    @include word-break;
+}
+
 .endpoint-directory-link {
     color: inherit;
     text-decoration: none;
