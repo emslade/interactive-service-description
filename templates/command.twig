@@ -140,86 +140,7 @@
 
 
 
-<script type="text/javascript">
-$(function() {
-    localStorage.clear();
-
-    var pageBody = $('.page-body'),
-        pageBodyBottom = pageBody.offset().top + pageBody.outerHeight(true),
-        submitContainer = pageBody.find('.parameters-submit-container');
-
-    if (pageBodyBottom > window.innerHeight) {
-        pageBody.addClass('fixed-parent');
-        submitContainer.addClass('fixed');
-    }
-
-    $('form').on('keyup', '.clearable-input', function () {
-        var value = $(this).val(),
-            control = $(this).next('.clearable-input-control');
-
-        if (value.length > 0) {
-            control.attr('hidden', false);
-            return;
-        }
-        control.attr('hidden', true);
-    });
-
-    $('form').on('click', '.clearable-input-control', function () {
-        $(this).attr('hidden', true).prev('.clearable-input').val('');
-    });
-
-    $('.parameters-submit').click(function (e) {
-        e.preventDefault();
-        var data = {
-            method: '{{ method }}',
-            uri: '{{ uri }}',
-            params: {}
-        };
-
-        switchToTab($('.request-response-tab'));
-
-        $('.request-response-placeholder').attr('hidden', true);
-
-        $('.js-param').each(function (key, input) {
-            if ($(input).val() !== '') {
-                data.params[$(input).attr('name')] = $(input).val();
-            }
-        });
-
-        replacer = function(match, param) {
-            if (data.params.hasOwnProperty(param)) {
-                val = data.params[param];
-                delete data.params[param];
-                return val;
-            }
-        };
-
-        data.uri = data.uri.replace(/{([a-zA-Z]+)}/g, replacer);
-
-        $.ajax({
-            url: '/proxy.php',
-            method: 'POST',
-            contentType: 'application/json; charset=UTF-8',
-            data: JSON.stringify(data)
-        })
-        .done(function (response) {
-            $('.request-headers-container').attr('hidden', false).find('code').text(response.requestHeaders);
-            if (typeof response.request !== 'undefined' && response.request.length > 0) {
-                $('.request-body-container').attr('hidden', false).find('code').text(response.request);
-            }
-            $('.response-headers-container').attr('hidden', false).find('code').text(response.responseHeaders);
-            $('.response-body-container').attr('hidden', false).find('code').text(response.response);
-            Prism.highlightAll();
-        });
-    });
-
-    $('.tab-control').on('click', function (evt) {
-        var tab = $('.tab-content[aria-labelledby=' + $(this).attr('id') + ']');
-
-        evt.preventDefault();
-
-        switchToTab(tab);
-    });
+<script>
 
     function switchToTab (newTab) {
         var tabCtrl = $('#' + newTab.attr('aria-labelledby'));
@@ -232,6 +153,101 @@ $(function() {
 
         tabCtrl.focus();
     }
-});
+
+    function positionFormFooter () {
+        var pageBody = $('.page-body'),
+            pageBodyBottom = pageBody.offset().top + pageBody.outerHeight(true),
+            submitContainer = pageBody.find('.parameters-submit-container');
+
+        if (pageBodyBottom > window.innerHeight) {
+            pageBody.addClass('fixed-parent');
+            submitContainer.addClass('fixed');
+        } else {
+            pageBody.removeClass('fixed-parent');
+            submitContainer.removeClass('fixed');
+        }
+    }
+
+    $(function() {
+        var resizeTimer;
+
+        localStorage.clear();
+
+        positionFormFooter();
+
+        $(window).on('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(positionFormFooter, 250);
+        });
+
+        $('form').on('keyup', '.clearable-input', function () {
+            var value = $(this).val(),
+                control = $(this).next('.clearable-input-control');
+
+            if (value.length > 0) {
+                control.attr('hidden', false);
+                return;
+            }
+            control.attr('hidden', true);
+        });
+
+        $('form').on('click', '.clearable-input-control', function () {
+            $(this).attr('hidden', true).prev('.clearable-input').val('');
+        });
+
+        $('.parameters-submit').click(function (e) {
+            e.preventDefault();
+            var data = {
+                method: '{{ method }}',
+                uri: '{{ uri }}',
+                params: {}
+            };
+
+            switchToTab($('.request-response-tab'));
+
+            $('.request-response-placeholder').attr('hidden', true);
+
+            $('.js-param').each(function (key, input) {
+                if ($(input).val() !== '') {
+                    data.params[$(input).attr('name')] = $(input).val();
+                }
+            });
+
+            replacer = function(match, param) {
+                if (data.params.hasOwnProperty(param)) {
+                    val = data.params[param];
+                    delete data.params[param];
+                    return val;
+                }
+            };
+
+            data.uri = data.uri.replace(/{([a-zA-Z]+)}/g, replacer);
+
+            $.ajax({
+                url: '/proxy.php',
+                method: 'POST',
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify(data)
+            })
+            .done(function (response) {
+                $('.request-headers-container').attr('hidden', false).find('code').text(response.requestHeaders);
+                if (typeof response.request !== 'undefined' && response.request.length > 0) {
+                    $('.request-body-container').attr('hidden', false).find('code').text(response.request);
+                }
+                $('.response-headers-container').attr('hidden', false).find('code').text(response.responseHeaders);
+                $('.response-body-container').attr('hidden', false).find('code').text(response.response);
+                Prism.highlightAll();
+            });
+        });
+
+        $('.tab-control').on('click', function (evt) {
+            var tab = $('.tab-content[aria-labelledby=' + $(this).attr('id') + ']');
+
+            evt.preventDefault();
+
+            switchToTab(tab);
+        });
+
+    });
 </script>
 {% endblock %}
