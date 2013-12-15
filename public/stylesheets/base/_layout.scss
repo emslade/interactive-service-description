@@ -8,6 +8,10 @@
     zoom: 1;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 .container {
     max-width: $base-max-content-width;
     margin: 0 auto;

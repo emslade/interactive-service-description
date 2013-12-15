@@ -39,18 +39,6 @@
                 <dd class="sidebar-property-value"><a href="/directory/{{ directory }}.html" class="endpoint-directory-link">{{ directory|split("-")|join(" ")|capitalize }}</a></dd>
             </dl>
         {% endif %}
-
-        {% if roles|length %}
-            <dl class="endpoint-roles sidebar-property">
-                <dt class="sidebar-property-key">Roles</dt>
-                {% for name, allowed in roles %}
-                    <dd class="endpoint-role-{{ allowed ? 'allowed' : 'not-allowed' }} sidebar-property-value">
-                        {{ name }}
-                        <span> {{ allowed ? 'allowed' : 'not authorized' }}</span>
-                    </dd>
-                {% endfor %}
-            </dl>
-        {% endif %}
     </div>
 
     <div class="endpoint-body page-body">
