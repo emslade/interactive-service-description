@@ -59,6 +59,9 @@ $typeahead-font-size: 24px;
 
 .tt-suggestion {
     @extend .datalist-item;
+}
+
+.typeahead-result {
     @extend .datalist-item-link;
 }
 

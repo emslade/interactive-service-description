@@ -12,17 +12,17 @@
 </div>
 
 <script type="text/template" id="template">
-    <div class="typeahead-result" role="link">
+    <a href="<%= path %>" class="typeahead-result">
         <h2 class="tt-suggestion-endpoint endpoint-<%= method %> endpoint-list-title">
             <span class="endpoint-list-method"><%= method %></span> <span class="endpoint-list-uri"><%= formattedUri %></span>
         </h2>
         <% if (summary) { %>
             <p class="tt-suggestion-summary endpoint-list-summary"><%= summary %></p>
         <% } %>
-    </div>
+    </a>
 </script>
 
-<script type="text/javascript">
+<script>
 $(function() {
     localStorage.clear();
 
@@ -43,10 +43,6 @@ $(function() {
         prefetch: '/data/commands.json',
         template: template,
         limit: 16
-    });
-
-    $('.typeahead').on('typeahead:selected', function (event, datum) {
-        window.location.href = datum.path;
     });
 });
 </script>
