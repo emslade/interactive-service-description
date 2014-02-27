@@ -17,12 +17,6 @@
     margin: 0 auto;
 }
 
-.full-width-container {
-    @media only screen and (min-width: em(1121px, 16px)) {
-        margin: 0 em(60px);
-    }
-}
-
 %visuallyhidden {
     border: 0;
     clip: rect(0 0 0 0);

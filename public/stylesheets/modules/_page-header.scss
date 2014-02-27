@@ -1,15 +1,26 @@
 .page-header {
-    margin: em(65px) 0;
-    padding: 0 em(20px);
+    background: #fff;
+    margin: 0;
+    padding: em(30px) em(20px);
+    box-shadow: 0 2px 4px rgba(212, 212, 212, .4);
     &.with-back-link {
         margin: em(65px) 0 em(7px);
     }
 }
 
 .page-header-title {
-    font-size: em(36px);
+    font-size: em($page-title-size);
     color: $mid-grey;
     margin: 0;
+}
+
+.page-header-subhead {
+    font-size: em($page-subhead-size);
+    color: $mid-grey;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.35;
+    margin: em(10px) 0 em(20px);
 }
 
 .page-header-back-link {

@@ -13,7 +13,7 @@
             {% for method in methods %}
             <li class="datalist-item">
                 <a href="/api/{{ method.name|uriToPath }}" class="datalist-item-link">
-                    <h2 class="endpoint-{{ method.httpMethod }} endpoint-list-title datalist-item-title">
+                    <h2 class="endpoint-method-{{ method.httpMethod }} endpoint-list-title datalist-item-title">
                         <span class="endpoint-list-method">{{ method.httpMethod }}</span> <span class="endpoint-list-uri">{{ method.uri|formatUri|raw }}</span>
                     </h2>
                     {% if method.summary %}

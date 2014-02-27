@@ -1,0 +1,17 @@
+@mixin endpoint-method-colors($property, $psuedo: false) {
+    $methods: ('GET', 'PUT', 'POST', 'DELETE');
+    $colors: ($blue, $yellow, $green, $red);
+
+    @for $i from 1 through length($methods) {
+        $selector: '&.endpoint-method-#{nth($methods, $i)}';
+
+        @if ($psuedo) {
+            $selector: $selector + $psuedo;
+        }
+
+        #{$selector} {
+            #{$property}: nth($colors, $i);
+        }
+    }
+}
+

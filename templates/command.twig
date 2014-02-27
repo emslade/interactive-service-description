@@ -3,152 +3,201 @@
 {% block title %}{{ method }} {{ uri }}{% endblock %}
 
 {% block content %}
-<div class="full-width-container">
-    <div class="page-header">
-        <h1 class="endpoint-title page-header-title"><span class="endpoint-title-method">{{ method }}</span> {{ formattedUri|raw }}</h1>
-    </div>
+<div class="endpoint-header page-header endpoint-method-{{ method }}" data-method="{{ method }}">
+    <h1 class="endpoint-title page-header-title"><span class="endpoint-title-method">{{ method }}</span> {{ formattedUri|raw }}</h1>
 
-    <div class="sidebar">
-        <ul class="endpoint-method-list" aria-label="Other methods">
-            {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
-                <li class="endpoint-method">
-                {% set item = related[httpMethod] %}
-                {% if item %}
-                    <a class="endpoint-method-{{ httpMethod }} endpoint-method-ctrl{% if httpMethod == method %} active{% endif %}" href="{{ item.link }}">{{ item.method }}</a>
-                {% else %}
-                    <button class="unimplemented-method endpoint-method-ctrl" type="button" aria-label="Unimplemented" disabled>{{ httpMethod }}</button>
-                {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-
-        {% if summary %}
-            <p class="endpoint-summary">{{ summary }}</p>
-        {% endif %}
-
-        {% if command %}
-            <dl class="endpoint-command-name sidebar-property">
-                <dt class="sidebar-property-key">Command</dt>
-                <dd class="sidebar-property-value">{{ command }}</dd>
-            </dl>
-        {% endif %}
-
-        {% if directory %}
-            <dl class="endpoint-directory sidebar-property">
-                <dt class="sidebar-property-key">Directory</dt>
-                <dd class="sidebar-property-value"><a href="/directory/{{ directory }}.html" class="endpoint-directory-link">{{ directory|split("-")|join(" ")|capitalize }}</a></dd>
-            </dl>
-        {% endif %}
-    </div>
-
-    <div class="endpoint-body page-body">
-        <ol class="tab-list" role="tablist">
-            <li role="presentation" class="current tab-item">
-                <a id="parameters-tab-ctrl" aria-selected="true" tabindex="0" class="tab-control" role="tab">Parameters</a>
+    {#<ul class="endpoint-method-list" aria-label="Other methods">
+        {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
+            <li class="endpoint-method">
+            {% set item = related[httpMethod] %}
+            {% if item %}
+                <a class="endpoint-method-{{ httpMethod }} endpoint-method-ctrl{% if httpMethod == method %} active{% endif %}" href="{{ item.link }}">{{ item.method }}</a>
+            {% else %}
+                <button class="unimplemented-method endpoint-method-ctrl" type="button" aria-label="Unimplemented" disabled>{{ httpMethod }}</button>
+            {% endif %}
             </li>
-            <li role="presentation" class="tab-item">
-                <a id="request-response-tab-ctrl" aria-selected="false" tabindex="-1" class="tab-control" role="tab">Request & Response</a>
+        {% endfor %}
+    </ul>#}
+
+    {% if summary %}
+        <p class="endpoint-summary">{{ summary }}</p>
+    {% endif %}
+
+    {% if command %}
+        <dl class="endpoint-command-name endpoint-header-meta">
+            <dt class="endpoint-header-meta-key">Command</dt>
+            <dd class="endpoint-header-meta-value">{{ command }}</dd>
+        </dl>
+    {% endif %}
+
+    {% if directory %}
+        <dl class="endpoint-directory endpoint-header-meta">
+            <dt class="endpoint-header-meta-key">Directory</dt>
+            <dd class="endpoint-header-meta-value">
+                <a href="/directory/{{ directory }}.html" class="endpoint-directory-link">{{ directory|split("-")|join(" ")|capitalize }}</a>
+            </dd>
+        </dl>
+    {% endif %}
+</div>
+
+<div class="endpoint-main">
+    <div class="endpoint-tabs sidebar-tabs">
+        <ol class="sidebar-tab-list" role="tablist">
+            <li role="presentation" class="current sidebar-tab-item js-tab-item">
+                <a id="parameters-tab-ctrl" aria-selected="true" tabindex="0" class="sidebar-tab-control js-tab-control" role="tab">
+                    <div class="sidebar-tab-inner">
+                        {% include 'params-icon.svg.twig' %}
+                        <span>Parameters</span>
+                    </div>
+                </a>
+            </li>
+            <li role="presentation" class="sidebar-tab-item js-tab-item">
+                <a id="request-response-tab-ctrl" aria-selected="false" tabindex="-1" class="sidebar-tab-control js-tab-control" role="tab">
+                    <div class="sidebar-tab-inner">
+                        {% include 'request-response-icon.svg.twig' %}
+                        <span>Request & Response</span>
+                    </div>
+                </a>
             </li>
         </ol>
 
-        <div aria-labelledby="parameters-tab-ctrl" aria-hidden="false" class="parameters-tab tab-content" role="tabpanel">
-            <form class="parameters-form">
-                {% for group in groupedParams %}
-                    {% if group.params|length %}
-                        <h3 class="parameters-group-name">{{ group.location }} params</h3>
-                        <ul class="parameters-group-list">
-                            {% for key, param in group.params %}
-                                <li class="parameter"{% if param.required %} data-required{% endif %}>
-                                    <label for="{{ key }}-param" class="parameter-name">{{ key }}</label>
+    </div>
 
-                                    {% if param.description %}
-                                        <p id="{{ key }}-description" class="parameter-description">{{ param.description }}</p>
-                                    {% endif %}
+    <div class="endpoint-body page-body">
+        <div aria-labelledby="parameters-tab-ctrl" aria-hidden="false" class="parameters-tab js-tab-content" role="tabpanel">
+            <form id="endpoint-parameters-form" class="endpoint-parameters-form tab-content-body">
+                <div class="endpoint-parameters">
+                    {% for group in groupedParams %}
+                        {% if group.params|length %}
+                            <h3 class="parameters-group-name">{{ group.location }} params</h3>
+                            <ul class="parameters-group-list">
+                                {% for key, param in group.params %}
+                                    <li class="parameter"{% if param.required %} data-required{% endif %}>
+                                        <label for="{{ key }}-param" class="parameter-name">{{ key }}</label>
 
-                                    {% if param.enum %}
-                                        <select
-                                            name="{{ key }}" id="{{ key }}-param"
-                                            class="parameter-input js-param"
-                                            {% if param.required %}required{% endif %}
-                                            {% if param.description %} aria-describedby="{{ key }}-description"{% endif %}
-                                        >
-                                            <option></option>
-                                            {% for value in param.enum %}
-                                                <option>{{ value }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    {% else %}
-                                        <div class="parameter-input clearable-input-container">
-                                            <input 
+                                        {% if param.description %}
+                                            <p id="{{ key }}-description" class="parameter-description">{{ param.description }}</p>
+                                        {% endif %}
+
+                                        {% if param.enum %}
+                                            <select
                                                 name="{{ key }}" id="{{ key }}-param"
-                                                class="clearable-input js-param"
-                                                type="{{ param.type == 'integer' or param.type == 'numeric' ? 'number' : 'text' }}"
+                                                class="parameter-input js-param"
                                                 {% if param.required %}required{% endif %}
-                                                {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
-                                                {% if param.type == 'integer' or param.type == 'numeric' %}autocomplete="off"{% endif %}
+                                                {% if param.description %} aria-describedby="{{ key }}-description"{% endif %}
                                             >
-                                            <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden>
-                                                <span>Clear</span>
-                                            </button>
+                                                <option></option>
+                                                {% for value in param.enum %}
+                                                    <option>{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% else %}
+                                            <div class="parameter-input clearable-input-container">
+                                                <input 
+                                                    name="{{ key }}" id="{{ key }}-param"
+                                                    class="clearable-input js-param"
+                                                    type="{{ param.type == 'integer' or param.type == 'numeric' ? 'number' : 'text' }}"
+                                                    {% if param.required %}required{% endif %}
+                                                    {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
+                                                    {% if param.type == 'integer' or param.type == 'numeric' %}autocomplete="off"{% endif %}
+                                                >
+                                                <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden>
+                                                    <span>Clear</span>
+                                                </button>
+                                            </div>
+                                        {% endif %}
+                                        <div class="parameter-meta">
+                                            <p class="parameter-required">{{ param.required ? 'Required' : 'Optional' }}</p>
+                                            <p class="parameter-type">{{ param.type }}</p>
                                         </div>
-                                    {% endif %}
-                                    <div class="parameter-meta">
-                                        <p class="parameter-required">{{ param.required ? 'Required' : 'Optional' }}</p>
-                                        <p class="parameter-type">{{ param.type }}</p>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endfor %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
 
                 <div class="parameters-submit-container">
                     <button class="parameters-submit response-button primary-button" type="submit">
-                        <span class="text">Try it!</span>
+                        <span class="text">Submit</span>
                     </button>
                 </div>
             </form>
+
+            <div class="tab-content-actions">
+                <fieldset class="control-group">
+                    <legend>Optional params</legend>
+                    <div class="toggle-switch">
+                        <label for="opt-params-show">Show</label>
+                        <input id="opt-params-show" name="opt-params-visibility" value="show" type="radio" checked>
+                        <label for="opt-params-hide">Hide</label>
+                        <input id="opt-params-hide" name="opt-params-visibility" value="hide" type="radio">
+                    </div>
+                </fieldset>
+
+                <button class="js-reset-param-form textual-button" type="reset" form="endpoint-parameters-form">Reset form</button>
+            </div>
         </div>
 
-        <div aria-labelledby="request-response-tab-ctrl" aria-hidden="true" class="request-response-tab tab-content" role="tabpanel" hidden>
-            <p class="request-response-placeholder">You need to submit a request before you can see the result.</p>
+        <div aria-labelledby="request-response-tab-ctrl" aria-hidden="true" class="request-response-tab js-tab-content" role="tabpanel" hidden>
+            <div class="tab-content-body">
+                <div class="endpoint-request-response">
+                    <p class="request-response-placeholder">You need to submit a request before you can see the result.</p>
 
-            <div class="request-container">
-                <div class="request-headers-container" hidden>
-                    <h3 class="result-header">Request headers</h3>
-                    <pre class="request-headers"><code class="language-http"></code></pre>
+                    <div class="request-container">
+                        <div class="request-headers-container" hidden>
+                            <h3 class="result-header">Request headers</h3>
+                            <pre class="request-headers"><code class="language-http"></code></pre>
+                        </div>
+                        <div class="request-body-container" hidden>
+                            <h3 class="result-header">Request body</h3>
+                            <pre class="request-body"><code class="language-javascript"></code></pre>
+                        </div>
+                    </div>
+
+                    <div class="response-container">
+                        <div class="response-headers-container" hidden>
+                            <h3 class="result-header">Response headers</h3>
+                            <pre class="response-headers"><code class="language-http"></code></pre>
+                        </div>
+                        <div class="response-body-container" hidden>
+                            <h3 class="result-header">Response body</h3>
+                            <pre class="response-body"><code class="language-javascript"></code></pre>
+                        </div>
+                    </div>
                 </div>
-                <div class="request-body-container" hidden>
-                    <h3 class="result-header">Request body</h3>
-                    <pre class="request-body"><code class="language-javascript"></code></pre>
+
+                <div class="request-response-resubmit-container">
+                    <button class="request-response-resubmit primary-button" type="submit" form="endpoint-parameters-form">Re-send</button>
                 </div>
             </div>
 
-            <div class="response-container">
-                <div class="response-headers-container" hidden>
-                    <h3 class="result-header">Response headers</h3>
-                    <pre class="response-headers"><code class="language-http"></code></pre>
-                </div>
-                <div class="response-body-container" hidden>
-                    <h3 class="result-header">Response body</h3>
-                    <pre class="response-body"><code class="language-javascript"></code></pre>
-                </div>
+            <div class="tab-content-actions">
+                <fieldset class="control-group">
+                    <legend>Request details</legend>
+                    <div class="toggle-switch">
+                        <label for="request-details-show">Show</label>
+                        <input id="request-details-show" name="request-details-visibility" value="show" type="radio" checked>
+                        <label for="request-details-hide">Hide</label>
+                        <input id="request-details-hide" name="request-details-visibility" value="hide" type="radio">
+                    </div>
+                </fieldset>
+
+                <button class="js-clear-request-response textual-button" type="button">Clear this request</button>
             </div>
         </div>
     </div>
-
-
-
+</div>
 
 <script>
 
     function switchToTab (newTab) {
         var tabCtrl = $('#' + newTab.attr('aria-labelledby'));
 
-        $('.tab-control').attr({'aria-selected': false, 'tabindex': '-1'}).parent('.tab-item').removeClass('current');
-        tabCtrl.attr({'aria-selected': true, 'tabindex': '0'}).parent('.tab-item').addClass('current');
+        $('.js-tab-control').attr({'aria-selected': false, 'tabindex': '-1'}).parent('.js-tab-item').removeClass('current');
+        tabCtrl.attr({'aria-selected': true, 'tabindex': '0'}).parent('.js-tab-item').addClass('current');
 
-        $('.tab-content').attr('aria-hidden', true).attr('hidden', true);
+        $('.js-tab-content').attr('aria-hidden', true).attr('hidden', true);
         newTab.attr('aria-hidden', false).attr('hidden', false);
 
         tabCtrl.focus();
@@ -180,7 +229,7 @@
             resizeTimer = setTimeout(positionFormFooter, 250);
         });
 
-        $('form').on('keyup', '.clearable-input', function () {
+        $('.endpoint-parameters-form').on('keyup', '.clearable-input', function () {
             var value = $(this).val(),
                 control = $(this).next('.clearable-input-control');
 
@@ -191,11 +240,24 @@
             control.attr('hidden', true);
         });
 
-        $('form').on('click', '.clearable-input-control', function () {
+        $('.endpoint-parameters-form').on('click', '.clearable-input-control', function () {
             $(this).attr('hidden', true).prev('.clearable-input').val('');
         });
 
-        $('.parameters-submit').click(function (e) {
+        $('.endpoint-parameters-form').on('reset', function () {
+            $(this).find('.clearable-input-control').attr('hidden', true);
+        });
+
+        $('[name="opt-params-visibility"]').on('change', function (evt) {
+            if (evt.currentTarget.value === 'show') {
+                $('.endpoint-parameters .parameter').removeAttr('hidden');
+                return;
+            }
+
+            $('.endpoint-parameters .parameter:not([data-required])').attr('hidden', true);
+        });
+
+        $('#endpoint-parameters-form').on('submit', function (e) {
             e.preventDefault();
             var data = {
                 method: '{{ method }}',
@@ -240,8 +302,17 @@
             });
         });
 
-        $('.tab-control').on('click', function (evt) {
-            var tab = $('.tab-content[aria-labelledby=' + $(this).attr('id') + ']');
+        $('[name="request-details-visibility"]').on('change', function (evt) {
+            if (evt.currentTarget.value === 'show') {
+                $('.request-container').removeAttr('hidden');
+                return;
+            }
+
+            $('.request-container').attr('hidden', true);
+        });
+
+        $('.js-tab-control').on('click', function (evt) {
+            var tab = $('.js-tab-content[aria-labelledby=' + $(this).attr('id') + ']');
 
             evt.preventDefault();
 

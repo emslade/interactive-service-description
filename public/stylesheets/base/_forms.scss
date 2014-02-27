@@ -17,6 +17,13 @@ input {
     }
 }
 
+input[type="number"] {
+    -moz-appearance: textfield;
+    &::-webkit-inner-spin-button {
+        display: none;
+    }
+}
+
 @each $placeholder-vendor in (webkit, moz, ms) {
     ::-#{$placeholder-vendor}-input-placeholder {
         color: $light-grey;
