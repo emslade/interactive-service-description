@@ -1,6 +1,10 @@
 $input-transition-duration: 0.25s;
 $input-transition-timing-function: ease-out;
 
+label[for] {
+    cursor: pointer;
+}
+
 input {
     border-width: 2px;
     border-style: solid;
