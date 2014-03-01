@@ -56,7 +56,7 @@
 
 .endpoint-header-meta {
     @extend %endpoint-header-meta-item;
-    margin: 0 em(8px) 0 0;
+    margin: em(22px) em(8px) 0 0;
     font-size: em(16px);
     &::after {
         content: "•";
