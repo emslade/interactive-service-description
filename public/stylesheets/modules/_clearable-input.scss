@@ -7,6 +7,9 @@
     &::-webkit-inner-spin-button {
         display: none;
     }
+    &::-ms-clear {
+        display: none;
+    }
 }
 
 .clearable-input-control {
