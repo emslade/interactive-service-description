@@ -1,3 +1,5 @@
+$sidebarTabAnimationDuration: 0.25s;
+
 .endpoint-main {
     position: relative;
     @include clearfix;
@@ -38,6 +40,10 @@
     list-style: none;
 }
 
+.sidebar-tab-item {
+    @include transition(background $sidebarTabAnimationDuration);
+}
+
 .sidebar-tab-item.current {
     background: $sidebarTabsSelectedBgColor;
     .sidebar-tab-control {
@@ -58,6 +64,7 @@
     position: relative;
     padding: 1em;
     @include box-sizing(border-box);
+    @include transition(color $sidebarTabAnimationDuration);
     text-align: center;
     cursor: pointer;
     color: $sidebarTabsTextColor;
@@ -78,4 +85,5 @@
 
 .sidebar-tab-icon {
     fill: $sidebarTabsTextColor;
+    @include transition(fill $sidebarTabAnimationDuration);
 }
