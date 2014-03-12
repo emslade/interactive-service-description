@@ -151,33 +151,3 @@ $two-column-right-padding-left: em(20px);
         @include parameter-column-two();
     }
 }
-
-.parameters-submit-container {
-    padding-top: em(20px);
-    text-align: right;
-    &:before {
-        content: "";
-        display: block;
-        height: 1px;
-        background: #efefef;
-        @include transform(translateY(em(-20px)));
-    }
-}
-
-.csscalc {
-    @media only screen and (min-width: em(1000px, 16px)) and (min-height: em(545px, 16px)) {
-        .page-body.fixed-parent {
-            padding-bottom: em(80px);
-        }
-        .parameters-submit-container.fixed {
-            position: fixed;
-            bottom: 0;
-            background: $white;
-            margin-left: em(-20px);
-            padding: em(20px);
-            @include box-sizing(border-box);
-            @include calc(width, "100% - #{em(302px)} - #{em(120px)}");
-        }
-    }
-}
-

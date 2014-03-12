@@ -1,0 +1,42 @@
+.endpoint-page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.endpoint-main {
+    position: relative;
+    min-height: 100%;
+}
+
+.endpoint-body {
+    padding-left: em(180px);
+    min-height: em(380px);
+    @include clearfix;
+}
+
+%fixed-page {
+    overflow: hidden;
+}
+
+.fixed-low-res {
+    &.endpoint-page {
+        @extend %fixed-page;
+    }
+
+    .tab-content-main {
+        overflow-y: scroll;
+    }
+}
+
+.fixed-high-res {
+    &.endpoint-page {
+        @extend %fixed-page;
+    }
+
+    .tab-content-body {
+        overflow-y: scroll;
+    }
+}

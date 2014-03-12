@@ -1,0 +1,21 @@
+.tab-content-main {
+    width: 75.5%;
+    float: left;
+}
+
+.tab-content-body {
+    padding-right: 0.85em;
+}
+
+.tab-content-footer {
+    padding-right: 0.85em;
+    padding-top: em(20px);
+    text-align: right;
+    &:before {
+        content: "";
+        display: block;
+        height: 1px;
+        background: #efefef;
+        @include transform(translateY(em(-20px)));
+    }
+}

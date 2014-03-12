@@ -1,6 +1,7 @@
 {% extends "layout.twig" %}
 
 {% block title %}{{ method }} {{ uri }}{% endblock %}
+{% block bodyClasses %}endpoint-page{% endblock %}
 
 {% block content %}
 <div class="endpoint-header page-header endpoint-method-{{ method }}" data-method="{{ method }}">
@@ -31,10 +32,10 @@
     {% endif %}
 
     {% if directory %}
-        <dl class="endpoint-directory endpoint-header-meta">
+        <dl class="endpoint-header-meta">
             <dt class="endpoint-header-meta-key">Directory</dt>
             <dd class="endpoint-header-meta-value">
-                <a href="/directory/{{ directory }}.html" class="endpoint-directory-link">{{ directory|split("-")|join(" ")|capitalize }}</a>
+                <a href="/directory/{{ directory }}.html" class="endpoint-header-directory-link">{{ directory|split("-")|join(" ")|capitalize }}</a>
             </dd>
         </dl>
     {% endif %}
@@ -65,8 +66,8 @@
 
     <div class="endpoint-body page-body">
         <div aria-labelledby="parameters-tab-ctrl" aria-hidden="false" class="parameters-tab js-tab-content" role="tabpanel">
-            <form id="endpoint-parameters-form" class="endpoint-parameters-form tab-content-body">
-                <div class="endpoint-parameters">
+            <form id="endpoint-parameters-form" class="endpoint-parameters-form tab-content-main">
+                <div class="endpoint-parameters tab-content-body">
                     {% for group in groupedParams %}
                         {% if group.params|length %}
                             <h3 class="parameters-group-name">{{ group.location }} params</h3>
@@ -117,7 +118,7 @@
                     {% endfor %}
                 </div>
 
-                <div class="parameters-submit-container">
+                <div class="parameters-submit-container tab-content-footer">
                     <button class="parameters-submit response-button primary-button" type="submit">
                         <span class="text">Submit</span>
                     </button>
@@ -140,8 +141,8 @@
         </div>
 
         <div aria-labelledby="request-response-tab-ctrl" aria-hidden="true" class="request-response-tab js-tab-content" role="tabpanel" hidden>
-            <div class="tab-content-body">
-                <div class="endpoint-request-response">
+            <div class="tab-content-main">
+                <div class="endpoint-request-response tab-content-body">
                     <p class="request-response-placeholder">You need to submit a request before you can see the result.</p>
 
                     <div class="request-container">
@@ -167,7 +168,7 @@
                     </div>
                 </div>
 
-                <div class="request-response-resubmit-container">
+                <div class="request-response-resubmit-container tab-content-footer">
                     <button class="request-response-resubmit primary-button" type="submit" form="endpoint-parameters-form">Re-send</button>
                 </div>
             </div>
@@ -203,31 +204,60 @@
         tabCtrl.focus();
     }
 
-    function positionFormFooter () {
-        var pageBody = $('.page-body'),
-            pageBodyBottom = pageBody.offset().top + pageBody.outerHeight(true),
-            submitContainer = pageBody.find('.parameters-submit-container');
+    function setupFixedTabContent () {
+        var lowResMin = 420,
+            highResMin = 480,
+            padding = 20,
+            viewportHeight = window.innerHeight,
+            endpointBodyOffset = document.querySelector('.endpoint-body').getBoundingClientRect().top,
+            availableHeight = (viewportHeight - endpointBodyOffset),
+            page = document.querySelector('.endpoint-page'),
+            tabMains = document.querySelectorAll('.tab-content-main'),
+            tabBodies = document.querySelectorAll('.tab-content-body');
 
-        if (pageBodyBottom > window.innerHeight) {
-            pageBody.addClass('fixed-parent');
-            submitContainer.addClass('fixed');
-        } else {
-            pageBody.removeClass('fixed-parent');
-            submitContainer.removeClass('fixed');
+        if (availableHeight < lowResMin) {
+            page.classList.remove('fixed-low-res');
+            page.classList.remove('fixed-high-res');
+            tabEls = _.extend(tabMains, tabBodies);
+            _.each(tabEls, function (el) {
+                el.removeAttribute('style');
+            });
+            return;
         }
+
+        if (availableHeight < highResMin) {
+            page.classList.remove('fixed-high-res');
+            page.classList.add('fixed-low-res');
+            _.each(tabMains, function (el) {
+                el.style.height = (availableHeight - (padding * 2)) + 'px';
+            });
+            _.each(tabBodies, function (el) {
+                el.removeAttribute('style');
+            });
+            return;
+        }
+
+        page.classList.remove('fixed-low-res');
+        page.classList.add('fixed-high-res');
+        _.each(tabMains, function (el) {
+            el.removeAttribute('style');
+        });
+        _.each(tabBodies, function (el) {
+            el.style.height = (availableHeight - (padding * 2) - document.querySelector('.tab-content-footer').clientHeight) + 'px';
+        });
     }
 
     $(function() {
-        var resizeTimer;
-
         localStorage.clear();
 
-        positionFormFooter();
+        setupFixedTabContent();
 
-        $(window).on('resize', function () {
+        var resizeTimer = null;
+
+        window.addEventListener('resize', function () {
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(positionFormFooter, 250);
-        });
+            resizeTimer = setTimeout(setupFixedTabContent, 250);
+        }, false);
 
         $('.endpoint-parameters-form').on('keyup', '.clearable-input', function () {
             var value = $(this).val(),

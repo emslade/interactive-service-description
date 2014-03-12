@@ -80,3 +80,24 @@
     @extend %endpoint-header-meta-item;
     margin: 0;
 }
+
+.endpoint-header-directory-link {
+    color: inherit;
+    text-decoration: none;
+    padding: 12px 12px 12px 0;
+    &:after {
+        content: "";
+        display: inline-block;
+        width: 0.8em;
+        height: 0.8em;
+        padding-left: 0.25em;
+        margin-bottom: -0.15em;
+        background: url(
+            inline_image(
+                'PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiPjx0aXRsZT5MaW5rIGFycm93IChvd24gd29yayk8L3RpdGxlPjxwYXRoIGQ9Ik02IDEyYzMuMzE0IDAgNi0yLjY4NiA2LTZzLTIuNjg2LTYtNi02LTYgMi42ODYtNiA2IDIuNjg2IDYgNiA2em00LTZsLTYgM3YtNmw2IDN6IiBmaWxsPSIjNUM1QzVDIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIi8+PC9zdmc+',
+                svg
+            )
+        ) no-repeat center right;
+    }
+}
+
