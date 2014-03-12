@@ -49,23 +49,22 @@ $typeahead-font-size: 24px;
     background-size: 1em;
 }
 
-.tt-dropdown-menu {
+.search-results {
     @extend .datalist;
-    display: block !important;
     width: 100%;
     margin: em(20px) 0 0;
     text-align: left;
 }
 
-.tt-suggestion {
+.search-result {
     @extend .datalist-item;
 }
 
-.typeahead-result {
+.search-result-link {
     @extend .datalist-item-link;
 }
 
-.tt-suggestion-endpoint {
+.search-result-title {
     @extend .datalist-item-title;
 }
 

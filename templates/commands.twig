@@ -5,28 +5,38 @@
 {% block content %}
 <div class="container feature">
     <h1 class="feature-title">Search endpoints</h1>
-    <input type="text" class="typeahead tt-query" placeholder="e.g. GET users">
+    <input type="text" class="js-search-input typeahead" placeholder="e.g. GET users">
     <p class="feature-search-tip" hidden>Start typing the route you’re looking for.</p>
     <p class="feature-or">or</p>
     <a href="/directory/" class="primary-button feature-button">Browse the directory</a>
+    <ol class="js-command-list search-results">
+        
+    </ol>
 </div>
 
 <script type="text/template" id="template">
-    <a href="<%= path %>" class="typeahead-result">
-        <h2 class="tt-suggestion-endpoint endpoint-method-<%= method %> endpoint-list-title">
-            <span class="endpoint-list-method"><%= method %></span> <span class="endpoint-list-uri"><%= formattedUri %></span>
-        </h2>
-        <% if (summary) { %>
-            <p class="tt-suggestion-summary endpoint-list-summary"><%= summary %></p>
-        <% } %>
-    </a>
+    <li class="search-result">
+        <a href="<%= path %>" class="search-result-link">
+            <h2 class="search-result-title endpoint-method-<%= method %> endpoint-list-title">
+                <span class="endpoint-list-method"><%= method %></span> <span class="endpoint-list-uri"><%= formattedUri %></span>
+            </h2>
+            <% if (summary) { %>
+                <p class="search-result-summary endpoint-list-summary"><%= summary %></p>
+            <% } %>
+        </a>
+    </li>
 </script>
 
 <script>
 $(function() {
+    var searchField = $('.js-search-input'),
+        commandList = $('.js-command-list'),
+        template = null,
+        commands = null;
+
     localStorage.clear();
 
-    $('.typeahead').one('focus', function () {
+    searchField.one('focus', function () {
         var feature = $('.feature');
         $(feature).addClass('feature-active');
 
@@ -38,11 +48,27 @@ $(function() {
 
     template = _.template($('#template').html());
 
-    $('.typeahead').typeahead({
-        name: 'commands',
+    commands = new Bloodhound({
+        datumTokenizer: function (d) {
+            return d.tokens;
+        },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: '/data/commands.json',
-        template: template,
         limit: 16
+    });
+
+    commands.initialize();
+
+    searchField.on('keyup', function (evt) {
+        var query = evt.currentTarget.value;
+
+        commandList.empty();
+
+        commands.get(evt.currentTarget.value, function (suggestions) {
+            _.each(suggestions, function (suggestion) {
+                commandList.append(template(suggestion));
+            });
+        });
     });
 });
 </script>
