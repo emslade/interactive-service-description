@@ -1,8 +1,22 @@
-.unstyled-button {
+%unstyled-button {
     background: none;
     border: none;
     box-sizing: inherit;
     padding: 0;
+}
+
+.textual-button {
+    @extend %unstyled-button;
+    border-bottom: 1px solid $lightest-grey;
+    color: $green;
+    font-size: 1em;
+    font-weight: 300;
+    text-decoration: none;
+    @include transition(border 0.25s ease-out);
+    &:active,
+    &:focus {
+        border-bottom-color: $green;
+    }
 }
 
 %button-template {

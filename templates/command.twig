@@ -126,8 +126,8 @@
             </form>
 
             <div class="tab-content-actions">
-                <fieldset class="control-group">
-                    <legend>Optional params</legend>
+                <fieldset class="page-action">
+                    <legend class="page-action__title">Optional params</legend>
                     <div class="toggle-switch">
                         <label for="opt-params-show">Show</label>
                         <input id="opt-params-show" name="opt-params-visibility" value="show" type="radio" checked>
@@ -136,7 +136,9 @@
                     </div>
                 </fieldset>
 
-                <button class="js-reset-param-form textual-button" type="reset" form="endpoint-parameters-form">Reset form</button>
+                <div class="page-action">
+                    <button class="js-reset-param-form page-action__button--textual" type="reset" form="endpoint-parameters-form">Reset form</button>
+                </div>
             </div>
         </div>
 
@@ -174,8 +176,8 @@
             </div>
 
             <div class="tab-content-actions">
-                <fieldset class="control-group">
-                    <legend>Request details</legend>
+                <fieldset class="page-action">
+                    <legend class="page-action__title">Request details</legend>
                     <div class="toggle-switch">
                         <label for="request-details-show">Show</label>
                         <input id="request-details-show" name="request-details-visibility" value="show" type="radio" checked>
@@ -184,7 +186,9 @@
                     </div>
                 </fieldset>
 
-                <button class="js-clear-request-response textual-button" type="button">Clear this request</button>
+                <div class="page-action">
+                    <button class="js-clear-request-response page-action__button--textual" type="button">Clear this request</button>
+                </div>
             </div>
         </div>
     </div>

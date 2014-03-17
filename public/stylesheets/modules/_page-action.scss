@@ -1,0 +1,22 @@
+.page-action {
+    margin-bottom: em(24px);
+}
+
+.page-action__title {
+    font-size: em(15px);
+    margin-bottom: em(8px);
+}
+
+%page-action-button-template {
+    font-size: em(16px);
+}
+
+.page-action__button {
+    @extend .button;
+    @extend %page-action-button-template;
+}
+
+.page-action__button--textual {
+    @extend .textual-button;
+    @extend %page-action-button-template;
+}

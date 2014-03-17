@@ -1,6 +1,12 @@
 $input-transition-duration: 0.25s;
 $input-transition-timing-function: ease-out;
 
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
 label[for] {
     cursor: pointer;
 }
