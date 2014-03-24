@@ -1,0 +1,5 @@
+@mixin modernizr($test) {
+    html.#{$test} & {
+        @content;
+    }
+}

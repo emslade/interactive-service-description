@@ -82,6 +82,11 @@
     }
 
     .tab-content-footer {
-        padding-right: em(26px);
+        @include modernizr(cssscrollbar) {
+            padding-right: em(26px);
+        }
+        html.no-cssscrollbar.no-hiddenscroll & {
+            padding-right: em(37px);
+        }
     }
 }
