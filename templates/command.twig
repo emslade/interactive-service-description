@@ -229,6 +229,9 @@
             return;
         }
 
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+
         if (availableHeight < highResMin) {
             page.classList.remove('fixed-high-res');
             page.classList.add('fixed-low-res');
