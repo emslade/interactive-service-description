@@ -1,15 +1,23 @@
 .tab-content-main {
-    width: 75.5%;
+    width: 85%;
     float: left;
 }
 
 .tab-content-body {
-    padding-right: 0.85em;
+    padding-right: em(20px);
+}
+
+.tab-content-actions {
+    float: right;
+    padding-left: em(20px);
+    text-align: left;
+    width: 15%;
+    @include box-sizing(border-box);
 }
 
 .tab-content-footer {
-    padding-right: 0.85em;
     padding-top: em(20px);
+    padding-right: em(20px);
     text-align: right;
     &:before {
         content: "";

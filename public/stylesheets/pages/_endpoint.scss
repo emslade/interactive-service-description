@@ -13,6 +13,7 @@
 
 .endpoint-body {
     padding-left: em(180px);
+    padding-right: 0;
     min-height: em(380px);
     @include clearfix;
 }
@@ -21,13 +22,47 @@
     overflow: hidden;
 }
 
+%fixed-main {
+    min-height: initial;
+}
+
+%pretty-scrollbar {
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $lightest-grey;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: darken($lightest-grey, 10%);
+        @include transition(background .25s ease);
+        &:hover {
+            background: darken($lightest-grey, 17.5%);
+        }
+    }
+
+    &::-webkit-scrollbar-thumb:window-inactive {
+        background: darken($lightest-grey, 5%);
+    }
+}
+
 .fixed-low-res {
     &.endpoint-page {
         @extend %fixed-page;
     }
 
+    .endpoint-main {
+        @extend %fixed-main;
+    }
+
     .tab-content-main {
         overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        @extend %pretty-scrollbar;
     }
 }
 
@@ -36,7 +71,17 @@
         @extend %fixed-page;
     }
 
+    .endpoint-main {
+        @extend %fixed-main;
+    }
+
     .tab-content-body {
         overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        @extend %pretty-scrollbar;
+    }
+
+    .tab-content-footer {
+        padding-right: em(26px);
     }
 }
