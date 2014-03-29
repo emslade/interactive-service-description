@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="parameters-submit-container tab-content-footer">
-                    <button class="parameters-submit response-button primary-button" type="submit">
+                    <button class="parameters-submit response-button primary-button js-endpoint-submit" type="submit">
                         <span class="text">Submit</span>
                     </button>
                 </div>
@@ -158,7 +158,9 @@
                 </div>
 
                 <div class="request-response-resubmit-container tab-content-footer">
-                    <button class="request-response-resubmit primary-button" type="submit" form="endpoint-parameters-form">Re-send</button>
+                    <button class="request-response-resubmit primary-button js-endpoint-submit" type="submit" form="endpoint-parameters-form">
+                        <span class="text">Re-send</span>
+                    </button>
                 </div>
             </div>
 
@@ -289,6 +291,7 @@
                 params: {}
             };
 
+            $('.js-endpoint-submit').attr('disabled', true).addClass('loading');
             switchToTab($('.request-response-tab'));
 
             $('.request-response-placeholder').attr('hidden', true);
@@ -316,6 +319,7 @@
                 data: JSON.stringify(data)
             })
             .done(function (response) {
+                $('.js-endpoint-submit').removeAttr('disabled').removeClass('loading');
                 $('.request-headers-container').attr('hidden', false).find('code').text(response.requestHeaders);
                 if (typeof response.request !== 'undefined' && response.request.length > 0) {
                     $('.request-body-container').attr('hidden', false).find('code').text(response.request);
