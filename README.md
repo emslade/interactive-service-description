@@ -31,3 +31,7 @@ first need to [install Sass](http://sass-lang.com/install).
 With Sass installed, run `sass --cache-location cache/ --style compressed --watch public/stylesheets/application.scss:public/css/application.css` 
 to have Sass watch the application file and update the CSS whenever it changes.
 
+Credits
+-------
+
+Icons by [Jason Tropp](http://thenounproject.com/term/form/25603/), [Stephen Boak](http://thenounproject.com/term/network/5499/), and [Eric Miller](http://thenounproject.com/term/book/16590/) all from the [Noun Project](http://thenounproject.com).
