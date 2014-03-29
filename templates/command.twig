@@ -7,19 +7,6 @@
 <div class="endpoint-header page-header endpoint-method-{{ method }}" data-method="{{ method }}">
     <h1 class="endpoint-title page-header-title"><span class="endpoint-title-method">{{ method }}</span> {{ formattedUri|raw }}</h1>
 
-    {#<ul class="endpoint-method-list" aria-label="Other methods">
-        {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
-            <li class="endpoint-method">
-            {% set item = related[httpMethod] %}
-            {% if item %}
-                <a class="endpoint-method-{{ httpMethod }} endpoint-method-ctrl{% if httpMethod == method %} active{% endif %}" href="{{ item.link }}">{{ item.method }}</a>
-            {% else %}
-                <button class="unimplemented-method endpoint-method-ctrl" type="button" aria-label="Unimplemented" disabled>{{ httpMethod }}</button>
-            {% endif %}
-            </li>
-        {% endfor %}
-    </ul>#}
-
     {% if summary %}
         <p class="endpoint-summary">{{ summary }}</p>
     {% endif %}
