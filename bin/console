@@ -2,10 +2,10 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-require __DIR__ . '/../src/BaseKit/Generator.php';
-require __DIR__ . '/../src/BaseKit/Command/GenerateHtmlCommand.php';
+require __DIR__ . '/../src/ServiceDocs/Generator.php';
+require __DIR__ . '/../src/ServiceDocs/Command/GenerateHtmlCommand.php';
 
-use BaseKit\Command\GenerateHtmlCommand;
+use ServiceDocs\Command\GenerateHtmlCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();

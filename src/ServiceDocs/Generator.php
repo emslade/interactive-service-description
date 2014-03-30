@@ -1,5 +1,5 @@
 <?php
-namespace BaseKit;
+namespace ServiceDocs;
 
 use Guzzle\Service\Description\ServiceDescription;
 

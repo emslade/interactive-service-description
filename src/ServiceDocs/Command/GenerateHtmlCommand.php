@@ -1,5 +1,5 @@
 <?php
-namespace BaseKit\Command;
+namespace ServiceDocs\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,7 +36,7 @@ class GenerateHtmlCommand extends Command
 
         $outputPath = $input->getArgument('outputPath');
 
-        $generator = new \BaseKit\Generator($twig);
+        $generator = new \ServiceDocs\Generator($twig);
         $files = $generator->generate($path, $outputPath);
 
         $output->writeln('Generated ' . count($files) . ' files');
