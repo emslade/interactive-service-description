@@ -35,7 +35,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-    background: #f6f2f0;
+    background: $lightest-blue;
 }
 
 /* Inline code */
@@ -52,7 +52,7 @@ pre[class*="language-"] {
 }
 
 .token.punctuation {
-    color: lighten($mid-grey, 5%);
+    color: #8fa1b3;
 }
 
 .namespace {
@@ -65,14 +65,15 @@ pre[class*="language-"] {
 .token.number,
 .token.constant,
 .token.symbol {
-    color: #8a5cc2;
+    color: $blue;
 }
 
+code,
 .token.selector,
 .token.attr-name,
 .token.string,
 .token.builtin {
-    color: $dark-grey;
+    color: $muted-blue;
 }
 
 .token.operator,
@@ -88,7 +89,7 @@ pre[class*="language-"] {
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-    color: $blue;
+    color: $muted-red;
 }
 
 
