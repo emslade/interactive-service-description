@@ -1,4 +1,5 @@
 /vendor
+/public/css
 /public/data/commands.json
 /public/index.html
 /public/directory/*.html
