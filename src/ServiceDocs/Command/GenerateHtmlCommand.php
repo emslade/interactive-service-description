@@ -29,6 +29,8 @@ class GenerateHtmlCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->prepareStylesheet();
+
         $path = $input->getArgument('path');
 
         $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../../../templates');
@@ -40,5 +42,22 @@ class GenerateHtmlCommand extends Command
         $files = $generator->generate($path, $outputPath);
 
         $output->writeln('Generated ' . count($files) . ' files');
+    }
+
+    private function prepareStylesheet()
+    {
+        $inputPath = __DIR__ . '/../../../public/stylesheets';
+        $sc = new \scssc();
+        $sc->setImportPaths(array($inputPath));
+        $sc->setFormatter('scss_formatter_compressed');
+
+        $outputPath = __DIR__ . '/../../../public/css';
+        if (!file_exists($outputPath)) {
+            mkdir($outputPath);
+        }
+
+        $css = $sc->compile('@import "application.scss"'); // Srsly!?
+
+        file_put_contents($outputPath . '/application.css', $css);
     }
 }
