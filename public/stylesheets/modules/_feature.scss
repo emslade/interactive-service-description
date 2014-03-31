@@ -7,15 +7,16 @@ $feature-transition-timing-function: ease;
         $feature-transition-duration
         $feature-transition-timing-function
     );
-    .feature-active & {
+    .feature.active & {
         opacity: 0;
     }
 }
 
 .feature {
+    font-size: 24px;
     text-align: center;
     color: $mid-grey;
-    padding-bottom: em(64px);
+    padding-bottom: em(16px);
     @include transform(translateY(em(120px)));
 
     // Welcome to vendor prefix crazy town.
@@ -29,34 +30,34 @@ $feature-transition-timing-function: ease;
     }
     @include transition-property(transform);
 
-    &.feature-active {
+    &.active {
         @include transform(translateY(0));
     }
 }
 
-.feature-title {
-    font-size: em(36px);
+.feature__title {
+    font-size: em(36px, 24px);
     font-weight: 300;
     text-align: center;
     margin-top: 0;
     @extend %feature-fade-transition;
 }
 
-.feature-or {
-    font-size: em(24px);
+.feature__or {
+    font-size: em(24px, 24px);
     font-weight: 300;
     font-style: italic;
     @extend %feature-fade-transition;
 }
 
-.feature-button {
-    font-size: em(24px);
+.feature__button {
+    font-size: em(24px, 24px);
     display: inline-block;
+    @extend .button__primary;
     @extend %feature-fade-transition;
 }
 
-.feature-search-tip {
-    font-size: em(20px);
+.feature__search-tip {
+    font-size: em(20px, 24px);
     font-weight: 300;
 }
-

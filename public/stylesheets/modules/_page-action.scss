@@ -17,6 +17,6 @@
 }
 
 .page-action__button--textual {
-    @extend .textual-button;
+    @extend .button__textual;
     @extend %page-action-button-template;
 }

@@ -3,12 +3,17 @@
 {% block title %}Search endpoints{% endblock %}
 
 {% block content %}
-<div class="container feature">
-    <h1 class="feature-title">Search endpoints</h1>
-    <input type="text" class="js-search-input typeahead" placeholder="e.g. GET users">
-    <p class="feature-search-tip" hidden>Start typing the route you’re looking for.</p>
-    <p class="feature-or">or</p>
-    <a href="/directory/" class="primary-button feature-button">Browse the directory</a>
+<div class="container feature js-feature">
+    <h1 class="feature__title">Search endpoints</h1>
+    <div class="search">
+        <input type="search" class="search__input js-search-input" placeholder="e.g. GET users">
+    </div>
+    <p class="feature__search-tip js-feature-search-tip" hidden>Start typing the route you’re looking for.</p>
+    <p class="feature__or js-feature-intro">or</p>
+    <a href="/directory/" class="feature__button js-feature-intro">Browse the directory</a>
+</div>
+
+<div class="container">
     <ol class="js-command-list search-results">
         
     </ol>
@@ -16,8 +21,8 @@
 
 <script type="text/template" id="template">
     <li class="search-result">
-        <a href="<%= path %>" class="search-result-link">
-            <h2 class="search-result-title endpoint-method-<%= method %> endpoint-list-title">
+        <a href="<%= path %>" class="search-result__link">
+            <h2 class="search-result__title endpoint-method-<%= method %> endpoint-list-title">
                 <span class="endpoint-list-method"><%= method %></span> <span class="endpoint-list-uri"><%= formattedUri %></span>
             </h2>
             <% if (summary) { %>
@@ -37,12 +42,12 @@ $(function() {
     localStorage.clear();
 
     searchField.one('focus', function () {
-        var feature = $('.feature');
-        $(feature).addClass('feature-active');
+        var feature = $('.js-feature');
+        $(feature).addClass('active');
 
         setTimeout(function() {
-            $(feature).find('.feature-or, .feature-button').attr('hidden', true);
-            $(feature).find('.feature-search-tip').attr('hidden', false);
+            $(feature).find('.js-feature-intro').attr('hidden', true);
+            $(feature).find('.js-feature-search-tip').attr('hidden', false);
         }, 500);
     });
 

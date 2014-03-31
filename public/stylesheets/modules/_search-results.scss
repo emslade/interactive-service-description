@@ -1,0 +1,18 @@
+.search-results {
+    @extend .datalist;
+    width: 100%;
+    margin: em(20px) 0 0;
+    text-align: left;
+}
+
+.search-result {
+    @extend .datalist-item;
+}
+
+.search-result__link {
+    @extend .datalist-item-link;
+}
+
+.search-result__title {
+    @extend .datalist-item-title;
+}

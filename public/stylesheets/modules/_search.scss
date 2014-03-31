@@ -1,6 +1,5 @@
-$typeahead-font-size: 24px;
-
-.twitter-typeahead {
+.search {
+    margin: 0 auto;
     width: 92%;
     @media only screen and (min-width: em(620px, 16px)) {
         width: 85%;
@@ -13,58 +12,34 @@ $typeahead-font-size: 24px;
     }
 }
 
-.tt-hint,
-.tt-query {
-    font-size: em($typeahead-font-size);
+.search__input {
+    color: $light-grey;
     font-weight: 300;
     width: 100%;
     padding:
-        em(17px, $typeahead-font-size)
-        em(16px, $typeahead-font-size)
-        em(16px, $typeahead-font-size)
-        em(60px, $typeahead-font-size);
-}
-
-.tt-hint {
-    color: $light-grey;
-    background: $white !important;
-}
-
-.tt-query {
-    color: $mid-grey;
+        em(8px)
+        em(8px)
+        em(8px)
+        em(36px);
     &:focus {
         color: $mid-grey;
         border-color: lighten($mid-grey, 8%);
     }
 }
 
-.tt-query,
-.tt-query:focus {
+.search__input,
+.search__input:focus {
     background: url(
         inline_image(
             'PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzMiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiPjx0aXRsZT5zZWFyY2hfaWNvbl9saWdodDwvdGl0bGU+PHBhdGggZD0iTTI2LjU2NCAzMS44MTdsLTYuODM0LTYuNzQ3Yy0xLjg3MyAxLjIxLTQuMTEyIDEuOTItNi41MjggMS45Mi02LjU4NyAwLTExLjkxNC01LjI3MS0xMS45MTQtMTEuNzczIDAtNi40OSA1LjMyNi0xMS43NjEgMTEuOTE0LTExLjc2MSA2LjU3NiAwIDExLjkxMiA1LjI3MSAxMS45MTIgMTEuNzYxIDAgMi4yNy0uNjQ3IDQuMzg1LTEuNzY3IDYuMTc3bDYuODgzIDYuNzk0Yy4zNjQuMzUuMDU5IDEuMjIyLS42NzIgMS45NDJsLTEuMDI1IDEuMDE0Yy0uNzMxLjcyLTEuNjE1IDEuMDIyLTEuOTY5LjY3M3ptLTUuNDA4LTE2LjYwMWMwLTQuMzQtMy41NTktNy44NTMtNy45NTQtNy44NTMtNC4zOTYgMC03Ljk2NiAzLjUxMy03Ljk2NiA3Ljg1M3MzLjU3IDcuODY0IDcuOTY2IDcuODY0YzQuMzk1IDAgNy45NTQtMy41MjQgNy45NTQtNy44NjR6bTAgMCIgc2tldGNoOnR5cGU9Ik1TU2hhcGVHcm91cCIgZmlsbD0iI0M1QzNDNCIvPjwvc3ZnPg==',
             'svg'
         )
-    ) no-repeat 0.85em 0.75em;
+    ) $white no-repeat 0.5em 0.5em;
     background-size: 1em;
 }
 
-.search-results {
-    @extend .datalist;
-    width: 100%;
-    margin: em(20px) 0 0;
-    text-align: left;
+// Annoyingly necessary to override Normalize’s application
+// of box-sizing: content-box.
+.search__input[type="search"] {
+    @include box-sizing(border-box);
 }
-
-.search-result {
-    @extend .datalist-item;
-}
-
-.search-result-link {
-    @extend .datalist-item-link;
-}
-
-.search-result-title {
-    @extend .datalist-item-title;
-}
-

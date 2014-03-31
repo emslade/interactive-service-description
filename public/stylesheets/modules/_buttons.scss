@@ -5,7 +5,7 @@
     padding: 0;
 }
 
-.textual-button {
+.button__textual {
     @extend %unstyled-button;
     border-bottom: 1px solid $lightest-grey;
     color: $mid-grey;
@@ -94,7 +94,7 @@
     }
 }
 
-.primary-button {
+.button__primary {
     @extend %button-template;
     color: $white;
     background: $green;
