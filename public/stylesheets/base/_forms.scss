@@ -34,9 +34,15 @@ input[type="number"] {
     }
 }
 
-@each $placeholder-vendor in (webkit, moz, ms) {
+@each $placeholder-vendor in (webkit, ms) {
     ::-#{$placeholder-vendor}-input-placeholder {
         color: $light-grey;
     }
 }
 
+// Firefox quite inexplicably renders this lighter than WebKit,
+// thus use a darker grey to compensate.
+:-moz-placeholder,
+::-moz-placeholder {
+    color: $mid-grey;
+}
