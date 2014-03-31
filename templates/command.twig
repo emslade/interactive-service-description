@@ -205,13 +205,13 @@
             endpointBodyOffset = document.querySelector('.endpoint-body').getBoundingClientRect().top,
             availableHeight = (viewportHeight - endpointBodyOffset),
             page = document.querySelector('.endpoint-page'),
-            tabMains = document.querySelectorAll('.tab-content-main'),
-            tabBodies = document.querySelectorAll('.tab-content-body');
+            tabEls = document.querySelectorAll('.tab-content-main, .tab-content-body'),
+            tabMains = null,
+            tabBodies = null;
 
         if (availableHeight < lowResMin) {
             page.classList.remove('fixed-low-res');
             page.classList.remove('fixed-high-res');
-            tabEls = _.extend(tabMains, tabBodies);
             _.each(tabEls, function (el) {
                 el.removeAttribute('style');
             });
@@ -220,6 +220,13 @@
 
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+
+        tabMains = _.filter(tabEls, function (el) {
+            return $(el).hasClass('tab-content-main');
+        });
+        tabBodies = _.filter(tabEls, function (el) {
+            return $(el).hasClass('tab-content-body');
+        });
 
         if (availableHeight < highResMin) {
             page.classList.remove('fixed-high-res');
