@@ -53,7 +53,7 @@
 
     <div class="endpoint-body page-body">
         <div aria-labelledby="parameters-tab-ctrl" aria-hidden="false" class="parameters-tab js-tab-content" role="tabpanel">
-            <form id="endpoint-parameters-form" class="endpoint-parameters-form tab-content-main">
+            <form id="endpoint-parameters-form" class="endpoint-parameters-form tab-content-main" novalidate>
                 <div class="endpoint-parameters tab-content-body">
                     {% for group in groupedParams %}
                         {% if group.params|length %}

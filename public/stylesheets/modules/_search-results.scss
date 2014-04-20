@@ -1,3 +1,17 @@
+.search-container {
+    margin: 0 auto;
+    width: 92%;
+    @media only screen and (min-width: em(620px, 16px)) {
+        width: 85%;
+    }
+    @media only screen and (min-width: em(740px, 16px)) {
+        width: 75%;
+    }
+    @media only screen and (min-width: em(860px, 16px)) {
+        width: 62%;
+    }
+}
+
 .search-results {
     @extend .datalist;
     width: 100%;
