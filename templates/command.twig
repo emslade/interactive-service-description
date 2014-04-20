@@ -89,13 +89,15 @@
                                                     {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
                                                     {% if param.type == 'integer' or param.type == 'numeric' %}autocomplete="off"{% endif %}
                                                 >
-                                                <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden>
+                                                <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden tabindex="-1">
                                                     <span>Clear</span>
                                                 </button>
                                             </div>
                                         {% endif %}
                                         <div class="parameter-meta">
-                                            <p class="parameter-required">{{ param.required ? 'Required' : 'Optional' }}</p>
+                                            <p class="parameter-required{{ param.required ? ' required-true' }}">
+                                                <span>{{ param.required ? 'Required' : 'Optional' }}</span>
+                                            </p>
                                             <p class="parameter-type">{{ param.type }}</p>
                                         </div>
                                     </li>
@@ -132,27 +134,27 @@
         <div aria-labelledby="request-response-tab-ctrl" aria-hidden="true" class="request-response-tab js-tab-content" role="tabpanel" hidden>
             <div class="tab-content-main">
                 <div class="endpoint-request-response tab-content-body">
-                    <p class="request-response-placeholder">You need to submit a request before you can see the result.</p>
+                    <p class="js-request-response-placeholder request-response-placeholder">You need to <a class="js-request-response-cta">submit a request</a> before you can see the result.</p>
 
                     <div class="request-container">
-                        <div class="request-headers-container" hidden>
+                        <div class="js-request-response-container request-headers-container" hidden>
                             <h3 class="result-header">Request headers</h3>
-                            <pre class="request-headers"><code class="language-http"></code></pre>
+                            <pre class="request-headers"><code class="js-request-response-output language-http"></code></pre>
                         </div>
-                        <div class="request-body-container" hidden>
+                        <div class="js-request-response-container request-body-container" hidden>
                             <h3 class="result-header">Request body</h3>
-                            <pre class="request-body"><code class="language-javascript"></code></pre>
+                            <pre class="request-body"><code class="js-request-response-output language-javascript"></code></pre>
                         </div>
                     </div>
 
                     <div class="response-container">
-                        <div class="response-headers-container" hidden>
+                        <div class="js-request-response-container response-headers-container" hidden>
                             <h3 class="result-header">Response headers</h3>
-                            <pre class="response-headers"><code class="language-http"></code></pre>
+                            <pre class="response-headers"><code class="js-request-response-output language-http"></code></pre>
                         </div>
-                        <div class="response-body-container" hidden>
+                        <div class="js-request-response-container response-body-container" hidden>
                             <h3 class="result-header">Response body</h3>
-                            <pre class="response-body"><code class="language-javascript"></code></pre>
+                            <pre class="response-body"><code class="js-request-response-output language-javascript"></code></pre>
                         </div>
                     </div>
                 </div>
@@ -301,7 +303,7 @@
             $('.js-endpoint-submit').attr('disabled', true).addClass('loading');
             switchToTab($('.request-response-tab'));
 
-            $('.request-response-placeholder').attr('hidden', true);
+            $('.js-request-response-placeholder').attr('hidden', true);
 
             $('.js-param').each(function (key, input) {
                 if ($(input).val() !== '') {
@@ -327,12 +329,17 @@
             })
             .done(function (response) {
                 $('.js-endpoint-submit').removeAttr('disabled').removeClass('loading');
-                $('.request-headers-container').attr('hidden', false).find('code').text(response.requestHeaders);
+                $('.js-request-response-container').removeAttr('hidden');
+
                 if (typeof response.request !== 'undefined' && response.request.length > 0) {
-                    $('.request-body-container').attr('hidden', false).find('code').text(response.request);
+                    $('.request-body-container .js-request-response-output').text(response.request);
+                } else {
+                    $('.request-body-container').attr('hidden', true);
                 }
-                $('.response-headers-container').attr('hidden', false).find('code').text(response.responseHeaders);
-                $('.response-body-container').attr('hidden', false).find('code').text(response.response);
+
+                $('.request-headers-container .js-request-response-output').text(response.requestHeaders);
+                $('.response-headers-container .js-request-response-output').text(response.responseHeaders);
+                $('.response-body-container .js-request-response-output').text(response.response);
                 Prism.highlightAll();
             });
         });
@@ -344,6 +351,18 @@
             }
 
             $('.request-container').attr('hidden', true);
+        });
+
+        $('.js-clear-request-response').on('click', function () {
+            $('.js-request-response-placeholder').removeAttr('hidden');
+            $('.js-request-response-output').empty();
+            $('.js-request-response-container').attr('hidden', true);
+        });
+
+        $('.js-request-response-cta').on('click', function (evt) {
+            evt.preventDefault();
+
+            switchToTab($('.parameters-tab'));
         });
 
         $('.js-tab-control').on('click', function (evt) {

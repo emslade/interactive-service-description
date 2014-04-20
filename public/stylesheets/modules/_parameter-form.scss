@@ -5,11 +5,8 @@ $two-column-right-padding-left: em(20px);
     display: inline-block;
     padding-right: em(20px);
     margin: 0;
-    width: 20%;
+    width: 25%;
     @include box-sizing(border-box);
-    @media only screen and (min-width: em(1360px, 16px)) {
-        width: 23%;
-    }
 }
 
 @mixin parameter-column-two() {
@@ -101,6 +98,10 @@ $two-column-right-padding-left: em(20px);
         float: right;
         @include clearfix;
     }
+
+    .clearable-input {
+        background: #fff;
+    }
 }
 
 .parameter-meta {
@@ -132,6 +133,7 @@ $two-column-right-padding-left: em(20px);
 .parameter-required,
 .parameter-type {
     display: inline-block;
+    font-size: em(16px);
     margin: 0;
 }
 
