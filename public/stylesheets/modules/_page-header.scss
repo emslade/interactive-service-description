@@ -1,11 +1,10 @@
 .page-header {
     background: #fff;
-    margin: 0;
-    padding: em(30px) em(20px);
+    margin: em(65px) 0 em(7px);
+    min-height: em(138px);
+    padding: em(30px) em(20px) em(15px);
     box-shadow: 0 2px 4px rgba(212, 212, 212, .4);
-    &.with-back-link {
-        margin: em(65px) 0 em(7px);
-    }
+    @include box-sizing(border-box);
 }
 
 .page-header-title {

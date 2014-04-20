@@ -1,8 +1,12 @@
 .endpoint-header {
+    margin: 0;
+    padding: em(30px) em(20px);
     padding-left: em(180px);
+    min-height: initial;
     position: relative;
     z-index: 1;
     @include endpoint-method-colors(background, '::before');
+    @include box-sizing(content-box);
 }
 
 .endpoint-header::before {
