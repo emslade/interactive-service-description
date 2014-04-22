@@ -1,5 +1,5 @@
 <?php
-namespace BaseKit;
+namespace ServiceDocs;
 
 use Guzzle\Service\Description\ServiceDescription;
 
@@ -59,21 +59,54 @@ class Generator
             $formattedUri = preg_replace('~(\{[^\}]+\})~', '<span class="uri-param">$1</span>', $operation->getUri());
 
             $params = array_map(function ($param) { return $param->toArray(); }, $operation->getParams());
-            $uriParams = array_filter($params, function ($param) { return isset($param['location']) && $param['location'] === 'uri'; });
-            $nonUriParams = array_filter($params, function ($param) { return isset($param['location']) && $param['location'] !== 'uri'; });
-            $requiredParams = array_filter($nonUriParams, function ($param) { return isset($param['required']) && $param['required'] === true; });
-            $optionalParams = array_filter($nonUriParams, function ($param) { return !isset($param['required']) || (isset($param['required']) && $param['required'] === false); });
+
+            $paramLocations = array(
+                'uri' => 'URI',
+                'query' => 'Query',
+                'header' => 'Header',
+                'body' => 'Body',
+                'postField' => 'Post field',
+                'postFile' => 'Post file',
+                'json' => 'JSON',
+                'xml' => 'XML',
+                'responseBody' => 'Response body'
+            );
+            $groupedParams = array();
+
+            foreach ($paramLocations as $key => $location) {
+                $groupedParams[$key] = array(
+                    'location' => $location,
+                    'params' => array_filter(
+                        $params,
+                        function ($param) use ($key) {
+                            return isset($param['location']) && $param['location'] === $key;
+                        }
+                    ),
+                );
+            }
+
+            $groupedParams['other'] = array(
+                'location' => 'Other',
+                'params' => array_filter(
+                    $params,
+                    function ($param) use ($paramLocations) {
+                        return !isset($param['location']) || (isset($param['location']) && !array_key_exists($param['location'], $paramLocations));
+                    }
+                )
+            );
 
             $typeahead[] = array(
+                'command' => $name,
                 'value' => $operation->getHttpMethod() . ' ' . $operation->getUri(),
                 'tokens' => array_values($tokens),
                 'path' => $commandPath,
                 'related' => $relatedMethods,
                 'uri' => $operation->getUri(),
-                'params' => array_merge($uriParams, $requiredParams, $optionalParams),
+                'groupedParams' => $groupedParams,
                 'method' => $operation->getHttpMethod(),
                 'summary' => $operation->getSummary(),
                 'formattedUri' => $formattedUri,
+                'directory' => self::getBaseResource($operation->getUri()),
             );
 
             file_put_contents($outputPath . $commandPath, $this->twig->render('command.twig', $typeahead[count($typeahead) - 1]));

@@ -1,0 +1,8 @@
+@mixin calc($property, $expression) {
+    $vendors: (webkit, moz);
+
+    @each $vendor in $vendors {
+        #{$property}: -#{$vendor}-calc(#{$expression});
+    }
+    #{$property}: calc(#{$expression});
+}

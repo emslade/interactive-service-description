@@ -1,0 +1,64 @@
+$toggleAnimationDuration: 0.15s;
+
+.toggle-switch {
+    font-size: 0;
+    display: inline-block;
+    @include user-select(none);
+}
+
+.toggle-switch > label {
+    font-size: 12px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+}
+
+.toggle-switch > input {
+    display: none;
+}
+
+.toggle-switch > label:first-of-type {
+    padding-right: em(18px, 12px);
+    z-index: 1;
+}
+
+.toggle-switch > label:last-of-type {
+    padding-left: em(18px, 12px);
+    &::before {
+        content: "";
+        background: #bcc6c4;
+        font-size: 18px;
+        position: absolute;
+        left: -13px;
+        width: em(26px, 18px);
+        height: em(12px, 18px);
+        border-radius: em(14px, 18px);
+        bottom: 1px;
+        @include transition(background $toggleAnimationDuration);
+    }
+    &::after {
+        content: "";
+        font-size: 18px;
+        background: #fff;
+        position: absolute;
+        width: em(8px, 18px);
+        height: em(8px, 18px);
+        left: em(2px, 18px);
+        bottom: em(3px, 18px);
+        border-radius: 100%;
+        $transformTransitionVendors: (webkit, moz);
+        @each $vendor in $transformTransitionVendors {
+            -#{$vendor}-transition: -#{$vendor}-transform $toggleAnimationDuration;
+        }
+        @include transition(transform $toggleAnimationDuration);
+    }
+}
+
+.toggle-switch > input:first-of-type:checked + label {
+    &::before {
+        background: #24aee7;
+    }
+    &::after {
+        @include transform(translateX(em(-12px, 18px)));
+    }
+}

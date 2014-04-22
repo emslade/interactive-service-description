@@ -1,0 +1,106 @@
+%unstyled-button {
+    background: none;
+    border: none;
+    box-sizing: inherit;
+    padding: 0;
+}
+
+.button__textual {
+    @extend %unstyled-button;
+    border-bottom: 1px solid $lightest-grey;
+    color: $mid-grey;
+    font-size: 1em;
+    font-weight: 300;
+    text-decoration: none;
+    @include transition(border 0.25s ease-out);
+    &:active,
+    &:focus {
+        border-bottom-color: $green;
+    }
+}
+
+%button-template {
+    font-size: 1em;
+    font-weight: 300;
+    text-decoration: none;
+    border: none;
+    border-radius: 2px;
+    box-shadow: none;
+    padding: em(7.2px) em(45px);
+    position: relative;
+    overflow: hidden;
+    @include transition(background 0.25s ease-out);
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        opacity: .65;
+    }
+
+    &::after {
+        content: "";
+        height: em(32px);
+        left: 50%;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        width: em(32px);
+        -webkit-transition: opacity .3s cubic-bezier(.175, .885, .320, 1.275), -webkit-transform .3s cubic-bezier(.175, .885, .320, 1.275);
+        @include transform(translate(-50%, -150%));
+        @include transition(
+            opacity .3s cubic-bezier(.175, .885, .320, 1.275),
+            transform .3s cubic-bezier(.175, .885, .320, 1.275)
+        );
+    }
+
+    &.loading {
+
+        &::after {
+            background: url(
+                inline-image(
+                    'PHN2ZyB2aWV3Qm94PSIwIDAgMzIgMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PC9kZWZzPjxnIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnPjxjaXJjbGUgZmlsbD0iI0ZFRkRGRCIgY3g9IjUiIGN5PSIxNyIgcj0iMCI+PGFuaW1hdGUgYXR0cmlidXRlVHlwZT0ieG1sIiBhdHRyaWJ1dGVOYW1lPSJyIiB2YWx1ZXM9IjA7MTsyOzM7NDszOzI7MTswIiBkdXI9IjEuOXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIi8+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSIjRkVGREZEIiBjeD0iMTYiIGN5PSIxNyIgcj0iMCI+PGFuaW1hdGUgYXR0cmlidXRlVHlwZT0ieG1sIiBhdHRyaWJ1dGVOYW1lPSJyIiB2YWx1ZXM9IjA7MTsyOzM7NDszOzI7MTswIiBkdXI9IjEuOXMiIGJlZ2luPSIwLjIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2NpcmNsZT48Y2lyY2xlIGZpbGw9IiNGRUZERkQiIGN4PSIyNyIgY3k9IjE3IiByPSIwIj48YW5pbWF0ZSBhdHRyaWJ1dGVUeXBlPSJ4bWwiIGF0dHJpYnV0ZU5hbWU9InIiIHZhbHVlcz0iMDsxOzI7Mzs0OzM7MjsxOzAiIGR1cj0iMS45cyIgYmVnaW49IjAuNDJzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPjwvY2lyY2xlPjwvZz48L2c+PC9zdmc+Cg==',
+                    svg
+                )
+            ) no-repeat center center;
+            opacity: 1;
+            @include transform(translate(-50%, -50%));
+        }
+
+        .text {
+            opacity: 0;
+            top: 2em;
+        }
+    }
+
+    .text {
+        position: relative;
+        @include transition(
+            opacity .3s cubic-bezier(.175, .885, .320, 1.275),
+            top .3s cubic-bezier(.175, .885, .320, 1.275)
+        );
+    }
+}
+
+.button {
+    @extend %button-template;
+    color: $white;
+    background: $light-grey;
+    &:active,
+    &:focus {
+        background: darken($light-grey, 8%);
+    }
+}
+
+.button__primary {
+    @extend %button-template;
+    color: $white;
+    background: $green;
+    &:active,
+    &:focus {
+        background: darken($green, 8%);
+    }
+}
+

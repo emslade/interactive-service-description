@@ -1,0 +1,45 @@
+// Fonts
+
+$font-path: '../type/';
+$base-font-stack: Lato, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+
+// Typography
+
+$base-font-size: 18px; // Base font-size at largest breakpoint.
+$heading-font-weight: 400;
+$page-title-size: 32px;
+$page-subhead-size: 20px;
+
+// Layout
+
+$base-max-content-width: 1000px; // Constrain the page width to this size where appropriate.
+$sidebarTabsWidth: 160px;
+
+
+// Color
+
+$black: #393939;
+$dark-grey: #5C5C5C;
+$mid-grey: #898989;
+$light-grey: #CACACA;
+$lightest-grey: #F0EEEE;
+$white: #FEFDFD;
+$yellow: #FFCE0A;
+$green: #00CA8E;
+$blue: #0093D0;
+$lightest-blue: #eff1f5;
+$muted-blue: #65737e;
+$dark-blue: #292e33;
+$red: #EA000E;
+$muted-red: #bf616a;
+
+$base-text-color: $dark-grey;
+$base-background-color: $lightest-grey;
+
+$logoServiceColor: $white;
+$logoDocsColor: #DADADA;
+
+$sidebarTabsBgColor: #eaeff2;
+$sidebarTabsSelectedBgColor: #dae4ea;
+$sidebarTabsTextColor: #8298a5;
+$sidebarTabsSelectedTextColor: #638293;

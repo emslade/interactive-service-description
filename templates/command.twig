@@ -1,127 +1,378 @@
 {% extends "layout.twig" %}
 
 {% block title %}{{ method }} {{ uri }}{% endblock %}
+{% block bodyClasses %}endpoint-page{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="command-title-container">
-        <div class="page-header">
-            <h1 class="page-header-title endpoint-title"><span class="endpoint-method">{{ method }}</span> {{ formattedUri|raw }}</h1>
-            <ul class="related-methods">
-                {% for httpMethod in ['GET', 'PUT', 'POST', 'DELETE'] %}
-                    <li class="related-method">
-                    {% set item = related[httpMethod] %}
-                    {% if item %}
-                        <a class="related-method-{{ httpMethod }} method{% if httpMethod == method %} active{% endif %}" href="{{ item.link }}">{{ item.method }}</a>
-                    {% else %}
-                        <span class="unimplemented-method method">{{ httpMethod }}</a>
-                    {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+<div class="endpoint-header page-header endpoint-method-{{ method }}" data-method="{{ method }}">
+    <h1 class="endpoint-title page-header-title"><span class="endpoint-title-method">{{ method }}</span> {{ formattedUri|raw }}</h1>
+
+    {% if summary %}
+        <p class="endpoint-summary">{{ summary }}</p>
+    {% endif %}
+
+    {% if command %}
+        <dl class="endpoint-command-name endpoint-header-meta">
+            <dt class="endpoint-header-meta-key">Command</dt>
+            <dd class="endpoint-header-meta-value">{{ command }}</dd>
+        </dl>
+    {% endif %}
+
+    {% if directory %}
+        <dl class="endpoint-header-meta">
+            <dt class="endpoint-header-meta-key">Directory</dt>
+            <dd class="endpoint-header-meta-value">
+                <a href="/directory/{{ directory }}.html" class="endpoint-header-directory-link">{{ directory|split("-")|join(" ")|capitalize }}</a>
+            </dd>
+        </dl>
+    {% endif %}
+</div>
+
+<div class="endpoint-main">
+    <div class="endpoint-tabs sidebar-tabs">
+        <ol class="sidebar-tab-list" role="tablist">
+            <li role="presentation" class="current sidebar-tab-item js-tab-item">
+                <a id="parameters-tab-ctrl" aria-selected="true" tabindex="0" class="sidebar-tab-control js-tab-control" role="tab">
+                    <div class="sidebar-tab-inner">
+                        {% include 'params-icon.svg.twig' %}
+                        <span>Parameters</span>
+                    </div>
+                </a>
+            </li>
+            <li role="presentation" class="sidebar-tab-item js-tab-item">
+                <a id="request-response-tab-ctrl" aria-selected="false" tabindex="-1" class="sidebar-tab-control js-tab-control" role="tab">
+                    <div class="sidebar-tab-inner">
+                        {% include 'request-response-icon.svg.twig' %}
+                        <span>Request & Response</span>
+                    </div>
+                </a>
+            </li>
+        </ol>
+
     </div>
 
-    <div class="command-container">
-        <p class="command-summary">{{ summary }}</p>
+    <div class="endpoint-body page-body">
+        <div aria-labelledby="parameters-tab-ctrl" aria-hidden="false" class="parameters-tab js-tab-content" role="tabpanel">
+            <form id="endpoint-parameters-form" class="endpoint-parameters-form tab-content-main" novalidate>
+                <div class="endpoint-parameters tab-content-body">
+                    {% for group in groupedParams %}
+                        {% if group.params|length %}
+                            <h3 class="parameters-group-name">{{ group.location }} params</h3>
+                            <ul class="parameters-group-list">
+                                {% for key, param in group.params %}
+                                    <li class="parameter"{% if param.required %} data-required{% endif %}>
+                                        <label for="{{ key }}-param" class="parameter-name">{{ key }}</label>
 
-        {% if params|length > 0 %}
-        <h3>Parameters</h3>
-        {% endif %}
-        <form>
-            <table class="params">
-            {% for key, param in params %}
-            <tr>
-                <td class="param-key">
-                    <div>{{ key }}</div>
-                    <div class="muted">{{ param.required ? 'required' : 'optional' }}</div>
-                </td>
-                <td class="param-desc">
-                    <div>{{ param.description }}</div>
-                    <div class="muted">{{ param.type }}</div>
-                </td>
-                <td class="param-input">
-                    {% if param.enum %}
-                    <select name="{{ key }}" class="param">
-                        <option></option>
-                        {% for value in param.enum %}
-                        <option>{{ value }}</option>
-                        {% endfor %}
-                    </select>
-                    {% else %}
-                    <input name="{{ key }}" type="text" class="param">
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-            </table>
-            <div class="button-container">
-                <button class="primary-button try-it">Try it!</button>
+                                        {% if param.description %}
+                                            <p id="{{ key }}-description" class="parameter-description">{{ param.description }}</p>
+                                        {% endif %}
+
+                                        {% if param.enum %}
+                                            <select
+                                                name="{{ key }}" id="{{ key }}-param"
+                                                class="parameter-input js-param"
+                                                {% if param.required %}required{% endif %}
+                                                {% if param.description %} aria-describedby="{{ key }}-description"{% endif %}
+                                            >
+                                                <option></option>
+                                                {% for value in param.enum %}
+                                                    <option>{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% else %}
+                                            <div class="parameter-input clearable-input-container">
+                                                <input 
+                                                    name="{{ key }}" id="{{ key }}-param"
+                                                    class="clearable-input js-param"
+                                                    type="{{ param.type == 'integer' or param.type == 'numeric' ? 'number' : 'text' }}"
+                                                    {% if param.required %}required{% endif %}
+                                                    {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
+                                                    {% if param.type == 'integer' or param.type == 'numeric' %}autocomplete="off"{% endif %}
+                                                >
+                                                <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden tabindex="-1">
+                                                    <span>Clear</span>
+                                                </button>
+                                            </div>
+                                        {% endif %}
+                                        <div class="parameter-meta">
+                                            <p class="parameter-required{{ param.required ? ' required-true' }}">
+                                                <span>{{ param.required ? 'Required' : 'Optional' }}</span>
+                                            </p>
+                                            <p class="parameter-type">{{ param.type }}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="parameters-submit-container tab-content-footer">
+                    <button class="parameters-submit response-button button__primary js-endpoint-submit" type="submit">
+                        <span class="text">Submit</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="tab-content-actions">
+                <fieldset class="page-action">
+                    <legend class="page-action__title">Optional params</legend>
+                    <div class="toggle-switch">
+                        <label for="opt-params-show">Show</label>
+                        <input id="opt-params-show" name="opt-params-visibility" value="show" type="radio" checked>
+                        <label for="opt-params-hide">Hide</label>
+                        <input id="opt-params-hide" name="opt-params-visibility" value="hide" type="radio">
+                    </div>
+                </fieldset>
+
+                <div class="page-action">
+                    <button class="js-reset-param-form page-action__button--textual" type="reset" form="endpoint-parameters-form">Reset form</button>
+                </div>
             </div>
-        </form>
+        </div>
 
-        <h3 class="request-title" hidden>Request</h3>
-        <pre class="requestHeaders" hidden><code class="language-http"></code></pre>
-        <pre class="request" hidden><code class="language-javascript"></code></pre>
-        <h3 class="response-title" hidden>Response</h3>
-        <pre class="responseHeaders" hidden><code class="language-http"></code></pre>
-        <pre class="response" hidden><code class="language-javascript"></code></pre>
+        <div aria-labelledby="request-response-tab-ctrl" aria-hidden="true" class="request-response-tab js-tab-content" role="tabpanel" hidden>
+            <div class="tab-content-main">
+                <div class="endpoint-request-response tab-content-body">
+                    <p class="js-request-response-placeholder request-response-placeholder">You need to <a class="js-request-response-cta">submit a request</a> before you can see the result.</p>
+
+                    <div class="request-container">
+                        <div class="js-request-response-container request-headers-container" hidden>
+                            <h3 class="result-header">Request headers</h3>
+                            <pre class="request-headers"><code class="js-request-response-output language-http"></code></pre>
+                        </div>
+                        <div class="js-request-response-container request-body-container" hidden>
+                            <h3 class="result-header">Request body</h3>
+                            <pre class="request-body"><code class="js-request-response-output language-javascript"></code></pre>
+                        </div>
+                    </div>
+
+                    <div class="response-container">
+                        <div class="js-request-response-container response-headers-container" hidden>
+                            <h3 class="result-header">Response headers</h3>
+                            <pre class="response-headers"><code class="js-request-response-output language-http"></code></pre>
+                        </div>
+                        <div class="js-request-response-container response-body-container" hidden>
+                            <h3 class="result-header">Response body</h3>
+                            <pre class="response-body"><code class="js-request-response-output language-javascript"></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="request-response-resubmit-container tab-content-footer">
+                    <button class="request-response-resubmit button__primary js-endpoint-submit" type="submit" form="endpoint-parameters-form">
+                        <span class="text">Re-send</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tab-content-actions">
+                <fieldset class="page-action">
+                    <legend class="page-action__title">Request details</legend>
+                    <div class="toggle-switch">
+                        <label for="request-details-show">Show</label>
+                        <input id="request-details-show" name="request-details-visibility" value="show" type="radio" checked>
+                        <label for="request-details-hide">Hide</label>
+                        <input id="request-details-hide" name="request-details-visibility" value="hide" type="radio">
+                    </div>
+                </fieldset>
+
+                <div class="page-action">
+                    <button class="js-clear-request-response page-action__button--textual" type="button">Clear this request</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<script type="text/javascript">
-$(function() {
-    localStorage.clear();
+<script>
 
-    $('.param').first().focus();
+    function switchToTab (newTab) {
+        var tabCtrl = $('#' + newTab.attr('aria-labelledby'));
 
-    $('.try-it').click(function (e) {
-        e.preventDefault();
-        var data = {
-            method: '{{ method }}',
-            uri: '{{ uri }}',
-            params: {}
-        };
+        $('.js-tab-control').attr({'aria-selected': false, 'tabindex': '-1'}).parent('.js-tab-item').removeClass('current');
+        tabCtrl.attr({'aria-selected': true, 'tabindex': '0'}).parent('.js-tab-item').addClass('current');
 
-        $('.request-title').removeAttr('hidden');
-        $('.requestHeaders').removeAttr('hidden');
-        $('.response-title').removeAttr('hidden');
-        $('.responseHeaders').removeAttr('hidden');
-        $('.response').removeAttr('hidden');
+        $('.js-tab-content').attr('aria-hidden', true).attr('hidden', true);
+        newTab.attr('aria-hidden', false).attr('hidden', false);
 
-        $('.param').each(function (key, input) {
-            if ($(input).val() !== '') {
-                data.params[$(input).attr('name')] = $(input).val();
-            }
+        tabCtrl.focus();
+    }
+
+    function setupFixedTabContent () {
+        var lowResMin = 420,
+            highResMin = 480,
+            padding = 20,
+            viewportHeight = window.innerHeight,
+            endpointBodyOffset = document.querySelector('.endpoint-body').getBoundingClientRect().top,
+            availableHeight = (viewportHeight - endpointBodyOffset),
+            page = document.querySelector('.endpoint-page'),
+            tabEls = document.querySelectorAll('.tab-content-main, .tab-content-body'),
+            tabMains = null,
+            tabBodies = null;
+
+        if (availableHeight < lowResMin) {
+            page.classList.remove('fixed-low-res');
+            page.classList.remove('fixed-high-res');
+            _.each(tabEls, function (el) {
+                el.removeAttribute('style');
+            });
+            return;
+        }
+
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+
+        tabMains = _.filter(tabEls, function (el) {
+            return $(el).hasClass('tab-content-main');
+        });
+        tabBodies = _.filter(tabEls, function (el) {
+            return $(el).hasClass('tab-content-body');
         });
 
-        replacer = function(match, param) {
-            if (data.params.hasOwnProperty(param)) {
-                val = data.params[param];
-                delete data.params[param];
-                return val;
-            }
-        };
+        if (availableHeight < highResMin) {
+            page.classList.remove('fixed-high-res');
+            page.classList.add('fixed-low-res');
+            _.each(tabMains, function (el) {
+                el.style.height = (availableHeight - (padding * 2)) + 'px';
+            });
+            _.each(tabBodies, function (el) {
+                el.removeAttribute('style');
+            });
+            return;
+        }
 
-        data.uri = data.uri.replace(/{([a-zA-Z]+)}/g, replacer);
-
-        $.ajax({
-            url: '/proxy.php',
-            method: 'POST',
-            contentType: 'application/json; charset=UTF-8',
-            data: JSON.stringify(data)
-        })
-        .done(function (response) {
-            $('.requestHeaders code').text(response.requestHeaders);
-            if (typeof response.request !== 'undefined' && response.request.length > 0) {
-                $('.request code').text(response.request);
-                $('.request').removeAttr('hidden');
-            }
-            $('.responseHeaders code').text(response.responseHeaders);
-            $('.response code').text(response.response);
-            Prism.highlightAll();
+        page.classList.remove('fixed-low-res');
+        page.classList.add('fixed-high-res');
+        _.each(tabMains, function (el) {
+            el.removeAttribute('style');
         });
+        _.each(tabBodies, function (el) {
+            el.style.height = (availableHeight - (padding * 2) - document.querySelector('.tab-content-footer').clientHeight) + 'px';
+        });
+    }
+
+    $(function() {
+        localStorage.clear();
+
+        setupFixedTabContent();
+
+        var resizeTimer = null;
+
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(setupFixedTabContent, 250);
+        }, false);
+
+        $('.endpoint-parameters-form').on('keyup', '.clearable-input', function () {
+            var value = $(this).val(),
+                control = $(this).next('.clearable-input-control');
+
+            if (value.length > 0) {
+                control.attr('hidden', false);
+                return;
+            }
+            control.attr('hidden', true);
+        });
+
+        $('.endpoint-parameters-form').on('click', '.clearable-input-control', function () {
+            $(this).attr('hidden', true).prev('.clearable-input').val('');
+        });
+
+        $('.endpoint-parameters-form').on('reset', function () {
+            $(this).find('.clearable-input-control').attr('hidden', true);
+        });
+
+        $('[name="opt-params-visibility"]').on('change', function (evt) {
+            if (evt.currentTarget.value === 'show') {
+                $('.endpoint-parameters .parameter').removeAttr('hidden');
+                return;
+            }
+
+            $('.endpoint-parameters .parameter:not([data-required])').attr('hidden', true);
+        });
+
+        $('#endpoint-parameters-form').on('submit', function (e) {
+            e.preventDefault();
+            var data = {
+                method: '{{ method }}',
+                uri: '{{ uri }}',
+                params: {}
+            };
+
+            $('.js-endpoint-submit').attr('disabled', true).addClass('loading');
+            switchToTab($('.request-response-tab'));
+
+            $('.js-request-response-placeholder').attr('hidden', true);
+
+            $('.js-param').each(function (key, input) {
+                if ($(input).val() !== '') {
+                    data.params[$(input).attr('name')] = $(input).val();
+                }
+            });
+
+            replacer = function(match, param) {
+                if (data.params.hasOwnProperty(param)) {
+                    val = data.params[param];
+                    delete data.params[param];
+                    return val;
+                }
+            };
+
+            data.uri = data.uri.replace(/{([a-zA-Z]+)}/g, replacer);
+
+            $.ajax({
+                url: '/proxy.php',
+                method: 'POST',
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify(data)
+            })
+            .done(function (response) {
+                $('.js-endpoint-submit').removeAttr('disabled').removeClass('loading');
+                $('.js-request-response-container').removeAttr('hidden');
+
+                if (typeof response.request !== 'undefined' && response.request.length > 0) {
+                    $('.request-body-container .js-request-response-output').text(response.request);
+                } else {
+                    $('.request-body-container').attr('hidden', true);
+                }
+
+                $('.request-headers-container .js-request-response-output').text(response.requestHeaders);
+                $('.response-headers-container .js-request-response-output').text(response.responseHeaders);
+                $('.response-body-container .js-request-response-output').text(response.response);
+                Prism.highlightAll();
+            });
+        });
+
+        $('[name="request-details-visibility"]').on('change', function (evt) {
+            if (evt.currentTarget.value === 'show') {
+                $('.request-container').removeAttr('hidden');
+                return;
+            }
+
+            $('.request-container').attr('hidden', true);
+        });
+
+        $('.js-clear-request-response').on('click', function () {
+            $('.js-request-response-placeholder').removeAttr('hidden');
+            $('.js-request-response-output').empty();
+            $('.js-request-response-container').attr('hidden', true);
+        });
+
+        $('.js-request-response-cta').on('click', function (evt) {
+            evt.preventDefault();
+
+            switchToTab($('.parameters-tab'));
+        });
+
+        $('.js-tab-control').on('click', function (evt) {
+            var tab = $('.js-tab-content[aria-labelledby=' + $(this).attr('id') + ']');
+
+            evt.preventDefault();
+
+            switchToTab(tab);
+        });
+
     });
-});
 </script>
 {% endblock %}

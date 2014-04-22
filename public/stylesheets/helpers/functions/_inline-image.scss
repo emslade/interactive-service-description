@@ -1,0 +1,11 @@
+@function inline-image($data, $type) {
+    @if $type == 'svg' {
+        $type: 'svg+xml';
+    }
+
+    $data: unquote($data);
+    $type: unquote($type);
+
+    @return 'data:image/#{$type};base64,#{$data}';
+}
+

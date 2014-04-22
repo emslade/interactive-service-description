@@ -1,0 +1,48 @@
+$input-transition-duration: 0.25s;
+$input-transition-timing-function: ease-out;
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+label[for] {
+    cursor: pointer;
+}
+
+input {
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: none;
+    border-radius: 0;
+    padding: em(6px) em(8px);
+    @include box-sizing(border-box);
+    @include transition(
+        color $input-transition-duration $input-transition-timing-function,
+        border-color $input-transition-duration $input-transition-timing-function
+    );
+    &:focus {
+        outline: none;
+    }
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    &::-webkit-inner-spin-button {
+        display: none;
+    }
+}
+
+@each $placeholder-vendor in (webkit, ms) {
+    ::-#{$placeholder-vendor}-input-placeholder {
+        color: $light-grey;
+    }
+}
+
+// Firefox quite inexplicably renders this lighter than WebKit,
+// thus use a darker grey to compensate.
+:-moz-placeholder,
+::-moz-placeholder {
+    color: $mid-grey;
+}

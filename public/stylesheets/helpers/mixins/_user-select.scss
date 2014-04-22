@@ -1,0 +1,7 @@
+@mixin user-select($value) {
+    $vendors: (webkit, moz, ms);
+
+    @each $vendor in $vendors {
+        -#{$vendor}-user-select: $value;
+    }
+}

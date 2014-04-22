@@ -1,0 +1,9 @@
+@mixin transform($value...) {
+    $vendors: (webkit, moz, ms, o);
+
+    @each $vendor in $vendors {
+        -#{$vendor}-transform: $value;
+    }
+    transform: $value;
+}
+

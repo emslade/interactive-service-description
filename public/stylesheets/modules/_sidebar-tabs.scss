@@ -1,0 +1,64 @@
+$sidebarTabAnimationDuration: 0.25s;
+
+.sidebar-tabs {
+    width: em($sidebarTabsWidth);
+    float: left;
+    background: $sidebarTabsBgColor;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.sidebar-tab-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-tab-item {
+    @include transition(background $sidebarTabAnimationDuration);
+}
+
+.sidebar-tab-item.current {
+    background: $sidebarTabsSelectedBgColor;
+    .sidebar-tab-control {
+        color: $sidebarTabsSelectedTextColor;
+        &:focus {
+            outline: none;
+        }
+    }
+    .sidebar-tab-icon {
+        fill: $sidebarTabsSelectedTextColor;
+    }
+}
+
+.sidebar-tab-control {
+    font-size: em(16px);
+    display: block;
+    height: em($sidebarTabsWidth, 16px);
+    position: relative;
+    padding: 1em;
+    @include box-sizing(border-box);
+    @include transition(color $sidebarTabAnimationDuration);
+    text-align: center;
+    cursor: pointer;
+    color: $sidebarTabsTextColor;
+}
+
+.sidebar-tab-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include transform(translate(-50%, -50%));
+}
+
+.sidebar-tab-icon-container {
+    width: 48px;
+    height: 48px;
+    margin-bottom: em(12px);
+}
+
+.sidebar-tab-icon {
+    fill: $sidebarTabsTextColor;
+    @include transition(fill $sidebarTabAnimationDuration);
+}

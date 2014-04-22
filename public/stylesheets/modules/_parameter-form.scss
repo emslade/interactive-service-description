@@ -1,0 +1,155 @@
+$two-column-right-width: 65%;
+$two-column-right-padding-left: em(20px);
+
+@mixin parameter-column-one() {
+    display: inline-block;
+    padding-right: em(20px);
+    margin: 0;
+    width: 25%;
+    @include box-sizing(border-box);
+}
+
+@mixin parameter-column-two() {
+    display: inline-block;
+    padding-right: em(20px);
+    margin: 0;
+    width: 50%;
+    @include box-sizing(border-box);
+}
+
+.parameters-group-name {
+    margin-bottom: em(32px);
+    color: $mid-grey;
+}
+
+.parameters-group-list {
+    list-style: none;
+    padding: 0;
+}
+
+.parameter {
+    display: table;
+    caption-side: bottom;
+    margin-bottom: 2em;
+    width: 100%;
+    @media only screen and (min-width: em(660px, 16px)) {
+        display: block;
+        margin-bottom: 3em;
+        @include clearfix;
+    }
+    @media only screen and (min-width: em(948px, 16px)) {
+        margin-bottom: 2em;
+    }
+}
+
+.parameter-name {
+    font-size: 1.15em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: block;
+    margin-bottom: 0.5em;
+    @media only screen and (min-width: em(660px, 16px)) {
+        font-size: 1em;
+        display: inline-block;
+        width: 30%;
+    }
+    @media only screen and (min-width: em(948px, 16px)) {
+        vertical-align: top;
+        @include parameter-column-one();
+    }
+}
+
+.parameter-description {
+    display: table-caption;
+    margin: 0.5em 0;
+    @media only screen and (min-width: em(660px, 16px)) {
+        text-align: right;
+        display: block;
+        width: $two-column-right-width;
+        margin-top: 0;
+        float: right;
+        padding-left: $two-column-right-padding-left;
+        @include box-sizing(border-box);
+        @include clearfix;
+    }
+    @media only screen and (min-width: em(948px, 16px)) {
+        float: none;
+        text-align: left;
+        padding-left: 0;
+        @include parameter-column-two();
+    }
+}
+
+.parameter-input {
+    &.clearable-input-container,
+    .clearable-input {
+        width: 100%;
+    }
+    @media only screen and (min-width: em(660px, 16px)) {
+        display: block;
+        @include clearfix;
+        &.clearable-input-container,
+        .clearable-input {
+            width: auto;
+        }
+    }
+    @media only screen and (min-width: em(948px, 16px)) {
+        display: inline-block;
+        float: right;
+        @include clearfix;
+    }
+
+    .clearable-input {
+        background: #fff;
+    }
+}
+
+.parameter-meta {
+    display: table-caption;
+    @media only screen and (min-width: em(660px, 16px)) {
+        text-align: right;
+        display: block;
+        float: right;
+        width: $two-column-right-width;
+        padding-left: $two-column-right-padding-left;
+        @include box-sizing(border-box);
+        @include clearfix;
+        @include transform(translateY(-2em));
+        .parameter-description ~ & {
+            @include transform(none);
+        }
+    }
+    @media only screen and (min-width: em(948px, 16px)) {
+        text-align: left;
+        float: none;
+        display: block;
+        width: 100%;
+        padding-left: 0;
+        margin-top: 0.5em;
+        @include transform(none);
+    }
+}
+
+.parameter-required,
+.parameter-type {
+    display: inline-block;
+    font-size: em(16px);
+    margin: 0;
+}
+
+.parameter-required {
+    text-transform: lowercase;
+    font-weight: 300;
+    margin-right: 0.5em;
+    @media only screen and (min-width: em(948px, 16px)) {
+        @include parameter-column-one();
+    }
+}
+
+.parameter-type {
+    text-transform: lowercase;
+    font-weight: 300;
+    @media only screen and (min-width: em(948px, 16px)) {
+        @include parameter-column-two();
+    }
+}

@@ -1,0 +1,35 @@
+.endpoint-list-title {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    &::before {
+        content: "";
+        display: inline-block;
+        width: em(8px, 24px);
+        height: em(8px, 24px);
+        margin-right: em(8px, 24px);
+        margin-bottom: em(3px, 24px);
+        border-radius: em(32px);
+    }
+    @include endpoint-method-colors(background, '::before');
+}
+
+.endpoint-list-method {
+    font-size: em(21px, 24px);
+}
+
+.endpoint-list-method,
+.endpoint-list-uri .uri-param {
+    color: $mid-grey;
+}
+
+.endpoint-list-uri {
+    color: $black;
+}
+
+.endpoint-list-summary {
+    font-weight: 300;
+    line-height: 1.35;
+    color: $mid-grey;
+    margin-top: 0;
+}
+

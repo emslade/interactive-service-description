@@ -1,0 +1,107 @@
+.endpoint-header {
+    margin: 0;
+    padding: em(30px) em(20px);
+    padding-left: em(180px);
+    min-height: initial;
+    position: relative;
+    z-index: 1;
+    @include endpoint-method-colors(background, '::before');
+    @include box-sizing(content-box);
+}
+
+.endpoint-header::before {
+    content: "";
+    display: block;
+    width: em(98px);
+    height: em(98px);
+    border-radius: em(60px);
+    position: absolute;
+    left: em(30px);
+    top: 50%;
+    @include transform(translateY(-50%));
+}
+
+.endpoint-header::after {
+    content: attr(data-method);
+    font-weight: 300;
+    font-size: 20px;
+    letter-spacing: 3.33px;
+    display: block;
+    color: #fefdfd;
+    border-radius: em(60px, 20px);
+    position: absolute;
+    left: em(30px, 20px);
+    top: 50%;
+    @include transform(translateY(-50%));
+    text-align: center;
+    width: em(98px, 20px);
+}
+
+.endpoint-title {
+    @include word-break;
+    color: $black;
+    .uri-param {
+        color: $mid-grey;
+    }
+}
+
+.endpoint-title-method {
+    color: $mid-grey;
+    font-weight: 300;
+}
+
+.endpoint-summary {
+    @extend .page-header-subhead;
+}
+
+%endpoint-header-meta-item {
+    display: inline-block;
+}
+
+.endpoint-header-meta {
+    @extend %endpoint-header-meta-item;
+    margin: em(22px) em(8px) 0 0;
+    font-size: em(16px);
+    &::after {
+        content: "•";
+        color: $mid-grey;
+        margin-left: em(8px);
+    }
+    &:last-of-type::after {
+        display: none;
+    }
+}
+
+.endpoint-header-meta-key {
+    @extend %endpoint-header-meta-item;
+    color: $mid-grey;
+    &::after {
+        content: ":";
+    }
+}
+
+.endpoint-header-meta-value {
+    @extend %endpoint-header-meta-item;
+    margin: 0;
+}
+
+.endpoint-header-directory-link {
+    color: inherit;
+    text-decoration: none;
+    padding: 12px 12px 12px 0;
+    &:after {
+        content: "";
+        display: inline-block;
+        width: 0.8em;
+        height: 0.8em;
+        padding-left: 0.25em;
+        margin-bottom: -0.15em;
+        background: url(
+            inline_image(
+                'PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiPjx0aXRsZT5MaW5rIGFycm93IChvd24gd29yayk8L3RpdGxlPjxwYXRoIGQ9Ik02IDEyYzMuMzE0IDAgNi0yLjY4NiA2LTZzLTIuNjg2LTYtNi02LTYgMi42ODYtNiA2IDIuNjg2IDYgNiA2em00LTZsLTYgM3YtNmw2IDN6IiBmaWxsPSIjNUM1QzVDIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIi8+PC9zdmc+',
+                svg
+            )
+        ) no-repeat center right;
+    }
+}
+
