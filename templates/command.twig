@@ -88,6 +88,7 @@
                                                     {% if param.required %}required{% endif %}
                                                     {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
                                                     {% if param.type == 'integer' or param.type == 'numeric' %}autocomplete="off"{% endif %}
+                                                    {% if param.default %}value="{{ param.default|escape }}"{% endif %}
                                                 >
                                                 <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden tabindex="-1">
                                                     <span>Clear</span>
