@@ -25,7 +25,9 @@ $required = array(
     'token_secret',
 );
 
-$default = array();
+$default = array(
+    'redirect.disable' => true,
+);
 
 $role = $config['defaultRole'];
 
