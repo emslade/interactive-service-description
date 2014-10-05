@@ -1,32 +1,33 @@
 @import "config.scss";
+@import "config-new";
 
-@import "helpers/functions.scss";
-@import "helpers/mixins.scss";
+@import "helpers/functions";
+@import "helpers/mixins";
 
-@import "vendor/normalize/normalize.scss";
+@import "vendor/normalize/normalize";
 
-@import "base/fonts.scss";
-@import "base/typography.scss";
-@import "base/layout.scss";
-@import "base/forms.scss";
-@import "base/color.scss";
+@import "base/fonts";
+@import "base/typography";
+@import "base/layout";
+@import "base/forms";
+@import "base/color";
 
-@import "modules/buttons.scss";
+@import "modules/buttons";
 @import "modules/toggle-switch.scss";
 @import "modules/syntax.scss";
-@import "modules/clearable-input.scss";
-@import "modules/logo-mark.scss";
-@import "modules/navigation.scss";
-@import "modules/page-header.scss";
-@import "modules/page-body.scss";
-@import "modules/sidebar-tabs.scss";
-@import "modules/page-action.scss";
-@import "modules/feature.scss";
-@import "modules/search-results";
-@import "modules/datalist.scss";
-@import "modules/endpoint-list.scss";
-@import "modules/search.scss";
 @import "modules/parameter-form.scss";
 @import "modules/request-response.scss";
 
-@import "pages/endpoint.scss";
+// New shit
+@import "modules/navigation";
+@import "modules/header";
+@import "modules/footer";
+@import "modules/search-form";
+@import "modules/card";
+@import "modules/section-title";
+@import "modules/feature-block";
+@import "modules/tab-bar";
+@import "modules/endpoint-list";
+@import "modules/parameters-list";
+
+@import "layouts/default";

@@ -1,0 +1,111 @@
+.parameters-list {
+    list-style: none;
+    margin: 0 0 em(40px);
+    padding: 0;
+
+    &:last-child {
+        margin: 0;
+    }
+}
+
+.parameters-list__parameter {
+    background-color: #fff;
+    margin: 0 0 em(10px);
+    padding: em(16px);
+    position: relative;
+
+    &:last-child {
+        margin: 0;
+    }
+}
+
+.parameters-list__parameter-name {
+    font-size: em(20px);
+    font-weight: 600;
+    margin: 0 0 em(8px, 20px) 8.4693%;
+    max-width: 59.59%;
+
+    @include font-smoothing;
+
+    &:nth-last-child(3) {
+        margin-bottom: 0;
+    }
+}
+
+.parameters-list__parameter-description {
+    color: $secondary-text-color;
+    font-size: em(16px);
+    margin: 0 0 em(14px, 16px) 8.4693%;
+    max-width: 59.59%;
+
+    &:nth-last-child(3) {
+        margin-bottom: 0;
+    }
+}
+
+.parameters-list__parameter-enum {
+    margin: 0 0 0 8.4693%;
+    max-width: 59.59%;
+}
+
+.parameters-list__parameter-enum-key {
+    display: inline-block;
+    font-size: em(14px);
+    margin: 0;
+    &::after {
+        content: ":";
+    }
+}
+
+.parameters-list__parameter-enum-list {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.parameters-list__parameter-enum-value {
+    background-color: #ebf1ef;
+    border-radius: em(14px);
+    display: inline-block;
+    font-size: em(14px);
+    font-weight: 500;
+    padding: em(2px, 14px) em(8px, 14px);
+}
+
+.parameters-list__parameter-required {
+    background-color: #50e3c2;
+    border-radius: em(20px, 16px);
+    color: #fff;
+    display: inline-block;
+    font-size: em(16px);
+    margin: 0;
+    padding: em(3px, 16px) em(10px, 16px);
+    position: absolute;
+    text-transform: lowercase;
+    top: 50%;
+    right: em(20px, 16px);
+
+    @include font-smoothing;
+    @include transform(translateY(-50%));
+}
+
+.parameters-list__parameter-type {
+    background-color: $primary-text-color;
+    border-radius: em(30px);
+    height: em(30px);
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    width: em(30px);
+
+    @include transform(translateY(-50%));
+}
+
+.parameters-list__parameter-type span {
+    @extend %visuallyhidden;
+}
+
+.parameters-list__parameter-required.is-required {
+    background-color: #ff3946;
+}

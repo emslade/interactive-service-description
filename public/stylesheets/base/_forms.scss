@@ -12,10 +12,10 @@ label[for] {
 }
 
 input {
-    border-width: 2px;
+    border-width: em($input-border-width);
     border-style: solid;
-    box-shadow: none;
-    border-radius: 0;
+    box-shadow: $input-box-shadow;
+    border-radius: em($input-border-radius);
     padding: em(6px) em(8px);
     @include box-sizing(border-box);
     @include transition(

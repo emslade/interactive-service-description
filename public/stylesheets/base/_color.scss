@@ -4,17 +4,17 @@ html {
 }
 
 a {
-    color: $green;
+    color: $link-color;
 }
 
 input {
-    color: $base-text-color;
-    border-color: $light-grey;
-    background: $white;
+    color: $input-text-color;
+    background: $input-background-color;
+    border-color: $input-border-color;
     &:focus {
-        color: $black;
-        border-color: $mid-grey;
-        background: lighten($white, 0.25%);
+        color: $input-focus-text-color;
+        background: $input-focus-background-color;
+        border-color: $input-focus-border-color;
     }
 }
 
@@ -29,3 +29,6 @@ button {
     }
 }
 
+@include input-placeholder() {
+    color: $input-placeholder-color;
+}

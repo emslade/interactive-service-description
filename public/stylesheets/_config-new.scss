@@ -1,0 +1,43 @@
+// Fonts
+
+$base-font-stack: Raleway, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+
+// Color
+
+$blue: #33b6e6;
+$green: #00d598;
+$red: #fe6354;
+$yellow: #eda264;
+
+$primary-text-color: #5e6572;
+$secondary-text-color: #959595;
+
+$base-background-color: #f3f3f4;
+
+$link-color: $primary-text-color;
+
+$input-text-color: $primary-text-color;
+$input-background-color: #fff;
+$input-border-color: #f0f0f2;
+$input-focus-text-color: $primary-text-color;
+$input-focus-background-color: #fff;
+$input-focus-border-color: #a0a4ab;
+$input-placeholder-color: $secondary-text-color;
+
+$header-background-color: #fff;
+
+$navigation-background-color: #fff;
+$navigation-text-color: $primary-text-color;
+$navigation-font-size: 12px;
+$navigation-font-weight: 500;
+$navigation-border-color: #f3f3f4;
+$navigation-border-width: 0 0 1px 0;
+$navigation-border-style: solid;
+
+// Layout
+
+$input-border-width: 1px;
+$input-box-shadow: none;
+$input-border-radius: 1px;
+
+$base-max-content-width: 980px; // Constrain the page width to this size where appropriate.

@@ -3,37 +3,38 @@
 {% block title %}{{ dir|split("-")|join(" ")|capitalize }}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="page-header">
-        <h1 class="page-header-title">{{ dir|split("-")|join(" ")|capitalize }}</h1>
-        <a class="page-header-back-link" href="/directory/">Back to directory index</a>
+
+<div class="header" role="banner">
+    <div class="container">
+        <h1 class="header__title">{{ dir|split("-")|join(" ")|capitalize }}</h1>
+        <p class="header__description">/{{ dir }}</p>
     </div>
-    <ul class="resources datalist">
+</div>
+
+<div role="main" class="container--medium">
+    <ul class="endpoint-list">
         {% for uri, methods in operations %}
             {% for method in methods %}
-            <li class="datalist-item">
-                <a href="/api/{{ method.name|uriToPath }}.html" class="datalist-item-link">
-                    <h2 class="endpoint-method-{{ method.httpMethod }} endpoint-list-title datalist-item-title">
-                        <span class="endpoint-list-method">{{ method.httpMethod }}</span> <span class="endpoint-list-uri">{{ method.uri|formatUri|raw }}</span>
-                    </h2>
-                    {% if method.summary %}
-                        <p class="endpoint-list-summary">{{ method.summary }}</p>
-                    {% endif %}
-                </a>
-            </li>
+                <li class="endpoint-list__item">
+                    <a href="/api/{{ method.name|uriToPath }}.html" class="endpoint-list__item-link">
+                        <div class="endpoint-list__item-header endpoint-method-{{ method.httpMethod }}">
+                            <h2 class="endpoint-list__item-title">{{ method.name|formatTitle }}</h2>
+                            {% if method.summary %}
+                                <p class="endpoint-list__item-summary">{{ method.summary }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="endpoint-list__item-footer">
+                            <span class="endpoint-list__item-resource">{{ method.httpMethod }} {{ method.uri|formatUri|raw }}</span>
+                        </div>
+                    </a>
+                </li>
             {% endfor %}
         {% endfor %}
     </ul>
 </div>
 
-<script>
-    $(function () {
-        var loc = window.location,
-            commandRegex = new RegExp('^' + loc.protocol + '\/\/' + loc.host + '\/api\/');
+<div class="container--medium">
+    {% include 'footer.twig' %}
+</div>
 
-        if (commandRegex.test(document.referrer)) {
-            $('.page-header-back-link').text('Back to endpoint').attr('href', document.referrer);
-        }
-    });
-</script>
 {% endblock %}

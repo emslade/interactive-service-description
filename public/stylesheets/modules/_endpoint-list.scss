@@ -1,35 +1,95 @@
-.endpoint-list-title {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+$endpoint-list-background-color: #fff;
+$endpoint-list-title-text-color: $primary-text-color;
+$endpoint-list-description-text-color: $secondary-text-color;
+
+.endpoint-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.endpoint-list__item {
+    background-color: #fff;
+    border-radius: em(1px);
+    box-shadow: 0 0 em(2px) 0 rgba(0,0,0,0.15);
+    margin: 0 0 em(20px);
+    width: 100%;
+}
+
+.endpoint-list__item-link {
+    display: block;
+    text-decoration: none;
+    position: relative;
+
+    @include font-smoothing;
+}
+
+.endpoint-list__item-header {
+    padding: em(16px) 7.852% em(16px) 10.18%;
+    border-bottom: em(1px) solid rgba(0,0,0,0.15);
+
     &::before {
         content: "";
-        display: inline-block;
-        width: em(8px, 24px);
-        height: em(8px, 24px);
-        margin-right: em(8px, 24px);
-        margin-bottom: em(3px, 24px);
-        border-radius: em(32px);
+        border-radius: 100%;
+        display: block;
+        position: absolute;
+        height: em(30px);
+        width: em(30px);
+        left: 5.09%;
+        top: 48%;
+        @include transform(translate(-50%, -100%));
     }
+
+    &::after {
+        color: #fff;
+        display: block;
+        font-size: em(8px);
+        font-weight: 500;
+        line-height: em(30px, 8px);
+        position: absolute;
+        left: 5.09%;
+        top: 48%;
+        @include transform(translate(-50%, -100%));
+    }
+
+    $methods: ('GET', 'PUT', 'POST', 'DELETE');
+    @each $method in $methods {
+        &.endpoint-method-#{$method}::after {
+            content: "#{$method}";
+        }
+    }
+
     @include endpoint-method-colors(background, '::before');
 }
 
-.endpoint-list-method {
-    font-size: em(21px, 24px);
+.endpoint-list__item-title {
+    font-size: em(20px);
+    font-weight: 600;
+    color: $endpoint-list-title-text-color;
+    margin: 0 0 em(8px, 20px);
+
+    &:only-child {
+        margin: 0;
+    }
 }
 
-.endpoint-list-method,
-.endpoint-list-uri .uri-param {
-    color: $mid-grey;
+.endpoint-list__item-summary {
+    font-size: em(16px);
+    color: $endpoint-list-description-text-color;
+    margin: 0;
 }
 
-.endpoint-list-uri {
-    color: $black;
+.endpoint-list__item-footer {
+    padding: em(10px) 7.852% em(10px) 10.18%;
 }
 
-.endpoint-list-summary {
-    font-weight: 300;
-    line-height: 1.35;
-    color: $mid-grey;
-    margin-top: 0;
+.endpoint-list__item-resource {
+    font-size: em(16px);
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
+.endpoint-list__item-resource .uri-param {
+    font-weight: 600;
+}

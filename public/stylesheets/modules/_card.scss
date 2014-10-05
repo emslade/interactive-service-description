@@ -1,0 +1,67 @@
+$card-background-color: #fff;
+$card-text-color: $primary-text-color;
+
+.card__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @include clearfix;
+}
+
+.card__list--fading {
+    @extend .card__list;
+}
+
+.card {
+    background-color: $card-background-color;
+    display: table;
+    float: left;
+    margin: 0 em(20px) em(20px) 0;
+    position: relative;
+    width: 31.9387%;
+
+    &:nth-child(3n+3) {
+        margin: 0 0 em(20px);
+    }
+}
+
+.card__list--fading {
+    .card:nth-child(7)::after,
+    .card:nth-child(8)::after,
+    .card:nth-child(9)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -2px;
+        bottom: -2px;
+        left: -2px;
+        background-image: -moz-linear-gradient(top, rgba(229, 229, 229, 0.00), #f3f3f4);
+        pointer-events: none;
+    }
+}
+
+.card__link {
+    border-radius: em(1px);
+    box-shadow: 0 0 em(2px) 0 rgba(0,0,0,0.15);
+    display: table-cell;
+    height: em(160px);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+
+    @include font-smoothing;
+}
+
+.card__title {
+    color: $card-text-color;
+    font-size: em(20px);
+    font-weight: 600;
+    margin: 0 0 em(8px, 20px);
+}
+
+.card__description {
+    font-size: em(16px);
+    font-weight: 500;
+    margin: 0;
+}

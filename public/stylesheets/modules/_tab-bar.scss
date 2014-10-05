@@ -1,0 +1,38 @@
+.tab-bar {
+    background-color: #fff;
+    border-top: em(1px) solid #f3f3f4;
+}
+
+.tab-bar__list {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+
+    @include font-smoothing;
+}
+
+.tab-bar__tab {
+    border-left: em(1px) solid #f3f3f4;
+    display: inline-block;
+    text-align: center;
+    width: 33%;
+
+    &:last-child {
+        border-right: em(1px) solid #f3f3f4;
+    }
+
+    @include box-sizing(border-box);
+}
+
+.tab-bar__tab-control {
+    cursor: pointer;
+    display: block;
+    font-size: em(18px);
+    text-transform: uppercase;
+    padding: em(18px) 0;
+    width: 100%;
+}
+
+.tab-bar__tab.is-selected .tab-bar__tab-control {
+    font-weight: 600;
+}

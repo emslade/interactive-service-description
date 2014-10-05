@@ -1,0 +1,30 @@
+.feature-block {
+    background-color: #878fa0;
+    text-align: center;
+    padding: em(40px) 0;
+
+    @include font-smoothing;
+}
+
+.feature-block__copy {
+    color: #fff;
+    font-size: em(28px);
+    font-weight: 500;
+    margin: 0 0 em(24px, 28px);
+
+    &:only-child {
+        margin: 0;
+    }
+}
+
+.feature-block__cta {
+    @extend %button-template;
+
+    display: inline-block;
+    font-size: em(20px);
+    font-weight: 600;
+    background-color: $green;
+    border-radius: em(40px);
+    color: #fff;
+    text-transform: uppercase;
+}

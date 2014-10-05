@@ -24,14 +24,19 @@ class Generator
         $filter = new \Twig_SimpleFilter('formatUri', array(__CLASS__, 'formatUri'));
         $this->twig->addFilter($filter);
 
+        $filter = new \Twig_SimpleFilter('formatTitle', array(__CLASS__, 'formatTitle'));
+        $this->twig->addFilter($filter);
+
         $typehead = array();
         $output = array();
 
         $description = ServiceDescription::factory($path);
+        $descriptionName = $description->getName();
 
         $related = array();
 
         $directory = array();
+        $timestamp = new \DateTime('now', new \DateTimeZone('UTC'));
 
         foreach ($description->getOperations() as $name => $operation) {
             $related[$operation->getUri()][$operation->getHttpMethod()] = array('method' => $operation->getHttpMethod(), 'name' => $name, 'link' => '/api/' . self::normalise($name) . '.html');
@@ -56,6 +61,7 @@ class Generator
                 $relatedMethods = $related[$operation->getUri()];
             }
 
+            $formattedTitle = self::formatTitle($name);
             $formattedUri = preg_replace('~(\{[^\}]+\})~', '<span class="uri-param">$1</span>', $operation->getUri());
 
             $params = array_map(function ($param) { return $param->toArray(); }, $operation->getParams());
@@ -105,8 +111,10 @@ class Generator
                 'groupedParams' => $groupedParams,
                 'method' => $operation->getHttpMethod(),
                 'summary' => $operation->getSummary(),
+                'formattedTitle' => $formattedTitle,
                 'formattedUri' => $formattedUri,
                 'directory' => self::getBaseResource($operation->getUri()),
+                'generated' => $timestamp,
             );
 
             file_put_contents($outputPath . $commandPath, $this->twig->render('command.twig', $typeahead[count($typeahead) - 1]));
@@ -114,7 +122,12 @@ class Generator
             $output[] = 'file';
         }
 
-        $context = array();
+        ksort($directory);
+        $context = array(
+            'descriptionName' => $descriptionName,
+            'baseResources' => array_keys($directory),
+            'generated' => $timestamp,
+        );
 
         $dataPath = $outputPath . '/data';
 
@@ -132,10 +145,10 @@ class Generator
 
         file_put_contents($outputPath . '/index.html', $index);
 
-        ksort($directory);
-
-        $context = array();
-        $context['baseResources'] = array_keys($directory);
+        $context = array(
+            'baseResources' => array_keys($directory),
+            'generated' => $timestamp,
+        );
 
         if (!file_exists($outputPath . '/directory')) {
             mkdir($outputPath . '/directory');
@@ -155,6 +168,7 @@ class Generator
                     array(
                         'dir' => $dir,
                         'operations' => $operations,
+                        'generated' => $generated,
                     )
                 )
             );
@@ -170,6 +184,14 @@ class Generator
         $uri = implode('-', $uri);
         $uri = strtolower($uri);
         return $uri;
+    }
+
+    public static function formatTitle($str)
+    {
+        $str = str_replace(array('/', '\''), '', $str);
+        $str = preg_split('/(?=[A-Z])/', $str, -1, PREG_SPLIT_NO_EMPTY);
+        $str = implode(' ', $str);
+        return $str;
     }
 
     public static function getBaseResource($uri)

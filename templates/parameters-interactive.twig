@@ -1,0 +1,60 @@
+<form id="endpoint-parameters-form" class="endpoint-parameters-form tab-content-main" novalidate>
+    <div class="endpoint-parameters tab-content-body">
+        {% for group in groupedParams %}
+            {% if group.params|length %}
+                <h3 class="parameters-group-name">{{ group.location }} params</h3>
+                <ul class="parameters-group-list">
+                    {% for key, param in group.params %}
+                        <li class="parameter"{% if param.required %} data-required{% endif %}>
+                            <label for="{{ key }}-param" class="parameter-name">{{ key }}</label>
+
+                            {% if param.description %}
+                                <p id="{{ key }}-description" class="parameter-description">{{ param.description }}</p>
+                            {% endif %}
+
+                            {% if param.enum %}
+                                <select
+                                    name="{{ key }}" id="{{ key }}-param"
+                                    class="parameter-input js-param"
+                                    {% if param.required %}required{% endif %}
+                                    {% if param.description %} aria-describedby="{{ key }}-description"{% endif %}
+                                >
+                                    <option></option>
+                                    {% for value in param.enum %}
+                                        <option>{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <div class="parameter-input clearable-input-container">
+                                    <input 
+                                        name="{{ key }}" id="{{ key }}-param"
+                                        class="clearable-input js-param"
+                                        type="{{ param.type == 'integer' or param.type == 'numeric' ? 'number' : 'text' }}"
+                                        {% if param.required %}required{% endif %}
+                                        {% if param.description %}aria-describedby="{{ key }}-description"{% endif %}
+                                        {% if param.type == 'integer' or param.type == 'numeric' %}autocomplete="off"{% endif %}
+                                    >
+                                    <button aria-controls="{{ key }}-param" class="clearable-input-control" title="Clear" type="button" hidden tabindex="-1">
+                                        <span>Clear</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                            <div class="parameter-meta">
+                                <p class="parameter-required{{ param.required ? ' required-true' }}">
+                                    <span>{{ param.required ? 'Required' : 'Optional' }}</span>
+                                </p>
+                                <p class="parameter-type">{{ param.type }}</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="parameters-submit-container tab-content-footer">
+        <button class="parameters-submit response-button button__primary js-endpoint-submit" type="submit">
+            <span class="text">Submit</span>
+        </button>
+    </div>
+</form>

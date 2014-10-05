@@ -3,36 +3,34 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
     <link href="/css/application.css" rel="stylesheet">
     <script src="/js/vendor/modernizr/modernizr.2.7.min.js"></script>
     <script src="/js/modernizr-custom.js"></script>
     <script src="/js/vendor/jquery/jquery-1.10.2.min.js"></script>
     <script src="/js/vendor/bloodhound.js"></script>
     <script src="/js/underscore-min.js"></script>
+    <script src="/js/vendor/moment.min.js"></script>
     <script src="/js/prism.js"></script>
 </head>
-<body class="{% block bodyClasses %}{% endblock %}">
+<body class="{% block bodyClasses %}{% endblock %}" ontouchstart>
+
     <div class="navigation">
-        <a href="/" class="logo-mark navigation-logo">
-            <span class="s">Service</span> <span class="d">Docs</span>
-        </a>
-        <ul class="navigation-list" role="navigation">
-            <li class="navigation-item navigation-item-search">
-                <a class="navigation-item-control" href="/index.html">
-                    <span>Search</span>
-                </a>
-            </li>
-            <li class="navigation-item navigation-item-directory">
-                <a class="navigation-item-control" href="/directory/">
-                    <span>Directory</span>
-                </a>
-            </li>
-        </ul>
+        <div class="container">
+            <ol class="navigation__list" role="navigation">
+                <li class="navigation__item">
+                    <a class="navigation__item-link" href="/index.html">Search</a>
+                </li>
+                <li class="navigation__item">
+                    <a class="navigation__item-link" href="/directory">Directory</a>
+                </li>
+            </ol>
+        </div>
     </div>
 
     {% block content %}
     {% endblock %}
 
+    <script src="/js/main.js"></script>
 </body>
 </html>

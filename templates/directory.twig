@@ -3,18 +3,29 @@
 {% block title %}Directory{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="page-header">
-        <h1 class="page-header-title">Directory</h1>
+
+<div class="header" role="banner">
+    <div class="container">
+        <h1 class="header__title">The Directory</h1>
+        <p class="header__description">A full A-Z index of endpoints in our API</p>
     </div>
-    <ul class="base-resources datalist">
+</div>
+
+<div role="main" class="container">
+    <ol class="card__list">
         {% for resource in baseResources %}
-            <li class="base-resource datalist-item">
-                <a href="/directory/{{ resource }}.html" class="datalist-item-link">
-                    <h2 class="datalist-item-title">{{ resource|split("-")|join(" ")|capitalize }}</h2>
+            <li class="card">
+                <a href="/directory/{{ resource }}.html" class="card__link">
+                    <h2 class="card__title">{{ resource|split("-")|join(" ")|capitalize }}</h2>
+                    <p class="card__description">/{{ resource }}</p>
                 </a>
             </li>
         {% endfor %}
-    </ul>
+    </ol>
 </div>
+
+<div class="container--medium">
+    {% include 'footer.twig' %}
+</div>
+
 {% endblock %}

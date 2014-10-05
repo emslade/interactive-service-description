@@ -1,57 +1,83 @@
-{% extends "layout.twig" %}
+{% extends 'layout.twig' %}
 
-{% block title %}Search endpoints{% endblock %}
+{% block title %}{{ descriptionName }}{% endblock %}
 
 {% block content %}
-<div class="container feature js-feature">
-    <h1 class="feature__title">Search endpoints</h1>
-    <div class="search">
-        <input type="search" class="search__input js-search-input" placeholder="e.g. GET users">
+
+<div class="header--compact" role="banner">
+    <div class="container">
+        <h1 class="header__title--home" id="home-title">Search endpoints</h1>
+
+        <form class="search-form js-search-form">
+            <input
+                aria-labelledby="home-title"
+                class="search-form__input js-search-endpoints"
+                placeholder="e.g. get users"
+                type="search"
+            >
+            <button class="search-form__reset" type="reset" tabindex="-1">
+                <span class="search-form__reset-label">Clear</span>
+            </button>
+        </form>
     </div>
-    <p class="feature__search-tip js-feature-search-tip" hidden>Start typing the route you’re looking for.</p>
-    <p class="feature__or js-feature-intro">or</p>
-    <a href="/directory/" class="feature__button js-feature-intro">Browse the directory</a>
 </div>
 
-<div class="search-container">
-    <ol class="js-command-list search-results">
-        
-    </ol>
+<div role="main">
+
+    <div class="container--medium js-results" hidden>
+        <ol class="endpoint-list js-endpoint-results"></ol>
+        {% include 'footer.twig' %}
+    </div>
+
+    <div class="js-directory">
+        <div class="container">
+            <h1 class="section-title--centered">Endpoints A-Z</h1>
+
+            <ol class="card__list--fading">
+                {% for resource in baseResources|slice(0, 9) %}
+                    <li class="card">
+                        <a href="/directory/{{ resource }}.html" class="card__link">
+                            <h2 class="card__title">{{ resource|split("-")|join(" ")|capitalize }}</h2>
+                            <p class="card__description">/{{ resource }}</p>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <div class="feature-block">
+            <p class="feature-block__copy">Visit the directory for an overview of all endpoints</p>
+            <a class="feature-block__cta" href="/directory">Explore</a>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/template" id="template">
-    <li class="search-result">
-        <a href="<%= path %>" class="search-result__link">
-            <h2 class="search-result__title endpoint-method-<%= method %> endpoint-list-title">
-                <span class="endpoint-list-method"><%= method %></span> <span class="endpoint-list-uri"><%= formattedUri %></span>
-            </h2>
+    <a href="<%= path %>" class="endpoint-list__item-link" tabindex="0">
+        <div class="endpoint-list__item-header endpoint-method-<%= method %>">
+            <h2 class="endpoint-list__item-title"><%= formattedTitle %></h2>
             <% if (summary) { %>
-                <p class="search-result-summary endpoint-list-summary"><%= summary %></p>
+                <p class="endpoint-list__item-summary"><%= summary %></p>
             <% } %>
-        </a>
-    </li>
+        </div>
+        <div class="endpoint-list__item-footer">
+            <span class="endpoint-list__item-resource"><%= method %> <%= formattedUri %></span>
+        </div>
+    </a>
 </script>
 
 <script>
-$(function() {
-    var searchField = $('.js-search-input'),
-        commandList = $('.js-command-list'),
-        template = null,
-        commands = null;
+    var searchFormEl = document.querySelector('.js-search-form'),
+        searchEl = document.querySelector('.js-search-endpoints'),
+        resultsEl = document.querySelector('.js-results'),
+        resultListEl = document.querySelector('.js-endpoint-results'),
+        directoryEl = document.querySelector('.js-directory'),
+        templateEl = document.querySelector('#template'),
+        template = _.template(templateEl.innerHTML),
+        results = [];
 
     localStorage.clear();
-
-    searchField.one('focus', function () {
-        var feature = $('.js-feature');
-        $(feature).addClass('active');
-
-        setTimeout(function() {
-            $(feature).find('.js-feature-intro').attr('hidden', true);
-            $(feature).find('.js-feature-search-tip').attr('hidden', false);
-        }, 500);
-    });
-
-    template = _.template($('#template').html());
 
     commands = new Bloodhound({
         datumTokenizer: function (d) {
@@ -61,20 +87,39 @@ $(function() {
         prefetch: '/data/commands.json',
         limit: 16
     });
-
     commands.initialize();
 
-    searchField.on('keyup', function (evt) {
-        var query = evt.currentTarget.value;
+    searchFormEl.addEventListener('reset', function () {
+        this.classList.remove('is-non-empty');
+        resultListEl.innerHTML = '';
+        directoryEl.removeAttribute('hidden');
+        resultsEl.setAttribute('hidden', true);
+    }, false);
 
-        commandList.empty();
+    searchEl.addEventListener('keyup', function (evt) {
+        var q = this.value;
 
-        commands.get(evt.currentTarget.value, function (suggestions) {
+        if (q.length) {
+            searchFormEl.classList.add('is-non-empty');
+            directoryEl.setAttribute('hidden', true);
+            resultsEl.removeAttribute('hidden');
+        } else {
+            searchFormEl.classList.remove('is-non-empty');
+            directoryEl.removeAttribute('hidden');
+            resultsEl.setAttribute('hidden', true);
+        }
+
+        resultListEl.innerHTML = '';
+        commands.get(q, function (suggestions) {
             _.each(suggestions, function (suggestion) {
-                commandList.append(template(suggestion));
+                result = document.createElement('li');
+                result.className = 'endpoint-list__item';
+                result.innerHTML = template(suggestion);
+                resultListEl.appendChild(result);
             });
         });
-    });
-});
+    }, false);
+
 </script>
+
 {% endblock %}

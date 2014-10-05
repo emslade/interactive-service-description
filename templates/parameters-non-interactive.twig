@@ -1,0 +1,37 @@
+{% set isEmpty = true %}
+{% for group in groupedParams %}
+    {% if group.params|length %}
+        {% set isEmpty = false %}
+        <h2 class="section-title">{{ group.location }} parameters</h2>
+        <ul class="parameters-list">
+            {% for key, param in group.params %}
+                <li class="parameters-list__parameter"{% if param.required %} data-required{% endif %}>
+                    <h3 class="parameters-list__parameter-name">{{ key }}</h3>
+                    {% if param.description %}
+                        <p class="parameters-list__parameter-description">{{ param.description }}</p>
+                    {% endif %}
+
+                    <p class="parameters-list__parameter-type is-{{ param.type }}" title="{{ param.type }}"><span>{{ param.type }}</span></p>
+                    {% if param.enum %}
+                        <div class="parameters-list__parameter-enum">
+                            <p id="parameter-{{ key }}-enum-title" class="parameters-list__parameter-enum-key">Accepted values</p>
+                            <ul class="parameters-list__parameter-enum-list" aria-labelledby="parameter-{{ key }}-enum-title">
+                                {% for value in param.enum %}
+                                    <li class="parameters-list__parameter-enum-value">{{ value }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <p class="parameters-list__parameter-required{{ param.required ? ' is-required' }}">
+                        <span>{{ param.required ? 'Required' : 'Optional' }}</span>
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endfor %}
+
+{% if isEmpty %}
+    <p>This endpoint takes no parameters.</p>
+{% endif %}

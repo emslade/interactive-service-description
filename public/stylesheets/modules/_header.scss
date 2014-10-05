@@ -1,0 +1,51 @@
+.header {
+    background-color: $header-background-color;
+    padding: em(80px) 0;
+    text-align: center;
+
+    @include font-smoothing;
+}
+
+.header--compact {
+    @extend .header;
+    padding: em(60px) 0;
+}
+
+.header__title {
+    color: $primary-text-color;
+    font-size: em(36px);
+    font-weight: 500;
+    margin: 0 auto em(10px, 36px);
+    max-width: 66.02%;
+
+    &:only-child {
+        margin: 0 auto;
+    }
+}
+
+.header__title--home {
+    @extend .header__title;
+    margin: 0 auto em(30px, 36px);
+}
+
+.header__description {
+    color: $secondary-text-color;
+    font-size: em(18px);
+    font-weight: 500;
+    margin: 0 auto em(35px, 18px);
+    max-width: 66.02%;
+
+    &:last-child {
+        margin: 0 auto;
+    }
+}
+
+.header__resource {
+    color: $primary-text-color;
+    font-size: em(20px);
+    margin: 0;
+}
+
+.header__resource .uri-param {
+    font-weight: 600;
+}
