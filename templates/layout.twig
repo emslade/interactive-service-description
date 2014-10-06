@@ -5,6 +5,11 @@
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
     <link href="/css/application.css" rel="stylesheet">
+
+    {% if method %}
+        <link rel="shortcut icon" href="/favicon-{{ method|lower }}.ico">
+    {% endif %}
+
     <script src="/js/vendor/modernizr/modernizr.2.7.min.js"></script>
     <script src="/js/modernizr-custom.js"></script>
     <script src="/js/vendor/jquery/jquery-1.10.2.min.js"></script>
