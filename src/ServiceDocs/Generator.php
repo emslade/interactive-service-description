@@ -64,6 +64,8 @@ class Generator
             $formattedTitle = self::formatTitle($name);
             $formattedUri = preg_replace('~(\{[^\}]+\})~', '<span class="uri-param">$1</span>', $operation->getUri());
 
+            $tokens[] = $formattedTitle;
+
             $params = array_map(function ($param) { return $param->toArray(); }, $operation->getParams());
 
             $paramLocations = array(
