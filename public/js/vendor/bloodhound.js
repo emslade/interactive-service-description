@@ -1,132 +1,171 @@
 /*!
- * typeahead.js 0.10.1
+ * typeahead.js 0.10.5
  * https://github.com/twitter/typeahead.js
- * Copyright 2013 Twitter, Inc. and other contributors; Licensed MIT
+ * Copyright 2013-2014 Twitter, Inc. and other contributors; Licensed MIT
  */
 
 (function($) {
-    var _ = {
-        isMsie: function() {
-            return /(msie|trident)/i.test(navigator.userAgent) ? navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : false;
-        },
-        isBlankString: function(str) {
-            return !str || /^\s*$/.test(str);
-        },
-        escapeRegExChars: function(str) {
-            return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-        },
-        isString: function(obj) {
-            return typeof obj === "string";
-        },
-        isNumber: function(obj) {
-            return typeof obj === "number";
-        },
-        isArray: $.isArray,
-        isFunction: $.isFunction,
-        isObject: $.isPlainObject,
-        isUndefined: function(obj) {
-            return typeof obj === "undefined";
-        },
-        bind: $.proxy,
-        each: function(collection, cb) {
-            $.each(collection, reverseArgs);
-            function reverseArgs(index, value) {
-                return cb(value, index);
-            }
-        },
-        map: $.map,
-        filter: $.grep,
-        every: function(obj, test) {
-            var result = true;
-            if (!obj) {
-                return result;
-            }
-            $.each(obj, function(key, val) {
-                if (!(result = test.call(null, val, key, obj))) {
-                    return false;
+    var _ = function() {
+        "use strict";
+        return {
+            isMsie: function() {
+                return /(msie|trident)/i.test(navigator.userAgent) ? navigator.userAgent.match(/(msie |rv:)(\d+(.\d+)?)/i)[2] : false;
+            },
+            isBlankString: function(str) {
+                return !str || /^\s*$/.test(str);
+            },
+            escapeRegExChars: function(str) {
+                return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+            },
+            isString: function(obj) {
+                return typeof obj === "string";
+            },
+            isNumber: function(obj) {
+                return typeof obj === "number";
+            },
+            isArray: $.isArray,
+            isFunction: $.isFunction,
+            isObject: $.isPlainObject,
+            isUndefined: function(obj) {
+                return typeof obj === "undefined";
+            },
+            toStr: function toStr(s) {
+                return _.isUndefined(s) || s === null ? "" : s + "";
+            },
+            bind: $.proxy,
+            each: function(collection, cb) {
+                $.each(collection, reverseArgs);
+                function reverseArgs(index, value) {
+                    return cb(value, index);
                 }
-            });
-            return !!result;
-        },
-        some: function(obj, test) {
-            var result = false;
-            if (!obj) {
-                return result;
-            }
-            $.each(obj, function(key, val) {
-                if (result = test.call(null, val, key, obj)) {
-                    return false;
+            },
+            map: $.map,
+            filter: $.grep,
+            every: function(obj, test) {
+                var result = true;
+                if (!obj) {
+                    return result;
                 }
-            });
-            return !!result;
-        },
-        mixin: $.extend,
-        getUniqueId: function() {
-            var counter = 0;
-            return function() {
-                return counter++;
-            };
-        }(),
-        templatify: function templatify(obj) {
-            return $.isFunction(obj) ? obj : template;
-            function template() {
-                return String(obj);
-            }
-        },
-        defer: function(fn) {
-            setTimeout(fn, 0);
-        },
-        debounce: function(func, wait, immediate) {
-            var timeout, result;
-            return function() {
-                var context = this, args = arguments, later, callNow;
-                later = function() {
-                    timeout = null;
-                    if (!immediate) {
+                $.each(obj, function(key, val) {
+                    if (!(result = test.call(null, val, key, obj))) {
+                        return false;
+                    }
+                });
+                return !!result;
+            },
+            some: function(obj, test) {
+                var result = false;
+                if (!obj) {
+                    return result;
+                }
+                $.each(obj, function(key, val) {
+                    if (result = test.call(null, val, key, obj)) {
+                        return false;
+                    }
+                });
+                return !!result;
+            },
+            mixin: $.extend,
+            getUniqueId: function() {
+                var counter = 0;
+                return function() {
+                    return counter++;
+                };
+            }(),
+            templatify: function templatify(obj) {
+                return $.isFunction(obj) ? obj : template;
+                function template() {
+                    return String(obj);
+                }
+            },
+            defer: function(fn) {
+                setTimeout(fn, 0);
+            },
+            debounce: function(func, wait, immediate) {
+                var timeout, result;
+                return function() {
+                    var context = this, args = arguments, later, callNow;
+                    later = function() {
+                        timeout = null;
+                        if (!immediate) {
+                            result = func.apply(context, args);
+                        }
+                    };
+                    callNow = immediate && !timeout;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                    if (callNow) {
                         result = func.apply(context, args);
                     }
+                    return result;
                 };
-                callNow = immediate && !timeout;
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-                if (callNow) {
-                    result = func.apply(context, args);
-                }
-                return result;
-            };
-        },
-        throttle: function(func, wait) {
-            var context, args, timeout, result, previous, later;
-            previous = 0;
-            later = function() {
-                previous = new Date();
-                timeout = null;
-                result = func.apply(context, args);
-            };
-            return function() {
-                var now = new Date(), remaining = wait - (now - previous);
-                context = this;
-                args = arguments;
-                if (remaining <= 0) {
-                    clearTimeout(timeout);
+            },
+            throttle: function(func, wait) {
+                var context, args, timeout, result, previous, later;
+                previous = 0;
+                later = function() {
+                    previous = new Date();
                     timeout = null;
-                    previous = now;
                     result = func.apply(context, args);
-                } else if (!timeout) {
-                    timeout = setTimeout(later, remaining);
-                }
-                return result;
+                };
+                return function() {
+                    var now = new Date(), remaining = wait - (now - previous);
+                    context = this;
+                    args = arguments;
+                    if (remaining <= 0) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                        previous = now;
+                        result = func.apply(context, args);
+                    } else if (!timeout) {
+                        timeout = setTimeout(later, remaining);
+                    }
+                    return result;
+                };
+            },
+            noop: function() {}
+        };
+    }();
+    var VERSION = "0.10.5";
+    var tokenizers = function() {
+        "use strict";
+        return {
+            nonword: nonword,
+            whitespace: whitespace,
+            obj: {
+                nonword: getObjTokenizer(nonword),
+                whitespace: getObjTokenizer(whitespace)
+            }
+        };
+        function whitespace(str) {
+            str = _.toStr(str);
+            return str ? str.split(/\s+/) : [];
+        }
+        function nonword(str) {
+            str = _.toStr(str);
+            return str ? str.split(/\W+/) : [];
+        }
+        function getObjTokenizer(tokenizer) {
+            return function setKey() {
+                var args = [].slice.call(arguments, 0);
+                return function tokenize(o) {
+                    var tokens = [];
+                    _.each(args, function(k) {
+                        tokens = tokens.concat(tokenizer(_.toStr(o[k])));
+                    });
+                    return tokens;
+                };
             };
-        },
-        noop: function() {}
-    };
-    var VERSION = "0.10.1";
-    var LruCache = function(root, undefined) {
+        }
+    }();
+    var LruCache = function() {
+        "use strict";
         function LruCache(maxSize) {
-            this.maxSize = maxSize || 100;
-            this.size = 0;
-            this.hash = {};
-            this.list = new List();
+            this.maxSize = _.isNumber(maxSize) ? maxSize : 100;
+            this.reset();
+            if (this.maxSize <= 0) {
+                this.set = this.get = $.noop;
+            }
         }
         _.mixin(LruCache.prototype, {
             set: function set(key, val) {
@@ -151,6 +190,11 @@
                     this.list.moveToFront(node);
                     return node.val;
                 }
+            },
+            reset: function reset() {
+                this.size = 0;
+                this.hash = {};
+                this.list = new List();
             }
         });
         function List() {
@@ -180,8 +224,9 @@
             this.prev = this.next = null;
         }
         return LruCache;
-    }(this);
+    }();
     var PersistentStorage = function() {
+        "use strict";
         var ls, methods;
         try {
             ls = window.localStorage;
@@ -193,7 +238,7 @@
         function PersistentStorage(namespace) {
             this.prefix = [ "__", namespace, "__" ].join("");
             this.ttlKey = "__ttl__";
-            this.keyMatcher = new RegExp("^" + this.prefix);
+            this.keyMatcher = new RegExp("^" + _.escapeRegExChars(this.prefix));
         }
         if (ls && window.JSON) {
             methods = {
@@ -261,32 +306,42 @@
         }
     }();
     var Transport = function() {
-        var pendingRequestsCount = 0, pendingRequests = {}, maxPendingRequests = 6, requestCache = new LruCache(10);
+        "use strict";
+        var pendingRequestsCount = 0, pendingRequests = {}, maxPendingRequests = 6, sharedCache = new LruCache(10);
         function Transport(o) {
             o = o || {};
+            this.cancelled = false;
+            this.lastUrl = null;
             this._send = o.transport ? callbackToDeferred(o.transport) : $.ajax;
             this._get = o.rateLimiter ? o.rateLimiter(this._get) : this._get;
+            this._cache = o.cache === false ? new LruCache(0) : sharedCache;
         }
         Transport.setMaxPendingRequests = function setMaxPendingRequests(num) {
             maxPendingRequests = num;
         };
-        Transport.resetCache = function clearCache() {
-            requestCache = new LruCache(10);
+        Transport.resetCache = function resetCache() {
+            sharedCache.reset();
         };
         _.mixin(Transport.prototype, {
             _get: function(url, o, cb) {
                 var that = this, jqXhr;
+                if (this.cancelled || url !== this.lastUrl) {
+                    return;
+                }
                 if (jqXhr = pendingRequests[url]) {
-                    jqXhr.done(done);
+                    jqXhr.done(done).fail(fail);
                 } else if (pendingRequestsCount < maxPendingRequests) {
                     pendingRequestsCount++;
-                    pendingRequests[url] = this._send(url, o).done(done).always(always);
+                    pendingRequests[url] = this._send(url, o).done(done).fail(fail).always(always);
                 } else {
                     this.onDeckRequestArgs = [].slice.call(arguments, 0);
                 }
                 function done(resp) {
-                    cb && cb(resp);
-                    requestCache.set(url, resp);
+                    cb && cb(null, resp);
+                    that._cache.set(url, resp);
+                }
+                function fail() {
+                    cb && cb(true);
                 }
                 function always() {
                     pendingRequestsCount--;
@@ -298,19 +353,24 @@
                 }
             },
             get: function(url, o, cb) {
-                var that = this, resp;
+                var resp;
                 if (_.isFunction(o)) {
                     cb = o;
                     o = {};
                 }
-                if (resp = requestCache.get(url)) {
+                this.cancelled = false;
+                this.lastUrl = url;
+                if (resp = this._cache.get(url)) {
                     _.defer(function() {
-                        cb && cb(resp);
+                        cb && cb(null, resp);
                     });
                 } else {
                     this._get(url, o, cb);
                 }
                 return !!resp;
+            },
+            cancel: function() {
+                this.cancelled = true;
             }
         });
         return Transport;
@@ -333,6 +393,7 @@
         }
     }();
     var SearchIndex = function() {
+        "use strict";
         function SearchIndex(o) {
             o = o || {};
             if (!o.datumTokenizer || !o.queryTokenizer) {
@@ -340,8 +401,7 @@
             }
             this.datumTokenizer = o.datumTokenizer;
             this.queryTokenizer = o.queryTokenizer;
-            this.datums = [];
-            this.trie = newNode();
+            this.reset();
         }
         _.mixin(SearchIndex.prototype, {
             bootstrap: function bootstrap(o) {
@@ -356,7 +416,7 @@
                     id = that.datums.push(datum) - 1;
                     tokens = normalizeTokens(that.datumTokenizer(datum));
                     _.each(tokens, function(token) {
-                        var node, chars, ch, ids;
+                        var node, chars, ch;
                         node = that.trie;
                         chars = token.split("");
                         while (ch = chars.shift()) {
@@ -391,6 +451,10 @@
                     return that.datums[id];
                 }) : [];
             },
+            reset: function reset() {
+                this.datums = [];
+                this.trie = newNode();
+            },
             serialize: function serialize() {
                 return {
                     datums: this.datums,
@@ -416,7 +480,7 @@
         }
         function unique(array) {
             var seen = {}, uniques = [];
-            for (var i = 0; i < array.length; i++) {
+            for (var i = 0, len = array.length; i < len; i++) {
                 if (!seen[array[i]]) {
                     seen[array[i]] = true;
                     uniques.push(array[i]);
@@ -428,7 +492,8 @@
             var ai = 0, bi = 0, intersection = [];
             arrayA = arrayA.sort(compare);
             arrayB = arrayB.sort(compare);
-            while (ai < arrayA.length && bi < arrayB.length) {
+            var lenArrayA = arrayA.length, lenArrayB = arrayB.length;
+            while (ai < lenArrayA && bi < lenArrayB) {
                 if (arrayA[ai] < arrayB[bi]) {
                     ai++;
                 } else if (arrayA[ai] > arrayB[bi]) {
@@ -446,17 +511,14 @@
         }
     }();
     var oParser = function() {
+        "use strict";
         return {
             local: getLocal,
             prefetch: getPrefetch,
             remote: getRemote
         };
         function getLocal(o) {
-            var local = o.local || null;
-            if (_.isFunction(local)) {
-                local = local.call(null);
-            }
-            return local;
+            return o.local || null;
         }
         function getPrefetch(o) {
             var prefetch, defaults;
@@ -483,6 +545,7 @@
             var remote, defaults;
             defaults = {
                 url: null,
+                cache: true,
                 wildcard: "%QUERY",
                 replace: null,
                 rateLimitBy: "debounce",
@@ -516,13 +579,16 @@
             }
         }
     }();
-    var Bloodhound = window.Bloodhound = function() {
-        var keys;
+    (function(root) {
+        "use strict";
+        var old, keys;
+        old = root.Bloodhound;
         keys = {
             data: "data",
             protocol: "protocol",
             thumbprint: "thumbprint"
         };
+        root.Bloodhound = Bloodhound;
         function Bloodhound(o) {
             if (!o || !o.local && !o.prefetch && !o.remote) {
                 $.error("one of local, prefetch, or remote is required");
@@ -540,14 +606,11 @@
             });
             this.storage = this.cacheKey ? new PersistentStorage(this.cacheKey) : null;
         }
-        Bloodhound.tokenizers = {
-            whitespace: function whitespaceTokenizer(s) {
-                return s.split(/\s+/);
-            },
-            nonword: function nonwordTokenizer(s) {
-                return s.split(/\W+/);
-            }
+        Bloodhound.noConflict = function noConflict() {
+            root.Bloodhound = old;
+            return Bloodhound;
         };
+        Bloodhound.tokenizers = tokenizers;
         _.mixin(Bloodhound.prototype, {
             _loadPrefetch: function loadPrefetch(o) {
                 var that = this, serialized, deferred;
@@ -559,22 +622,26 @@
                 }
                 return deferred;
                 function handlePrefetchResponse(resp) {
-                    var filtered;
-                    filtered = o.filter ? o.filter(resp) : resp;
-                    that.add(filtered);
+                    that.clear();
+                    that.add(o.filter ? o.filter(resp) : resp);
                     that._saveToStorage(that.index.serialize(), o.thumbprint, o.ttl);
                 }
             },
             _getFromRemote: function getFromRemote(query, cb) {
                 var that = this, url, uriEncodedQuery;
+                if (!this.transport) {
+                    return;
+                }
                 query = query || "";
                 uriEncodedQuery = encodeURIComponent(query);
                 url = this.remote.replace ? this.remote.replace(this.remote.url, query) : this.remote.url.replace(this.remote.wildcard, uriEncodedQuery);
                 return this.transport.get(url, this.remote.ajax, handleRemoteResponse);
-                function handleRemoteResponse(resp) {
-                    var filtered = that.remote.filter ? that.remote.filter(resp) : resp;
-                    cb(filtered);
+                function handleRemoteResponse(err, resp) {
+                    err ? cb([]) : cb(that.remote.filter ? that.remote.filter(resp) : resp);
                 }
+            },
+            _cancelLastRemoteRequest: function cancelLastRemoteRequest() {
+                this.transport && this.transport.cancel();
             },
             _saveToStorage: function saveToStorage(data, thumbprint, ttl) {
                 if (this.storage) {
@@ -593,30 +660,30 @@
                 isExpired = stored.thumbprint !== thumbprint || stored.protocol !== location.protocol;
                 return stored.data && !isExpired ? stored.data : null;
             },
-            initialize: function initialize() {
-                var that = this, deferred;
+            _initialize: function initialize() {
+                var that = this, local = this.local, deferred;
                 deferred = this.prefetch ? this._loadPrefetch(this.prefetch) : $.Deferred().resolve();
-                this.local && deferred.done(addLocalToIndex);
+                local && deferred.done(addLocalToIndex);
                 this.transport = this.remote ? new Transport(this.remote) : null;
-                this.initialize = function initialize() {
-                    return deferred.promise();
-                };
-                return deferred.promise();
+                return this.initPromise = deferred.promise();
                 function addLocalToIndex() {
-                    that.add(that.local);
+                    that.add(_.isFunction(local) ? local() : local);
                 }
+            },
+            initialize: function initialize(force) {
+                return !this.initPromise || force ? this._initialize() : this.initPromise;
             },
             add: function add(data) {
                 this.index.add(data);
             },
             get: function get(query, cb) {
-                var that = this, matches, cacheHit = false;
+                var that = this, matches = [], cacheHit = false;
                 matches = this.index.get(query);
                 matches = this.sorter(matches).slice(0, this.limit);
-                if (matches.length < this.limit && this.transport) {
-                    cacheHit = this._getFromRemote(query, returnRemoteMatches);
+                matches.length < this.limit ? cacheHit = this._getFromRemote(query, returnRemoteMatches) : this._cancelLastRemoteRequest();
+                if (!cacheHit) {
+                    (matches.length > 0 || !this.transport) && cb && cb(matches);
                 }
-                !cacheHit && cb && cb(matches);
                 function returnRemoteMatches(remoteMatches) {
                     var matchesWithBackfill = matches.slice(0);
                     _.each(remoteMatches, function(remoteMatch) {
@@ -629,6 +696,15 @@
                     });
                     cb && cb(that.sorter(matchesWithBackfill));
                 }
+            },
+            clear: function clear() {
+                this.index.reset();
+            },
+            clearPrefetchCache: function clearPrefetchCache() {
+                this.storage && this.storage.clear();
+            },
+            clearRemoteCache: function clearRemoteCache() {
+                this.transport && Transport.resetCache();
             },
             ttAdapter: function ttAdapter() {
                 return _.bind(this.get, this);
@@ -647,5 +723,5 @@
         function ignoreDuplicates() {
             return false;
         }
-    }();
+    })(this);
 })(window.jQuery);

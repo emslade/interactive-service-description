@@ -77,15 +77,16 @@
         template = _.template(templateEl.innerHTML),
         results = [];
 
-    localStorage.clear();
-
     commands = new Bloodhound({
         datumTokenizer: function (d) {
             return d.tokens;
         },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: '/data/commands.json',
-        limit: 16
+        prefetch: {
+            url: '/data/commands.json',
+            thumbprint: {{ generated|date('U', 'UTC') }}
+        },
+        limit: 16,
     });
     commands.initialize();
 
